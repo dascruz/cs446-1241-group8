@@ -1,2 +1,4 @@
-Daniel Phan
-Daniel Sánchez de la Cruz
+## Team members
+
+- Daniel Phan
+- Daniel Sánchez de la Cruz
