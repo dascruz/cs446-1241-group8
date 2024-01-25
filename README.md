@@ -5,3 +5,4 @@
 - Vanshaj Vohra
 - Neal Su
 - David Peng
+- Araf Khan
