@@ -6,4 +6,6 @@
 | 2024/01/22 |           |           |           |  1         |            | Preliminary design and planning |
 | 2024/01/24 |           |           |           |  1         |            | Meeting (start writing proposal) |
 | 2024/01/25 |           |           |           |  1         |            | Work on proposal |
+| 2024/01/27 |           |           |           |  1         |            | Work on proposal |
 | 2024/01/28 |           |           | 1         |            |            | Work on proposal details |
+| 2024/01/19 |           |           |           |  1         |            | Meeting (proposal) |
