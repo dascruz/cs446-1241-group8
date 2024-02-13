@@ -9,3 +9,4 @@
 | 2024/01/27 | 1         | 1         | 1         | 1         |  1         |            | Work on proposal |
 | 2024/01/28 | 1         | 1         | 1         | 1         |            |            | Work on proposal details |
 | 2024/01/29 | 1         | 1         | 1         | 1         |  1         |            | Meeting (proposal) |
+| 2024/02/13 |           |           |           | 1         |            |            | Buddy team evaluation |
