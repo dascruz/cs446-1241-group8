@@ -14,5 +14,5 @@
 | 2024/02/12 |           | 1         |           |           |  1         |            | UML/Architectural Design |
 | 2024/02/13 |           | 1         |           | 1         |            |            | Buddy team evaluation |
 | 2024/02/14 |           | 1         |           | 1         |            |            | Buddy team evaluation |
-| 2024/02/16 |           |           |           |           |            | 1          | UI Design |
+| 2024/02/16 |           |           |           |           |            | 3          | UI Design |
 | 2024/02/19 |           |           |           |           |            | 1          | UI Design |
