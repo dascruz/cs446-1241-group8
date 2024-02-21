@@ -8,10 +8,10 @@ interface IJobModel {
     var name: String
 
     fun getAllInstances(): List<IJobInstanceModel>
-    fun addInstance(instance: IJobInstanceModel) : Unit
-    fun removeInstance(index: Int): Unit
+    fun addInstance(instance: IJobInstanceModel)
+    fun removeInstance(index: Int)
     fun getShareable(): JSONObject
     fun getFriendInstances(): List<IJobInstanceModel>
     fun getInternalInstances(): List<IJobInstanceModel>
-    fun intakeSharable(shareable: JSONObject): Unit
+    fun intakeSharable(shareable: JSONObject)
 }

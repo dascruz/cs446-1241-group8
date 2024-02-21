@@ -4,16 +4,13 @@ import com.example.harmonic.models.IJobInstanceModel
 import com.example.harmonic.models.IJobModel
 import com.example.harmonic.models.instances.TimerInstanceModel
 import org.json.JSONObject
-import java.time.Duration
 import java.util.UUID
-import kotlin.reflect.typeOf
 
 enum class SegmentationTypes { NONE, SET, CAP }
 
 class TimerJobModel(override var name: String,
     segmentationType: SegmentationTypes = SegmentationTypes.NONE,
-    segmentationValue: Int = 1,
-    val maxTotalTime: Duration? = null
+    segmentationValue: Int = 1
 ) : IJobModel {
     override val id = UUID.randomUUID()
     private val instances : MutableList<TimerInstanceModel> = mutableListOf()
@@ -27,7 +24,7 @@ class TimerJobModel(override var name: String,
         this.segmentationValue = segmentationValue
     }
     override fun getAllInstances(): List<IJobInstanceModel> {
-        return instances as List<TimerInstanceModel>
+        return instances
     }
 
     override fun addInstance(instance: IJobInstanceModel) : Unit {
@@ -43,7 +40,7 @@ class TimerJobModel(override var name: String,
         instances.add(instance)
     }
 
-    override fun removeInstance(index: Int): Unit {
+    override fun removeInstance(index: Int) {
         instances.removeAt(index)
     }
 
@@ -52,14 +49,14 @@ class TimerJobModel(override var name: String,
     }
 
     override fun getFriendInstances(): List<IJobInstanceModel> {
-        return instances.filter{ instance -> !instance.internal } as List<TimerInstanceModel>
+        return instances.filter{ instance -> !instance.internal }
     }
 
     override fun getInternalInstances(): List<IJobInstanceModel> {
-        return instances.filter{ instance -> instance.internal } as List<TimerInstanceModel>
+        return instances.filter{ instance -> instance.internal }
     }
 
-    override fun intakeSharable(shareable: JSONObject): Unit {
+    override fun intakeSharable(shareable: JSONObject) {
         TODO("Not yet implemented")
     }
 
