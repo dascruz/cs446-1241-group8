@@ -23,7 +23,7 @@ class RoutineJobModel(override var name: String)  : IJobModel {
         if (maxRoutineTime != null && instance.getTotalTime() <= maxRoutineTime) {
             instances.add(instance)
         }
-        // else throw some kind exception
+        TODO("else throw some kind exception")
     }
 
     override fun removeInstance(index: Int) {
