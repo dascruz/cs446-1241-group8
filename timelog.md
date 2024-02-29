@@ -17,5 +17,5 @@
 | 2024/02/16 | 2         |           |           |           |            | 3          | UI Design |
 | 2024/02/19 |           |           |           |           |            | 1          | UI Design |
 | 2024/02/24 | 1         |           |           |           |            |            | UI Design |
-| 2024/02/20 |           | 1         |           | 0         | 8          | 0          | Models, Navigation, App UI |
-| 2024/02/21 |           | 1         |           | 0         | 8          | 0          | Home Screen, Select Job Type Menu |
+| 2024/02/20 |           |           |           |           | 8          |            | Models, Navigation, App UI |
+| 2024/02/21 |           |           |           |           | 8          |            | Home Screen, Select Job Type Menu |
