@@ -23,6 +23,7 @@ import com.example.harmonic.ui.theme.HarmonicTheme
 @Composable
 fun HomeScreen(
     onGoToTracking: () -> Unit,
+    onGoToAllActive: () -> Unit,
     onGoToInsights: () -> Unit
 ) {
     Column(
@@ -54,6 +55,15 @@ fun HomeScreen(
                 modifier = Modifier.size(width = 240.dp, height = 72.dp).padding(top = 24.dp)
             ) {
                 Text(
+                    text = "View All Active Jobs",
+                    style = MaterialTheme.typography.titleMedium,
+                )
+            }
+            Button(
+                onClick = { onGoToInsights() },
+                modifier = Modifier.size(width = 240.dp, height = 72.dp).padding(top = 24.dp)
+            ) {
+                Text(
                     text = "See Insights",
                     style = MaterialTheme.typography.titleMedium,
                 )
@@ -69,6 +79,7 @@ fun HomeScreenPreview() {
     HarmonicTheme {
         HomeScreen(
             onGoToTracking = {},
+            onGoToAllActive = {},
             onGoToInsights = {}
         )
     }
