@@ -11,6 +11,7 @@ interface IJobModel {
     fun addInstance(instance: IJobInstanceModel)
     fun removeInstance(index: Int)
     fun getShareable(): JSONObject
+    fun getActiveInstances(): List<IJobInstanceModel>
     fun getFriendInstances(): List<IJobInstanceModel>
     fun getInternalInstances(): List<IJobInstanceModel>
     fun intakeSharable(shareable: JSONObject)

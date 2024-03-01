@@ -4,8 +4,8 @@ import com.example.harmonic.models.IJobInstanceModel
 import com.example.harmonic.models.IJobModel
 import com.example.harmonic.models.instances.RoutineInstanceModel
 import org.json.JSONObject
-import java.util.UUID
 import java.time.Duration
+import java.util.UUID
 
 class RoutineJobModel(override var name: String)  : IJobModel {
     override val id = UUID.randomUUID()
@@ -32,6 +32,10 @@ class RoutineJobModel(override var name: String)  : IJobModel {
 
     override fun getShareable(): JSONObject {
         TODO("Not yet implemented")
+    }
+
+    override fun getActiveInstances(): List<IJobInstanceModel> {
+        return instances.filter{ instance -> instance.active }
     }
 
     override fun getFriendInstances(): List<IJobInstanceModel> {
