@@ -48,6 +48,10 @@ class TimerJobModel(override var name: String,
         TODO("Not yet implemented")
     }
 
+    override fun getActiveInstances(): List<IJobInstanceModel> {
+        return instances.filter{ instance -> instance.active }
+    }
+
     override fun getFriendInstances(): List<IJobInstanceModel> {
         return instances.filter{ instance -> !instance.internal }
     }

@@ -6,10 +6,14 @@ import java.time.Instant
 import java.util.UUID
 
 class TimerInstanceModel(
+    override var jobId: UUID,
+    override var jobName: String,
+    override var jobInstanceNum: Int,
     override var internal: Boolean = false,
     override var friendId: UUID = UUID.randomUUID()
 ) : IJobInstanceModel {
     override val id: UUID = UUID.randomUUID()
+    override var active: Boolean = true
     override val creationDateTime: Instant = Instant.now()
     var startDateTime: Instant? = null
         private set
