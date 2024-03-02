@@ -70,6 +70,7 @@ fun HarmonicNavHost(
         composable(HOME_ROUTE) {
             HomeRoute(
                 onGoToTracking = { navController.navigate(TRACKING) },
+                onGoToAllActive = { navController.navigate(VIEW_ALL_ACTIVE) },
                 onGoToInsights = { navController.navigate(INSIGHTS) }
             )
         }
