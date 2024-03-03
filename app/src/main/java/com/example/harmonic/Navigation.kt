@@ -31,6 +31,8 @@ import com.example.harmonic.Destinations.TRACKING_TIMER_JOBS
 import com.example.harmonic.Destinations.VIEW_ALL_ACTIVE
 import com.example.harmonic.components.HomeRoute
 import com.example.harmonic.components.TrackingRoute
+import com.example.harmonic.components.TimerRoute
+import java.util.Timer
 
 object Destinations {
     const val HOME_ROUTE = "home"
@@ -83,7 +85,11 @@ fun HarmonicNavHost(
             )
         }
 
-        composable(TRACKING_TIMER_JOBS) {}
+        composable(TRACKING_TIMER_JOBS) {
+            TimerRoute (
+                onGoToNewTimer = { navController.navigate(TRACKING_NEW_TIMER_JOB) }
+            )
+        }
 
         composable(TRACKING_ROUTINE_JOBS) {}
 
