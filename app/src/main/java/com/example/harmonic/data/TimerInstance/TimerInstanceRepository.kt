@@ -6,6 +6,7 @@ import com.example.harmonic.models.instances.TimerInstanceModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.util.UUID
 import javax.inject.Inject
 
 class TimerInstanceRepository @Inject constructor(
@@ -21,6 +22,12 @@ class TimerInstanceRepository @Inject constructor(
 
     fun observeActive(): Flow<List<TimerInstanceModel>> {
         return localDataSource.observeActive().map {
+            ti -> ti.toExternal()
+        }
+    }
+
+    fun observeInstancesForJob(jobId: UUID) : Flow<List<TimerInstanceModel>> {
+        return localDataSource.observeInstancesForJob(jobId).map {
             ti -> ti.toExternal()
         }
     }

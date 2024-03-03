@@ -20,6 +20,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.harmonic.data.HarmonicDatabase
 import com.example.harmonic.data.TimerInstance.TimerInstanceDao
+import com.example.harmonic.data.TimerJob.TimerJobDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -42,5 +43,8 @@ object DatabaseModule {
     }
 
     @Provides
-    fun provideTaskDao(database: HarmonicDatabase) : TimerInstanceDao = database.timerInstanceDao()
+    fun provideTimerInstanceDao(database: HarmonicDatabase) : TimerInstanceDao = database.timerInstanceDao()
+
+    @Provides
+    fun provideTimerJobDao(database: HarmonicDatabase) : TimerJobDao = database.timerJobDao()
 }

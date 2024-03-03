@@ -8,11 +8,12 @@ import java.util.UUID
 
 enum class SegmentationTypes { NONE, SET, CAP }
 
-class TimerJobModel(override var name: String,
+class TimerJobModel(
+    override val id: UUID = UUID.randomUUID(),
+    override var name: String,
     segmentationType: SegmentationTypes = SegmentationTypes.NONE,
-    segmentationValue: Int = 1
+    segmentationValue: Int = 1,
 ) : IJobModel {
-    override val id = UUID.randomUUID()
     private val instances : MutableList<TimerInstanceModel> = mutableListOf()
     var segmentationType: SegmentationTypes
         private set
