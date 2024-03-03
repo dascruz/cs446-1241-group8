@@ -6,11 +6,11 @@ import java.time.Instant
 import java.util.UUID
 
 class RoutineInstanceModel(
-    override var jobId: UUID,
-    override var jobName: String,
-    override var jobInstanceNum: Int,
+    override var jobId: UUID?,
+    override var jobName: String?,
+    override var jobInstanceNum: Int?,
     override var internal: Boolean = false,
-    override var friendId: UUID = UUID.randomUUID()
+    override var friendId: UUID? = UUID.randomUUID()
 ) : IJobInstanceModel {
     override val id: UUID = UUID.randomUUID()
     override var active = true;

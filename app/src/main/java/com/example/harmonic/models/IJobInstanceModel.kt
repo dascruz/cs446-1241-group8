@@ -8,12 +8,12 @@ interface IJobInstanceModel : Comparable<IJobInstanceModel> {
     val creationDateTime: Instant
     var active: Boolean
     var internal: Boolean
-    var friendId: UUID
-    var jobId: UUID
-    var jobName: String
-    var jobInstanceNum: Int
+    var friendId: UUID?
+    var jobId: UUID?
+    var jobName: String?
+    var jobInstanceNum: Int?
 
-    fun updateInstanceInfo(id: UUID, name: String, num: Int): Unit {
+    fun updateJobInfo(id: UUID, name: String, num: Int): Unit {
         this.jobId = id
         this.jobName = name
         this.jobInstanceNum = num
