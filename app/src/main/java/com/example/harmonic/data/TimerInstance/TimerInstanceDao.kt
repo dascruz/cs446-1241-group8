@@ -1,4 +1,4 @@
-package com.example.harmonic.data
+package com.example.harmonic.data.TimerInstance
 
 import androidx.room.Dao
 import androidx.room.Query

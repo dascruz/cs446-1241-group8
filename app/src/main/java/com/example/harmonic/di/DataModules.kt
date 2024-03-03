@@ -19,7 +19,7 @@ package com.example.harmonic.di
 import android.content.Context
 import androidx.room.Room
 import com.example.harmonic.data.HarmonicDatabase
-import com.example.harmonic.data.TimerInstanceDao
+import com.example.harmonic.data.TimerInstance.TimerInstanceDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
