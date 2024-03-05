@@ -51,7 +51,7 @@ fun HomeScreen(
                 )
             }
             Button(
-                onClick = { onGoToInsights() },
+                onClick = { onGoToAllActive() },
                 modifier = Modifier.size(width = 240.dp, height = 72.dp).padding(top = 24.dp)
             ) {
                 Text(

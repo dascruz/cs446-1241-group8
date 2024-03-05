@@ -19,6 +19,15 @@ interface IJobInstanceModel : Comparable<IJobInstanceModel> {
         this.jobInstanceNum = num
     }
 
+    fun getInstanceJobString(): String {
+        if (this.jobId != null && this.jobName != null && this.jobInstanceNum != null) {
+            return "${this.jobName!!} ${this.jobInstanceNum}"
+        }
+        else {
+            throw NullPointerException()
+        }
+    }
+
     override fun compareTo(other: IJobInstanceModel): Int {
         return creationDateTime.compareTo(other.creationDateTime)
     }

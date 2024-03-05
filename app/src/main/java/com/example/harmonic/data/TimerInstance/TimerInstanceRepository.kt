@@ -1,18 +1,15 @@
 package com.example.harmonic.data.TimerInstance
 
-import com.example.harmonic.di.ApplicationScope
-import com.example.harmonic.di.DefaultDispatcher
 import com.example.harmonic.models.instances.TimerInstanceModel
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.UUID
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class TimerInstanceRepository @Inject constructor(
     private val localDataSource: TimerInstanceDao,
-    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
-    @ApplicationScope private val scope: CoroutineDispatcher
 ) {
     fun observeAll(): Flow<List<TimerInstanceModel>> {
         return localDataSource.observeAll().map {

@@ -10,5 +10,10 @@ fun ViewAllActiveRoute(
     onNavigateToActiveDecimalInstance: (id: UUID) -> Unit,
     onNavigateToActiveCounterInstance: (id: UUID) -> Unit
 ) {
-
+    ViewAllActiveScreen(
+        onNavigateToActiveTimerInstance,
+        onNavigateToActiveRoutineInstance,
+        onNavigateToActiveDecimalInstance,
+        onNavigateToActiveCounterInstance
+    )
 }

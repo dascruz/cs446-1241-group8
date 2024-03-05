@@ -31,6 +31,7 @@ import com.example.harmonic.Destinations.TRACKING_TIMER_JOBS
 import com.example.harmonic.Destinations.VIEW_ALL_ACTIVE
 import com.example.harmonic.components.HomeRoute
 import com.example.harmonic.components.TrackingRoute
+import com.example.harmonic.components.view_all_active.ViewAllActiveRoute
 
 object Destinations {
     const val HOME_ROUTE = "home"
@@ -124,6 +125,16 @@ fun HarmonicNavHost(
         composable(TRACKING_ACTIVE_DECIMAL_INSTANCE) {}
 
         composable(VIEW_ALL_ACTIVE) {
+            ViewAllActiveRoute(
+                onNavigateToActiveTimerInstance = { navController.navigate(
+                    TRACKING_ACTIVE_TIMER_INSTANCE) },
+                onNavigateToActiveRoutineInstance = { navController.navigate(
+                    TRACKING_ACTIVE_ROUTINE_INSTANCE) },
+                onNavigateToActiveCounterInstance ={ navController.navigate(
+                    TRACKING_ACTIVE_TIMER_INSTANCE) },
+                onNavigateToActiveDecimalInstance = { navController.navigate(
+                    TRACKING_ACTIVE_COUNTER_INSTANCE) },
+            )
         }
     }
 }
