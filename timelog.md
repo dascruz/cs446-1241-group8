@@ -18,4 +18,11 @@
 | 2024/02/19 |           |           |           |           |            | 1          | UI Design |
 | 2024/02/24 | 1         |           |           |           |            |            | UI Design |
 | 2024/02/20 |           |           |           |           | 6          |            | Models, Navigation, App UI |
-| 2024/02/21 |           |           |           |           | 8          |            | Home Screen, Select Job Type Menu |
+| 2024/02/28 |           |           |           |           | 4          |            | Home, Navigation, Model updates |
+| 2024/02/29 |           |           |           |           | 4          |            | Data layer |
+| 2024/03/02 |           |           |           |           | 1          |            | Meeting|
+| 2024/03/02 |           |           |           |           | 8          |            | Data layer, View All Active |
+| 2024/03/02 |           |           |           |           | 8          |            | Data layer, View All Active |
+| 2024/03/03 |           |           |           |           | 8          |            | Data layer, View All Active |
+| 2024/03/04 |           |           |           |           | 5          |            | Data layer, View All Active |
+
