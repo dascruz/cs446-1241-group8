@@ -1,4 +1,4 @@
-package com.example.harmonic.components
+package com.example.harmonic.components.tracking
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement

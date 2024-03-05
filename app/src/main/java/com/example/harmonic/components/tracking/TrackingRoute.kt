@@ -1,4 +1,4 @@
-package com.example.harmonic.components
+package com.example.harmonic.components.tracking
 
 import androidx.compose.runtime.Composable
 

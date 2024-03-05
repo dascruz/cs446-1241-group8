@@ -1,4 +1,4 @@
-package com.example.harmonic.components
+package com.example.harmonic.components.home
 
 import androidx.compose.runtime.Composable
 

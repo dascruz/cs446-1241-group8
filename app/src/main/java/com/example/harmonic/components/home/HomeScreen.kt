@@ -1,4 +1,4 @@
-package com.example.harmonic.components
+package com.example.harmonic.components.home
 
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES

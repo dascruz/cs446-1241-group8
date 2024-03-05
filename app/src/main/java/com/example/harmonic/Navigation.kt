@@ -29,8 +29,8 @@ import com.example.harmonic.Destinations.TRACKING_ROUTINE_JOBS
 import com.example.harmonic.Destinations.TRACKING_TIMER_INSTANCES
 import com.example.harmonic.Destinations.TRACKING_TIMER_JOBS
 import com.example.harmonic.Destinations.VIEW_ALL_ACTIVE
-import com.example.harmonic.components.HomeRoute
-import com.example.harmonic.components.TrackingRoute
+import com.example.harmonic.components.home.HomeRoute
+import com.example.harmonic.components.tracking.TrackingRoute
 import com.example.harmonic.components.view_all_active.ViewAllActiveRoute
 import com.example.harmonic.components.TimerRoute
 
