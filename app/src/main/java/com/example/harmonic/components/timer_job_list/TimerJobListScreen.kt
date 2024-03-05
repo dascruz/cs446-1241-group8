@@ -86,7 +86,7 @@ fun TimerJobListScreen(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { onGoToNewTimer }) {
+            FloatingActionButton(onClick = { onGoToNewTimer() }) {
                 Icon(Icons.Default.Add, contentDescription = "New")
             }
         }

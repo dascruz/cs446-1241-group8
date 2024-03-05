@@ -29,6 +29,7 @@ import com.example.harmonic.Destinations.TRACKING_ROUTINE_JOBS
 import com.example.harmonic.Destinations.TRACKING_TIMER_INSTANCES
 import com.example.harmonic.Destinations.TRACKING_TIMER_JOBS
 import com.example.harmonic.Destinations.VIEW_ALL_ACTIVE
+import com.example.harmonic.components.create_new_timer_job.CreateNewTimerJobRoute
 import com.example.harmonic.components.home.HomeRoute
 import com.example.harmonic.components.tracking.TrackingRoute
 import com.example.harmonic.components.view_all_active.ViewAllActiveRoute
@@ -93,13 +94,17 @@ fun HarmonicNavHost(
             )
         }
 
+        composable(TRACKING_NEW_TIMER_JOB) {
+            CreateNewTimerJobRoute ()
+        }
+
         composable(TRACKING_ROUTINE_JOBS) {}
 
         composable(TRACKING_COUNTER_JOBS) {}
 
         composable(TRACKING_DECIMAL_JOBS) {}
 
-        composable(TRACKING_NEW_TIMER_JOB) {}
+
 
         composable(TRACKING_NEW_ROUTINE_JOB) {}
 
