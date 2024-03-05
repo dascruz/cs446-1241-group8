@@ -1,4 +1,4 @@
-package com.example.harmonic.components
+package com.example.harmonic.components.view_all_active
 
 import androidx.compose.runtime.Composable
 import java.util.UUID
