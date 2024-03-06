@@ -3,7 +3,6 @@ package com.example.harmonic.data.TimerInstance
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
-import com.example.harmonic.models.instances.TimerInstanceModel
 import kotlinx.coroutines.flow.Flow
 import java.util.UUID
 
@@ -17,7 +16,7 @@ interface TimerInstanceDao {
     fun observeActive(): Flow<List<LocalTimerInstance>>
 
     @Query("SELECT * FROM TimerInstance WHERE id = :id")
-    fun observeInstance(id: UUID): Flow<TimerInstanceModel>
+    fun observeInstance(id: UUID): Flow<LocalTimerInstance>
 
     @Query("SELECT * FROM TimerInstance WHERE jobId = :jobId")
     fun observeInstancesForJob(jobId: UUID) : Flow<List<LocalTimerInstance>>
