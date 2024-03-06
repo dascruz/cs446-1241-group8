@@ -28,6 +28,6 @@ interface TimerInstanceDao {
     @Query("UPDATE TimerInstance SET startDateTime = :startDateTime WHERE id = :id")
     suspend fun updateStartInstance(id: UUID, startDateTime: String)
 
-    @Query("UPDATE TimerInstance SET segments = segments || :segment, segmentNames = segmentNames || :segmentName, active = :active WHERE id = :id")
+    @Query("UPDATE TimerInstance SET segments = segments || ',' || :segment, segmentNames = segmentNames || ',' || :segmentName, active = :active WHERE id = :id")
     suspend fun updateActiveInstance(id: UUID, active: Boolean, segment: String, segmentName: String)
 }
