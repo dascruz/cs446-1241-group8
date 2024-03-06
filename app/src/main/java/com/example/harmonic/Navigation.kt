@@ -31,6 +31,7 @@ import com.example.harmonic.Destinations.TRACKING_TIMER_JOBS
 import com.example.harmonic.Destinations.VIEW_ALL_ACTIVE
 import com.example.harmonic.components.create_new_timer_job.CreateNewTimerJobRoute
 import com.example.harmonic.components.home.HomeRoute
+import com.example.harmonic.components.run_timer_instance.RunTimerInstanceRoute
 import com.example.harmonic.components.tracking.TrackingRoute
 import com.example.harmonic.components.view_all_active.ViewAllActiveRoute
 import com.example.harmonic.components.timer_job_list.TimerJobListRoute
@@ -100,6 +101,12 @@ fun HarmonicNavHost(
             )
         }
 
+        composable(TRACKING_TIMER_INSTANCES) {
+            RunTimerInstanceRoute (
+            )
+        }
+
+
         composable(TRACKING_ROUTINE_JOBS) {}
 
         composable(TRACKING_COUNTER_JOBS) {}
@@ -114,7 +121,7 @@ fun HarmonicNavHost(
 
         composable(TRACKING_NEW_DECIMAL_JOB) {}
 
-        composable(TRACKING_TIMER_INSTANCES) {}
+
 
         composable(TRACKING_ROUTINE_INSTANCES) {}
 
