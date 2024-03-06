@@ -26,7 +26,7 @@ class TimerInstanceRepository @Inject constructor(
     }
 
     fun observeInstance(id: UUID): Flow<TimerInstanceModel> {
-        return localDataSource.observeInstance(id).transform { it.toLocal() }
+        return localDataSource.observeInstance(id).transform { it.toExternal() }
     }
 
     fun observeInstancesForJob(jobId: UUID) : Flow<List<TimerInstanceModel>> {
