@@ -3,6 +3,7 @@ package com.example.harmonic.data.TimerJob
 import com.example.harmonic.models.jobs.TimerJobModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -14,6 +15,10 @@ class TimerJobRepository @Inject constructor(
         return localDataSource.observeAll().map {
             tj -> tj.toExternal()
         }
+    }
+
+    suspend fun updateTimerJob(id: UUID, name: String) {
+        localDataSource.updateTimerJob(id, name)
     }
 
     suspend fun createLocal(tj: TimerJobModel) {
