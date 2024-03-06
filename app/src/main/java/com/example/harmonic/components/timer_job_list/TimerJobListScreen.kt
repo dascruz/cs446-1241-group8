@@ -37,8 +37,8 @@ import java.util.UUID
 @Composable
 fun TimerJobListScreen(
     onGoToNewTimer: () -> Unit,
+    onNavigateToAllTimerInstance: (job: UUID) -> Unit,
     onGoToEditTimerJob: (id: UUID) -> Unit,
-    onNavigateToAllTimerInstance: (id: UUID) -> Unit,
     viewModel: TimerJobListViewModel = hiltViewModel()
 ) {
     val allTimerJobs by viewModel.allTimerInstanceFlow.collectAsState(initial = emptyList())
@@ -52,8 +52,9 @@ fun TimerJobListScreen(
     TimerJobListScreen(
         onGoToAllTimerJobs = onGoToAllTimerJobs,
         allTimerJobs = allTimerJobs,
+        onGoToNewTimer = onGoToNewTimer,
+        onNavigateToTimerJobInstances = onNavigateToAllTimerInstance
         onGoToEditTimerJob = onGoToEditTimerJob,
-        onGoToNewTimer = onGoToNewTimer
     )
 }
 
@@ -64,6 +65,7 @@ fun TimerJobListScreen(
     onGoToNewTimer: () -> Unit,
     onGoToEditTimerJob: (id: UUID) -> Unit,
     onGoToAllTimerJobs: (job: IJobModel) -> Unit,
+    onNavigateToTimerJobInstances: (jobId: UUID) -> Unit,
     allTimerJobs: List<IJobModel>
 ) {
     Scaffold (
@@ -100,6 +102,8 @@ fun TimerJobListScreen(
                         onGoToAllTimerJobs = onGoToAllTimerJobs,
                         onGoToEditTimerJob = onGoToEditTimerJob,
                         item = ti
+                        onNavigateToAllTimerInstance = onNavigateToTimerJobInstances, 
+                        job = ti as TimerJobModel
                     )
                 }
             }
@@ -110,19 +114,23 @@ fun TimerJobListScreen(
 @Composable
 private fun TimerJobItem(
     onGoToAllTimerJobs: (job: IJobModel) -> Unit,
+    item: IJobModel,
+    onNavigateToAllTimerInstance: (jobId: UUID) -> Unit,
+    job: TimerJobModel
     onGoToEditTimerJob: (id: UUID) -> Unit,
-    item: IJobModel
 ) {
     Row(
         // verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onGoToAllTimerJobs(item) }
+            .clickable { onNavigateToAllTimerInstance(job.id) }
     ) {
         Text(
             text = item.name,
             style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(16.dp).weight(1f)
+            modifier = Modifier
+                .padding(16.dp)
+                .weight(1f)
         )
         EditButton(onGoToEditTimerJob, item)
         ShareButton()
@@ -145,6 +153,8 @@ fun ShareButton() {
         Text(text = "Share")
     }
 }
+
+
 
 
 

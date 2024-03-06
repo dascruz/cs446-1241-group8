@@ -33,6 +33,7 @@ import com.example.harmonic.Destinations.TRACKING_ROUTINE_JOBS
 import com.example.harmonic.Destinations.TRACKING_TIMER_INSTANCES
 import com.example.harmonic.Destinations.TRACKING_TIMER_JOBS
 import com.example.harmonic.Destinations.VIEW_ALL_ACTIVE
+import com.example.harmonic.components.TimerInstanceList.TimerInstanceListRoute
 import com.example.harmonic.components.create_new_timer_job.CreateNewTimerJobRoute
 import com.example.harmonic.components.edit_timer_job.EditTimerJobRoute
 import com.example.harmonic.components.home.HomeRoute
@@ -99,8 +100,8 @@ fun HarmonicNavHost(
         composable(TRACKING_TIMER_JOBS) {
             TimerJobListRoute (
                 onGoToNewTimer = { navController.navigate(TRACKING_NEW_TIMER_JOB) },
+                onNavigateToAllTimerInstance = {navController.navigate("tracking/timer_instances/$it")}
                 onGoToEditTimerJob = { navController.navigate("tracking/edit_timer_job/$it") },
-                onNavigateToAllTimerInstance = {navController.navigate(TRACKING_TIMER_INSTANCES)}
             )
         }
 
@@ -122,6 +123,15 @@ fun HarmonicNavHost(
 
         composable(TRACKING_NEW_DECIMAL_JOB) {}
 
+        composable(TRACKING_TIMER_INSTANCES) {
+            val jobIdString = it.arguments?.getString("jobId")
+            if (jobIdString != null) {
+                TimerInstanceListRoute(
+                    jobIdString = jobIdString,
+                    onNavigateToNewTimerInstance = {navController.navigate(TRACKING_TIMER_INSTANCES)})
+            }
+        }
+        
         composable(TRACKING_EDIT_TIMER_JOB) {
             val jobIdString = it.arguments?.getString("jobId")
             if (jobIdString != null) {
@@ -140,7 +150,6 @@ fun HarmonicNavHost(
 
         composable(TRACKING_EDIT_DECIMAL_JOB) {}
 
-        composable(TRACKING_TIMER_INSTANCES) {}
 
         composable(TRACKING_ROUTINE_INSTANCES) {}
 
