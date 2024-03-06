@@ -18,6 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.harmonic.data.TimerInstance.TimerInstanceRepository
 import com.example.harmonic.data.TimerJob.TimerJobRepository
 import com.example.harmonic.models.jobs.TimerJobModel
@@ -26,8 +27,7 @@ import com.example.harmonic.models.jobs.TimerJobModel
 
 
 @Composable
-fun CreateNewTimerJobScreen() {
-    val timerJobRepository: TimerJobRepository
+fun CreateNewTimerJobScreen(createNewTimerJobViewModel: CreateNewTimerJobViewModel = hiltViewModel()) {
     Column {
         Text(
             text = "New Timer Job",
@@ -40,7 +40,7 @@ fun CreateNewTimerJobScreen() {
             label = { Text("Name") }
         )
 
-        Button(onClick = { /* timerJobRepository.createLocal(TimerJobModel(name = newTimerJobName)) */}) {
+        Button(onClick = { createNewTimerJobViewModel.addNewTimerJob(newTimerJobName) }) {
             Icon(Icons.Default.Add, contentDescription = "New")
         }
 
