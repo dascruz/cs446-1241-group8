@@ -16,6 +16,10 @@ import com.example.harmonic.Destinations.TRACKING_COUNTER_INSTANCES
 import com.example.harmonic.Destinations.TRACKING_COUNTER_JOBS
 import com.example.harmonic.Destinations.TRACKING_DECIMAL_INSTANCES
 import com.example.harmonic.Destinations.TRACKING_DECIMAL_JOBS
+import com.example.harmonic.Destinations.TRACKING_EDIT_COUNTER_JOB
+import com.example.harmonic.Destinations.TRACKING_EDIT_DECIMAL_JOB
+import com.example.harmonic.Destinations.TRACKING_EDIT_ROUTINE_JOB
+import com.example.harmonic.Destinations.TRACKING_EDIT_TIMER_JOB
 import com.example.harmonic.Destinations.TRACKING_NEW_COUNTER_INSTANCE
 import com.example.harmonic.Destinations.TRACKING_NEW_COUNTER_JOB
 import com.example.harmonic.Destinations.TRACKING_NEW_DECIMAL_INSTANCE
@@ -30,10 +34,11 @@ import com.example.harmonic.Destinations.TRACKING_TIMER_INSTANCES
 import com.example.harmonic.Destinations.TRACKING_TIMER_JOBS
 import com.example.harmonic.Destinations.VIEW_ALL_ACTIVE
 import com.example.harmonic.components.create_new_timer_job.CreateNewTimerJobRoute
+import com.example.harmonic.components.edit_timer_job.EditTimerJobRoute
 import com.example.harmonic.components.home.HomeRoute
+import com.example.harmonic.components.timer_job_list.TimerJobListRoute
 import com.example.harmonic.components.tracking.TrackingRoute
 import com.example.harmonic.components.view_all_active.ViewAllActiveRoute
-import com.example.harmonic.components.timer_job_list.TimerJobListRoute
 
 
 object Destinations {
@@ -47,6 +52,10 @@ object Destinations {
     const val TRACKING_NEW_ROUTINE_JOB = "tracking/new_routine_job"
     const val TRACKING_NEW_COUNTER_JOB = "tracking/new_counter_job"
     const val TRACKING_NEW_DECIMAL_JOB = "tracking/new_decimal_job"
+    const val TRACKING_EDIT_TIMER_JOB = "tracking/edit_timer_job/{jobId}"
+    const val TRACKING_EDIT_ROUTINE_JOB = "tracking/edit_routine_job/{jobId}"
+    const val TRACKING_EDIT_COUNTER_JOB = "tracking/edit_counter_job/{jobId}"
+    const val TRACKING_EDIT_DECIMAL_JOB = "tracking/edit_decimal_job/{jobId}"
     const val TRACKING_TIMER_INSTANCES = "tracking/timer_instances/{jobId}"
     const val TRACKING_ROUTINE_INSTANCES = "tracking/routine_instances/{jobId}"
     const val TRACKING_COUNTER_INSTANCES = "tracking/counter_instances/{jobId}"
@@ -90,13 +99,8 @@ fun HarmonicNavHost(
         composable(TRACKING_TIMER_JOBS) {
             TimerJobListRoute (
                 onGoToNewTimer = { navController.navigate(TRACKING_NEW_TIMER_JOB) },
+                onGoToEditTimerJob = { navController.navigate("tracking/edit_timer_job/$it") },
                 onNavigateToAllTimerInstance = {navController.navigate(TRACKING_TIMER_INSTANCES)}
-            )
-        }
-
-        composable(TRACKING_NEW_TIMER_JOB) {
-            CreateNewTimerJobRoute (
-                onGoToTimerJob = { navController.navigate(TRACKING_TIMER_JOBS) }
             )
         }
 
@@ -106,13 +110,35 @@ fun HarmonicNavHost(
 
         composable(TRACKING_DECIMAL_JOBS) {}
 
-
+        composable(TRACKING_NEW_TIMER_JOB) {
+            CreateNewTimerJobRoute (
+                onGoToTimerJob = { navController.navigate(TRACKING_TIMER_JOBS) }
+            )
+        }
 
         composable(TRACKING_NEW_ROUTINE_JOB) {}
 
         composable(TRACKING_NEW_COUNTER_JOB) {}
 
         composable(TRACKING_NEW_DECIMAL_JOB) {}
+
+        composable(TRACKING_EDIT_TIMER_JOB) {
+            val jobIdString = it.arguments?.getString("jobId")
+            if (jobIdString != null) {
+                EditTimerJobRoute(
+                    jobIdString = jobIdString,
+                    onGoToTimerJobs = {
+                        navController.navigate(TRACKING_TIMER_JOBS)
+                    }
+                )
+            }
+        }
+
+        composable(TRACKING_EDIT_ROUTINE_JOB) {}
+
+        composable(TRACKING_EDIT_COUNTER_JOB) {}
+
+        composable(TRACKING_EDIT_DECIMAL_JOB) {}
 
         composable(TRACKING_TIMER_INSTANCES) {}
 

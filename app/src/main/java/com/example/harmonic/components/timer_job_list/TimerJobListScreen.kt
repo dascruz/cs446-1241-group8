@@ -1,53 +1,43 @@
 package com.example.harmonic.components.timer_job_list
 
-import android.content.res.Configuration
+// import androidx.compose.foundation.layout.FlowColumnScopeInstance.align
+// import com.example.harmonic.components.view_all_active.ActiveInstanceItem
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.runtime.Composable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
-// import androidx.compose.foundation.layout.FlowColumnScopeInstance.align
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-// import com.example.harmonic.components.view_all_active.ActiveInstanceItem
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.harmonic.components.view_all_active.TimerJobListViewModel
-import com.example.harmonic.components.view_all_active.ViewAllActiveScreen
-import com.example.harmonic.components.view_all_active.ViewAllActiveViewModel
-import com.example.harmonic.models.IJobInstanceModel
 import com.example.harmonic.models.IJobModel
-import com.example.harmonic.models.instances.TimerInstanceModel
 import com.example.harmonic.models.jobs.TimerJobModel
-import com.example.harmonic.ui.theme.HarmonicTheme
 import java.util.UUID
 
 @Composable
 fun TimerJobListScreen(
     onGoToNewTimer: () -> Unit,
+    onGoToEditTimerJob: (id: UUID) -> Unit,
     onNavigateToAllTimerInstance: (id: UUID) -> Unit,
     viewModel: TimerJobListViewModel = hiltViewModel()
 ) {
@@ -62,6 +52,7 @@ fun TimerJobListScreen(
     TimerJobListScreen(
         onGoToAllTimerJobs = onGoToAllTimerJobs,
         allTimerJobs = allTimerJobs,
+        onGoToEditTimerJob = onGoToEditTimerJob,
         onGoToNewTimer = onGoToNewTimer
     )
 }
@@ -71,6 +62,7 @@ fun TimerJobListScreen(
 fun TimerJobListScreen(
 
     onGoToNewTimer: () -> Unit,
+    onGoToEditTimerJob: (id: UUID) -> Unit,
     onGoToAllTimerJobs: (job: IJobModel) -> Unit,
     allTimerJobs: List<IJobModel>
 ) {
@@ -104,7 +96,11 @@ fun TimerJobListScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(allTimerJobs) { ti ->
-                    TimerJobItem(onGoToAllTimerJobs = onGoToAllTimerJobs, item = ti)
+                    TimerJobItem(
+                        onGoToAllTimerJobs = onGoToAllTimerJobs,
+                        onGoToEditTimerJob = onGoToEditTimerJob,
+                        item = ti
+                    )
                 }
             }
         }
@@ -114,6 +110,7 @@ fun TimerJobListScreen(
 @Composable
 private fun TimerJobItem(
     onGoToAllTimerJobs: (job: IJobModel) -> Unit,
+    onGoToEditTimerJob: (id: UUID) -> Unit,
     item: IJobModel
 ) {
     Row(
@@ -127,21 +124,21 @@ private fun TimerJobItem(
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.padding(16.dp).weight(1f)
         )
-        EditButton(modifier = Modifier)
-        ShareButton(modifier = Modifier)
+        EditButton(onGoToEditTimerJob, item)
+        ShareButton()
     }
 }
 
 @Composable
-fun EditButton(modifier: Modifier) {
+fun EditButton(onClick: (id: UUID) -> Unit, item: IJobModel) {
     Button(onClick = {
-        //your onclick code here
+        onClick(item.id)
     }) {
         Text(text = "Edit")
     }
 }
 @Composable
-fun ShareButton(modifier: Modifier) {
+fun ShareButton() {
     Button(onClick = {
         //your onclick code here
     }) {
