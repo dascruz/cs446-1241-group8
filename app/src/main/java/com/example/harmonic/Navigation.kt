@@ -100,7 +100,7 @@ fun HarmonicNavHost(
         composable(TRACKING_TIMER_JOBS) {
             TimerJobListRoute (
                 onGoToNewTimer = { navController.navigate(TRACKING_NEW_TIMER_JOB) },
-                onNavigateToAllTimerInstance = {navController.navigate("tracking/timer_instances/$it")}
+                onNavigateToAllTimerInstance = {navController.navigate("tracking/timer_instances/$it")},
                 onGoToEditTimerJob = { navController.navigate("tracking/edit_timer_job/$it") },
             )
         }
