@@ -95,7 +95,9 @@ fun HarmonicNavHost(
         }
 
         composable(TRACKING_NEW_TIMER_JOB) {
-            CreateNewTimerJobRoute ()
+            CreateNewTimerJobRoute (
+                onGoToTimerJob = { navController.navigate(TRACKING_TIMER_JOBS) }
+            )
         }
 
         composable(TRACKING_ROUTINE_JOBS) {}
