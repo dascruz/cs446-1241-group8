@@ -48,7 +48,7 @@ import java.util.UUID
 @Composable
 fun TimerJobListScreen(
     onGoToNewTimer: () -> Unit,
-    onNavigateToAllTimerInstance: (id: UUID) -> Unit,
+    onNavigateToAllTimerInstance: (job: UUID) -> Unit,
     viewModel: TimerJobListViewModel = hiltViewModel()
 ) {
     val allTimerJobs by viewModel.allTimerInstanceFlow.collectAsState(initial = emptyList())
@@ -62,7 +62,8 @@ fun TimerJobListScreen(
     TimerJobListScreen(
         onGoToAllTimerJobs = onGoToAllTimerJobs,
         allTimerJobs = allTimerJobs,
-        onGoToNewTimer = onGoToNewTimer
+        onGoToNewTimer = onGoToNewTimer,
+        onNavigateToTimerJobInstances = onNavigateToAllTimerInstance
     )
 }
 
@@ -72,6 +73,7 @@ fun TimerJobListScreen(
 
     onGoToNewTimer: () -> Unit,
     onGoToAllTimerJobs: (job: IJobModel) -> Unit,
+    onNavigateToTimerJobInstances: (jobId: UUID) -> Unit,
     allTimerJobs: List<IJobModel>
 ) {
     Scaffold (
@@ -104,7 +106,8 @@ fun TimerJobListScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(allTimerJobs) { ti ->
-                    TimerJobItem(onGoToAllTimerJobs = onGoToAllTimerJobs, item = ti)
+                    TimerJobItem(onGoToAllTimerJobs = onGoToAllTimerJobs, item = ti,
+                        onNavigateToAllTimerInstance = onNavigateToTimerJobInstances, job= ti as TimerJobModel)
                 }
             }
         }
@@ -114,18 +117,22 @@ fun TimerJobListScreen(
 @Composable
 private fun TimerJobItem(
     onGoToAllTimerJobs: (job: IJobModel) -> Unit,
-    item: IJobModel
+    item: IJobModel,
+    onNavigateToAllTimerInstance: (jobId: UUID) -> Unit,
+    job: TimerJobModel
 ) {
     Row(
         // verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onGoToAllTimerJobs(item) }
+            .clickable { onNavigateToAllTimerInstance(job.id) }
     ) {
         Text(
             text = item.name,
             style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(16.dp).weight(1f)
+            modifier = Modifier
+                .padding(16.dp)
+                .weight(1f)
         )
         EditButton(modifier = Modifier)
         ShareButton(modifier = Modifier)
@@ -148,6 +155,8 @@ fun ShareButton(modifier: Modifier) {
         Text(text = "Share")
     }
 }
+
+
 
 
 
