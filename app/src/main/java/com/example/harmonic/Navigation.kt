@@ -95,15 +95,10 @@ fun HarmonicNavHost(
             )
         }
 
-        composable(TRACKING_NEW_TIMER_JOB) {
-            CreateNewTimerJobRoute (
-                onGoToTimerJob = { navController.navigate(TRACKING_TIMER_JOBS) }
-            )
-        }
+        composable(TRACKING_NEW_TIMER_JOB) {}
 
         composable(TRACKING_TIMER_INSTANCES) {
-            RunTimerInstanceRoute (
-            )
+            TODO("Go to run timer instance screen")
         }
 
 

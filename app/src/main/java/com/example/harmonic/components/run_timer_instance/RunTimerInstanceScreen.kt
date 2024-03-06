@@ -26,6 +26,7 @@ import com.example.harmonic.components.create_new_timer_job.CreateNewTimerJobVie
 
 @Composable
 fun RunTimerInstanceScreen(
+    
     createNewTimerJobViewModel: CreateNewTimerJobViewModel = hiltViewModel()
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -33,15 +34,13 @@ fun RunTimerInstanceScreen(
         Button(
             modifier = Modifier.size(width = 80.dp, height = 80.dp),
             onClick = {
-
+                TODO("need to get timer job ID from Araf's part")
             },
-            contentPadding = PaddingValues(0.dp)
+            contentPadding = PaddingValues(0.dp),
+            
+            
         ) {
-            Icon(
-                Icons.Default.Add,
-                contentDescription = "New",
-                modifier = Modifier.size(50.dp)
-            )
+            Text(text = "Start")
         }
 
     }
