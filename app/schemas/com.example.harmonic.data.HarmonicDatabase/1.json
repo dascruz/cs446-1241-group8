@@ -1,0 +1,132 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "4b15a19e1a15a3e79eb33745bf60e007",
+    "entities": [
+      {
+        "tableName": "TimerInstance",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` BLOB NOT NULL, `creationDateTime` TEXT NOT NULL, `active` INTEGER NOT NULL, `internal` INTEGER NOT NULL, `friendId` BLOB, `jobId` BLOB, `jobName` TEXT, `jobInstanceNum` INTEGER, `startDateTime` TEXT, `segments` TEXT NOT NULL, `segmentNames` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "BLOB",
+            "notNull": true
+          },
+          {
+            "fieldPath": "creationDateTime",
+            "columnName": "creationDateTime",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "active",
+            "columnName": "active",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "internal",
+            "columnName": "internal",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "friendId",
+            "columnName": "friendId",
+            "affinity": "BLOB",
+            "notNull": false
+          },
+          {
+            "fieldPath": "jobId",
+            "columnName": "jobId",
+            "affinity": "BLOB",
+            "notNull": false
+          },
+          {
+            "fieldPath": "jobName",
+            "columnName": "jobName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "jobInstanceNum",
+            "columnName": "jobInstanceNum",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "startDateTime",
+            "columnName": "startDateTime",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "segments",
+            "columnName": "segments",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "segmentNames",
+            "columnName": "segmentNames",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "TimerJob",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` BLOB NOT NULL, `name` TEXT NOT NULL, `segmentationType` TEXT NOT NULL, `segmentationValue` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "BLOB",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "segmentationType",
+            "columnName": "segmentationType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "segmentationValue",
+            "columnName": "segmentationValue",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4b15a19e1a15a3e79eb33745bf60e007')"
+    ]
+  }
+}
