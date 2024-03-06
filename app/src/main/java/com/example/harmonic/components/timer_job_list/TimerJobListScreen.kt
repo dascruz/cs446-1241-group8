@@ -39,7 +39,9 @@ import com.example.harmonic.components.view_all_active.TimerJobListViewModel
 import com.example.harmonic.components.view_all_active.ViewAllActiveScreen
 import com.example.harmonic.components.view_all_active.ViewAllActiveViewModel
 import com.example.harmonic.models.IJobInstanceModel
+import com.example.harmonic.models.IJobModel
 import com.example.harmonic.models.instances.TimerInstanceModel
+import com.example.harmonic.models.jobs.TimerJobModel
 import com.example.harmonic.ui.theme.HarmonicTheme
 import java.util.UUID
 
@@ -49,17 +51,17 @@ fun TimerJobListScreen(
     onNavigateToAllTimerInstance: (id: UUID) -> Unit,
     viewModel: TimerJobListViewModel = hiltViewModel()
 ) {
-    val allTimerInstances by viewModel.allTimerInstanceFlow.collectAsState(initial = emptyList())
+    val allTimerJobs by viewModel.allTimerInstanceFlow.collectAsState(initial = emptyList())
     // Navigation if needed
-    val onGoToAllTimerInstances = { instance: IJobInstanceModel ->
-        when(instance) {
-            is TimerInstanceModel -> onNavigateToAllTimerInstance(instance.id)
+    val onGoToAllTimerJobs = { job: IJobModel ->
+        when(job) {
+            is TimerJobModel -> onNavigateToAllTimerInstance(job.id)
             else -> {}
         }
     }
     TimerJobListScreen(
-        onGoToAllTimerInstances = onGoToAllTimerInstances,
-        allTimerInstances = allTimerInstances,
+        onGoToAllTimerJobs = onGoToAllTimerJobs,
+        allTimerJobs = allTimerJobs,
         onGoToNewTimer = onGoToNewTimer
     )
 }
@@ -69,8 +71,8 @@ fun TimerJobListScreen(
 fun TimerJobListScreen(
 
     onGoToNewTimer: () -> Unit,
-    onGoToAllTimerInstances: (instance: IJobInstanceModel) -> Unit,
-    allTimerInstances: List<IJobInstanceModel>
+    onGoToAllTimerJobs: (job: IJobModel) -> Unit,
+    allTimerJobs: List<IJobModel>
 ) {
     Scaffold (
         modifier = Modifier.fillMaxSize(),
@@ -101,8 +103,8 @@ fun TimerJobListScreen(
                 contentPadding = PaddingValues(horizontal = 8.dp, vertical = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(allTimerInstances) { ti ->
-                    TimerInstanceItem(onGoToAllTimerInstances = onGoToAllTimerInstances, item = ti)
+                items(allTimerJobs) { ti ->
+                    TimerJobItem(onGoToAllTimerJobs = onGoToAllTimerJobs, item = ti)
                 }
             }
         }
@@ -110,18 +112,18 @@ fun TimerJobListScreen(
 }
 
 @Composable
-private fun TimerInstanceItem(
-    onGoToAllTimerInstances: (instance: IJobInstanceModel) -> Unit,
-    item: IJobInstanceModel
+private fun TimerJobItem(
+    onGoToAllTimerJobs: (job: IJobModel) -> Unit,
+    item: IJobModel
 ) {
     Row(
         // verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onGoToAllTimerInstances(item) }
+            .clickable { onGoToAllTimerJobs(item) }
     ) {
         Text(
-            text = item.getInstanceJobString(),
+            text = item.name,
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.padding(16.dp).weight(1f)
         )
@@ -150,6 +152,7 @@ fun ShareButton(modifier: Modifier) {
 
 
 
+/*
 @Preview(name = "Timer light theme", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Preview(name = "Timer dark theme", uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
@@ -157,7 +160,9 @@ fun TimerJobListScreenPreview() {
     HarmonicTheme {
         Surface {
             TimerJobListScreen(
-                onGoToNewTimer = {/* TODO */},
+                onGoToNewTimer = {*/
+/* TODO *//*
+},
                 onGoToAllTimerInstances = {},
                 allTimerInstances = listOf(
                     TimerInstanceModel(
@@ -200,4 +205,4 @@ fun TimerJobListScreenPreview() {
             )
         }
     }
-}
+}*/
