@@ -2,7 +2,6 @@ package com.example.harmonic.components.run_timer_instance
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.harmonic.data.TimerInstance.TimerInstanceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +17,7 @@ class RunTimerViewModel @Inject constructor(
 ): ViewModel() {
     val instanceIdString: String = savedStateHandle.get<String>("instanceId")!!
     val instanceId: UUID = UUID.fromString(instanceIdString)
-    val instance = timerInstanceRepository.observeInstance(instanceId).asLiveData()
+    val instance = timerInstanceRepository.observeInstance(instanceId)
 
     fun start() {
         val startDateTime = Instant.now()

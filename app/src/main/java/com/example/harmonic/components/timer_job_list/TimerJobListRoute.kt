@@ -12,7 +12,7 @@ fun TimerJobListRoute(
 ) {
     TimerJobListScreen(
         onGoToNewTimer = { onGoToNewTimer() },
-        onNavigateToAllTimerInstance = { id: UUID -> onNavigateToAllTimerInstance(id) }
+        onNavigateToAllTimerInstance = { id: UUID -> onNavigateToAllTimerInstance(id) },
         onGoToEditTimerJob = { id: UUID -> onGoToEditTimerJob(id) },
     )
 }

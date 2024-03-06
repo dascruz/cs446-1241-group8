@@ -53,7 +53,7 @@ fun TimerJobListScreen(
         onGoToAllTimerJobs = onGoToAllTimerJobs,
         allTimerJobs = allTimerJobs,
         onGoToNewTimer = onGoToNewTimer,
-        onNavigateToTimerJobInstances = onNavigateToAllTimerInstance
+        onNavigateToTimerJobInstances = onNavigateToAllTimerInstance,
         onGoToEditTimerJob = onGoToEditTimerJob,
     )
 }
@@ -101,7 +101,7 @@ fun TimerJobListScreen(
                     TimerJobItem(
                         onGoToAllTimerJobs = onGoToAllTimerJobs,
                         onGoToEditTimerJob = onGoToEditTimerJob,
-                        item = ti
+                        item = ti,
                         onNavigateToAllTimerInstance = onNavigateToTimerJobInstances, 
                         job = ti as TimerJobModel
                     )
@@ -116,7 +116,7 @@ private fun TimerJobItem(
     onGoToAllTimerJobs: (job: IJobModel) -> Unit,
     item: IJobModel,
     onNavigateToAllTimerInstance: (jobId: UUID) -> Unit,
-    job: TimerJobModel
+    job: TimerJobModel,
     onGoToEditTimerJob: (id: UUID) -> Unit,
 ) {
     Row(
