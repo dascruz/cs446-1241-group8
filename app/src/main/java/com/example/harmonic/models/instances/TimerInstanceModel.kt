@@ -18,7 +18,7 @@ class TimerInstanceModel(
 ) : IJobInstanceModel {
     var startDateTime: Instant? = null
         private set
-    private val segments: MutableList<Duration> = mutableListOf()
+    private val segments: MutableList<Instant> = mutableListOf()
     private val segmentNames: MutableList<String> = mutableListOf()
     override var jobId: UUID? = null
     override var jobName: String? = null
@@ -37,10 +37,13 @@ class TimerInstanceModel(
     }
 
     fun getTotalTime() : Duration {
-        return segments.fold(Duration.ZERO) { acc: Duration, t: Duration -> acc + t }
+        if (startDateTime == null || segments.size == 0) {
+            return Duration.ZERO
+        }
+        return Duration.between(segments.last(), startDateTime)
     }
 
-    fun getSegments(): List<Duration> {
+    fun getSegments(): List<Instant> {
         return segments
     }
 
@@ -57,8 +60,7 @@ class TimerInstanceModel(
          if (instant < lastSegmentEnd) {
              throw Exception("Invalid segment")
          }
-         val diff = Duration.between(instant, lastSegmentEnd)
-         segments.add(diff)
+         segments.add(instant)
          segmentNames.add(name) // TODO: check input
      }
 
