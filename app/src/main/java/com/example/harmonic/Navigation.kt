@@ -117,8 +117,8 @@ fun HarmonicNavHost(
             val jobIdString = it.arguments?.getString("jobId")
             if (jobIdString != null) {
                 TimerInstanceListRoute(
-                    job = jobIdString,
-                    onNavigateToAllTimerInstance = {navController.navigate(TRACKING_TIMER_INSTANCES)})
+                    jobIdString = jobIdString,
+                    onNavigateToNewTimerInstance = {navController.navigate(TRACKING_TIMER_INSTANCES)})
             }
         }
 

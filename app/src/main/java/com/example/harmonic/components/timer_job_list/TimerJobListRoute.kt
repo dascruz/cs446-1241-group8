@@ -3,7 +3,6 @@ package com.example.harmonic.components.timer_job_list
 
 import androidx.compose.runtime.Composable
 import java.util.UUID
-import com.example.harmonic.components.TimerInstanceList.TimerInstanceListRoute
 
 @Composable
 fun TimerJobListRoute(
@@ -12,6 +11,6 @@ fun TimerJobListRoute(
 ) {
     TimerJobListScreen(
         onGoToNewTimer = { onGoToNewTimer() },
-        onNavigateToAllTimerInstance = onNavigateToAllTimerInstance
+        onNavigateToAllTimerInstance = { id: UUID -> onNavigateToAllTimerInstance(id) }
     )
 }
