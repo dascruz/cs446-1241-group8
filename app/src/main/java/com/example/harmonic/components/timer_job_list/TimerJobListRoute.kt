@@ -7,10 +7,12 @@ import java.util.UUID
 @Composable
 fun TimerJobListRoute(
     onGoToNewTimer: () -> Unit,
+    onGoToEditTimerJob: (id: UUID) -> Unit,
     onNavigateToAllTimerInstance: (id: UUID) -> Unit
 ) {
     TimerJobListScreen(
         onGoToNewTimer = { onGoToNewTimer() },
         onNavigateToAllTimerInstance = { id: UUID -> onNavigateToAllTimerInstance(id) }
+        onGoToEditTimerJob = { id: UUID -> onGoToEditTimerJob(id) },
     )
 }

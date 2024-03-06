@@ -20,6 +20,10 @@ class TimerJobRepository @Inject constructor(
 
     fun observeById(id: UUID): Flow<TimerJobModel> {
         return localDataSource.observeById(id).transform { it.toExternal() }
+
+    suspend fun updateTimerJob(id: UUID, name: String) {
+        localDataSource.updateTimerJob(id, name)
+
     }
 
     suspend fun createLocal(tj: TimerJobModel) {
