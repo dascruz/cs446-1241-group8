@@ -28,22 +28,24 @@ import java.util.UUID
 @Composable
 fun TimerInstanceListScreen(
     viewModel: TimerInstancesListViewModel = hiltViewModel(),
+    jobId: UUID,
+    jobName: String,
     onNavigateToNewTimerInstance: (id: UUID) -> Unit
 ) {
+    println("Timer Instance List Screen")
     val timerJobInstances by viewModel.allTimerInstancesFlow.collectAsState(initial = emptyList())
-    val timerJob by viewModel.jobModel.collectAsState()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
-                title = { Text("Instances of Job ${timerJob.id}") },
+                title = { Text("Instances of Job $jobName") },
             )
         },
         floatingActionButton = {
             FloatingActionButton(onClick = {
                 viewModel.createNewTimerInstance(timerJobInstances.size)
-                onNavigateToNewTimerInstance(timerJob.id)
+                onNavigateToNewTimerInstance(jobId)
             }) {
                 Icon(Icons.Default.Add, contentDescription = "New")
             }

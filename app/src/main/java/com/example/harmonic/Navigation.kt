@@ -57,7 +57,7 @@ object Destinations {
     const val TRACKING_EDIT_ROUTINE_JOB = "tracking/edit_routine_job/{jobId}"
     const val TRACKING_EDIT_COUNTER_JOB = "tracking/edit_counter_job/{jobId}"
     const val TRACKING_EDIT_DECIMAL_JOB = "tracking/edit_decimal_job/{jobId}"
-    const val TRACKING_TIMER_INSTANCES = "tracking/timer_instances/{jobId}"
+    const val TRACKING_TIMER_INSTANCES = "tracking/timer_instances/{jobId}/{jobName}"
     const val TRACKING_ROUTINE_INSTANCES = "tracking/routine_instances/{jobId}"
     const val TRACKING_COUNTER_INSTANCES = "tracking/counter_instances/{jobId}"
     const val TRACKING_DECIMAL_INSTANCES = "tracking/decimal_instances/{jobId}"
@@ -125,9 +125,11 @@ fun HarmonicNavHost(
 
         composable(TRACKING_TIMER_INSTANCES) {
             val jobIdString = it.arguments?.getString("jobId")
-            if (jobIdString != null) {
+            val jobNameString = it.arguments?.getString("jobName")
+            if (jobIdString != null && jobNameString != null) {
                 TimerInstanceListRoute(
                     jobIdString = jobIdString,
+                    jobName = jobNameString,
                     onNavigateToNewTimerInstance = {navController.navigate(TRACKING_TIMER_INSTANCES)})
             }
         }

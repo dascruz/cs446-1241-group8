@@ -37,7 +37,7 @@ import java.util.UUID
 @Composable
 fun TimerJobListScreen(
     onGoToNewTimer: () -> Unit,
-    onNavigateToAllTimerInstance: (job: UUID) -> Unit,
+    onNavigateToAllTimerInstance: (idname: String) -> Unit,
     onGoToEditTimerJob: (id: UUID) -> Unit,
     viewModel: TimerJobListViewModel = hiltViewModel()
 ) {
@@ -45,7 +45,7 @@ fun TimerJobListScreen(
     // Navigation if needed
     val onGoToAllTimerJobs = { job: IJobModel ->
         when(job) {
-            is TimerJobModel -> onNavigateToAllTimerInstance(job.id)
+            is TimerJobModel -> onNavigateToAllTimerInstance(job.id.toString() + "/" + job.name)
             else -> {}
         }
     }
@@ -65,7 +65,7 @@ fun TimerJobListScreen(
     onGoToNewTimer: () -> Unit,
     onGoToEditTimerJob: (id: UUID) -> Unit,
     onGoToAllTimerJobs: (job: IJobModel) -> Unit,
-    onNavigateToTimerJobInstances: (jobId: UUID) -> Unit,
+    onNavigateToTimerJobInstances: (idname: String) -> Unit,
     allTimerJobs: List<IJobModel>
 ) {
     Scaffold (
@@ -115,7 +115,7 @@ fun TimerJobListScreen(
 private fun TimerJobItem(
     onGoToAllTimerJobs: (job: IJobModel) -> Unit,
     item: IJobModel,
-    onNavigateToAllTimerInstance: (jobId: UUID) -> Unit,
+    onNavigateToAllTimerInstance: (idname: String) -> Unit,
     job: TimerJobModel,
     onGoToEditTimerJob: (id: UUID) -> Unit,
 ) {
@@ -123,7 +123,7 @@ private fun TimerJobItem(
         // verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onNavigateToAllTimerInstance(job.id) }
+            .clickable { onNavigateToAllTimerInstance(job.id.toString() + "/" + job.name) }
     ) {
         Text(
             text = item.name,
@@ -153,10 +153,6 @@ fun ShareButton() {
         Text(text = "Share")
     }
 }
-
-
-
-
 
 
 /*

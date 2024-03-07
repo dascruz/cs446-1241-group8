@@ -8,11 +8,11 @@ import java.util.UUID
 fun TimerJobListRoute(
     onGoToNewTimer: () -> Unit,
     onGoToEditTimerJob: (id: UUID) -> Unit,
-    onNavigateToAllTimerInstance: (id: UUID) -> Unit
+    onNavigateToAllTimerInstance: (idname: String) -> Unit
 ) {
     TimerJobListScreen(
         onGoToNewTimer = { onGoToNewTimer() },
-        onNavigateToAllTimerInstance = { id: UUID -> onNavigateToAllTimerInstance(id) },
+        onNavigateToAllTimerInstance = { idname: String -> onNavigateToAllTimerInstance(idname) },
         onGoToEditTimerJob = { id: UUID -> onGoToEditTimerJob(id) },
     )
 }
