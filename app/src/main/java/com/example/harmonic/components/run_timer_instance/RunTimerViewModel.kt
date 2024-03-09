@@ -2,8 +2,10 @@ package com.example.harmonic.components.run_timer_instance
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.harmonic.data.TimerInstance.TimerInstanceRepository
+import com.example.harmonic.models.instances.TimerInstanceModel
 import com.example.harmonic.util.toDisplayString
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -24,48 +26,43 @@ class RunTimerViewModel @Inject constructor(
     val durationText = _durationText.asStateFlow()
     private var timerJob: Job? = null
 
-    val instanceIdString: String = savedStateHandle.get<String>("instanceId")!!
-    val instanceId: Int = instanceIdString.toInt()
-    val instance = timerInstanceRepository.observeInstance(instanceId)/*.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000L),
-        initialValue = TimerInstanceModel(id = instanceId)
-    )*/
-
+    private val instanceIdString: String = savedStateHandle.get<String>("instanceId")!!
+    private val instanceId: Int = instanceIdString.toInt()
+    val instance = timerInstanceRepository.observeInstance(instanceId).asLiveData()
+    private val _startDateTime = MutableStateFlow(Instant.now())
+    private val _jobName = MutableStateFlow("default")
 
     init {
-        println("Initializing Run Timer View Model")
-        viewModelScope.launch {
-            instance.collect{
-                println("${it.jobName} found")
-            }
-        }
+        println(instance.value?.jobName)
     }
 
-    fun start() {
-        val startDateTime = Instant.now()
+    fun start(instance: TimerInstanceModel) {
+       _startDateTime.value = Instant.now()
+        instance.startDateTime = _startDateTime.value
+        println(instance.jobName)
         viewModelScope.launch {
-            timerInstanceRepository.updateStartInstance(instanceId, startDateTime)
+            timerInstanceRepository.createLocal(instance)
         }
         timerJob?.cancel()
         timerJob = viewModelScope.launch {
             while (true) {
                 delay(1000)
-                _durationText.value = Duration.between(startDateTime, Instant.now()).toDisplayString()
+                _durationText.value = Duration.between(_startDateTime.value, Instant.now()).toDisplayString()
             }
         }
     }
 
-    fun segment(final: Boolean) {
+    fun segment(instance: TimerInstanceModel) {
         val currentTime = Instant.now()
         val segmentName = currentTime.toString()
+        instance.addSegment(currentTime, segmentName)
         viewModelScope.launch{
-            timerInstanceRepository.updateActiveInstance(instanceId, !final, currentTime, segmentName)
+            timerInstanceRepository.createLocal(instance)
         }
     }
 
-    fun stop() {
-        segment(true)
+    fun stop(instance: TimerInstanceModel) {
+        segment(instance)
         timerJob?.cancel()
     }
 

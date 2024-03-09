@@ -16,7 +16,6 @@ class TimerInstanceModel(
     initFriendId: Int? = null
 ) : IJobInstanceModel {
     var startDateTime: Instant? = null
-        private set
     private val segments: MutableList<Instant> = mutableListOf()
     private val segmentNames: MutableList<String> = mutableListOf()
     override var jobId: Int? = null
@@ -49,6 +48,7 @@ class TimerInstanceModel(
     fun getSegmentNames(): List<String> {
         return segmentNames
     }
+
 
      fun addSegment(instant: Instant, name: String) {
          if (startDateTime == null) {

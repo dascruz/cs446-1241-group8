@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -26,18 +27,20 @@ fun RunTimerScreen(
     runTimerViewModel: RunTimerViewModel = hiltViewModel()
 ) {
     val durationText by runTimerViewModel.durationText.collectAsState()
-    //val timerJobModel by runTimerViewModel.instance.collectAsState(/*initial = TimerInstanceModel(id = instanceId)*/)
+    val timerInstance = runTimerViewModel.instance.observeAsState()
 
     TimerElement(timerValue = durationText,
-        onStartClick = { runTimerViewModel.start() },
-        onPauseClick = { println() },
-        onStopClick = { runTimerViewModel.stop() }
+        jobName = timerInstance.value?.jobName ?: "why why why",
+        onStartClick = {  },
+        onPauseClick = {  },
+        onStopClick = {  }
     )
 }
 
 @Composable
 fun TimerElement(
     timerValue: String,
+    jobName: String,
     onStartClick: () -> Unit,
     onPauseClick: () -> Unit,
     onStopClick: () -> Unit
@@ -47,6 +50,7 @@ fun TimerElement(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Text(text = jobName, fontSize = 24.sp )
         Text(text = timerValue, fontSize = 24.sp)
         Spacer(modifier = Modifier.height(16.dp))
         Row(

@@ -69,6 +69,7 @@ dependencies {
     implementation("androidx.room:room-runtime:$room_version")
     implementation("com.google.dagger:hilt-android:2.48")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    implementation("androidx.compose.runtime:runtime-livedata:1.6.1")
 
     annotationProcessor("androidx.room:room-compiler:$room_version")
     testImplementation("junit:junit:4.13.2")
