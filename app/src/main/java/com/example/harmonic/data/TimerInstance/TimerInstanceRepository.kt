@@ -44,6 +44,7 @@ class TimerInstanceRepository @Inject constructor(
     }
 
     suspend fun updateStartInstance(id: UUID, startDateTime: Instant) {
+        println("id: $id, sdt: $startDateTime")
         localDataSource.updateStartInstance(id, startDateTime.toString())
     }
 }

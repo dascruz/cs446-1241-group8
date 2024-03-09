@@ -29,17 +29,19 @@ fun LocalTimerInstance.toExternal() : TimerInstanceModel {
         active = active,
         creationDateTime = Instant.parse(creationDateTime),
         internal = internal,
-        initStartDateTime = Instant.parse(startDateTime),
+        initStartDateTime = if (startDateTime != null) Instant.parse(startDateTime) else null,
         initFriendId = friendId,
         initJobId = jobId,
         initJobName = jobName,
         initJobInstanceNum = jobInstanceNum
     )
 
-    val instantsStrings = segments.split(",")
-    val namesStrings = segments.split(",")
-    val segmentsInstants = instantsStrings.map { s -> Instant.parse(s.trim()) }
-    timerInstance.addSegments(segmentsInstants, namesStrings)
+    if (segments.isNotBlank() && segmentNames.isNotBlank()) {
+        val instantsStrings = segments.split(",")
+        val namesStrings = segments.split(",")
+        val segmentsInstants = instantsStrings.map { s -> Instant.parse(s.trim()) }
+        timerInstance.addSegments(segmentsInstants, namesStrings)
+    }
     return timerInstance
 }
 

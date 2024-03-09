@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.harmonic.models.instances.TimerInstanceModel
+import com.example.harmonic.util.toDisplayString
 import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -88,7 +89,7 @@ private fun TimerJobInstanceItem(instance: TimerInstanceModel) {
             modifier = Modifier.weight(1f)
         )
         Text(
-            text = "Duration: ${instance.getTotalTime()}",
+            text = "Duration: ${instance.getTotalTime().toDisplayString()}",
             modifier = Modifier.padding(start = 8.dp)
         )
     }
