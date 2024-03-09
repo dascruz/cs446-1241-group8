@@ -18,12 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import java.util.UUID
 
 
 @Composable
 fun RunTimerScreen(
-    instanceId: UUID,
+    instanceId: Int,
     runTimerViewModel: RunTimerViewModel = hiltViewModel()
 ) {
     val durationText by runTimerViewModel.durationText.collectAsState()

@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
-import java.util.UUID
 
 @Dao
 interface TimerJobDao {
@@ -13,10 +12,10 @@ interface TimerJobDao {
 
 
     @Query("SELECT * FROM TimerJob WHERE id = :id")
-    fun observeById(id: UUID): Flow<LocalTimerJob>
+    fun observeById(id: Int): Flow<LocalTimerJob>
 
     @Query("UPDATE TimerJob SET name = :name WHERE id = :id")
-    suspend fun updateTimerJob(id: UUID, name: String)
+    suspend fun updateTimerJob(id: Int, name: String)
 
 
     @Upsert

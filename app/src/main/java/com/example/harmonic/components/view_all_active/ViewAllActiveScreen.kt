@@ -13,7 +13,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -21,26 +20,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.harmonic.models.IJobInstanceModel
 import com.example.harmonic.models.instances.TimerInstanceModel
-import com.example.harmonic.ui.theme.HarmonicTheme
-import java.util.UUID
 
 @Composable
 fun ViewAllActiveScreen(
-    onNavigateToActiveTimerInstance: (id: UUID) -> Unit,
-    onNavigateToActiveRoutineInstance: (id: UUID) -> Unit,
-    onNavigateToActiveDecimalInstance: (id: UUID) -> Unit,
-    onNavigateToActiveCounterInstance: (id: UUID) -> Unit,
+    onNavigateToActiveTimerInstance: (id: Int) -> Unit,
+    onNavigateToActiveRoutineInstance: (id: Int) -> Unit,
+    onNavigateToActiveDecimalInstance: (id: Int) -> Unit,
+    onNavigateToActiveCounterInstance: (id: Int) -> Unit,
     viewModel: ViewAllActiveViewModel = hiltViewModel()
 ) {
     val activeInstances by viewModel.allActiveTimerInstanceFlow.collectAsState(initial = emptyList())
     val onGoToActiveInstance = { instance: IJobInstanceModel ->
         when(instance) {
-            is TimerInstanceModel -> onNavigateToActiveTimerInstance(instance.id)
+            is TimerInstanceModel -> onNavigateToActiveTimerInstance(instance.id!!)
             else -> {}
         }
     }
@@ -106,6 +102,7 @@ private fun ActiveInstanceItem(
     }
 }
 
+/*
 @Preview
 @Composable
 private fun ViewAllActiveScreenPreview() {
@@ -115,38 +112,38 @@ private fun ViewAllActiveScreenPreview() {
                 onGoToActiveInstance = {},
                 activeInstances = listOf(
                     TimerInstanceModel(
-                        id = UUID.randomUUID(),
-                        initJobId = UUID.randomUUID(),
+                        id = Int.randomInt(),
+                        initJobId = Int.randomInt(),
                         initJobName = "Test Job A",
                         initJobInstanceNum = 0
                     ),
                     TimerInstanceModel(
-                        id = UUID.randomUUID(),
-                        initJobId = UUID.randomUUID(),
+                        id = Int.randomInt(),
+                        initJobId = Int.randomInt(),
                         initJobName = "Test Job B",
                         initJobInstanceNum = 1
                     ),
                     TimerInstanceModel(
-                        id = UUID.randomUUID(),
-                        initJobId = UUID.randomUUID(),
+                        id = Int.randomInt(),
+                        initJobId = Int.randomInt(),
                         initJobName = "Test Job C",
                         initJobInstanceNum = 2
                     ),
                     TimerInstanceModel(
-                        id = UUID.randomUUID(),
-                        initJobId = UUID.randomUUID(),
+                        id = Int.randomInt(),
+                        initJobId = Int.randomInt(),
                         initJobName = "Test Job D",
                         initJobInstanceNum = 3
                     ),
                     TimerInstanceModel(
-                        id = UUID.randomUUID(),
-                        initJobId = UUID.randomUUID(),
+                        id = Int.randomInt(),
+                        initJobId = Int.randomInt(),
                         initJobName = "Test Job E",
                         initJobInstanceNum = 3
                     ),
                     TimerInstanceModel(
-                        id = UUID.randomUUID(),
-                        initJobId = UUID.randomUUID(),
+                        id = Int.randomInt(),
+                        initJobId = Int.randomInt(),
                         initJobName = "Test Job F",
                         initJobInstanceNum = 5
                     )
@@ -154,4 +151,4 @@ private fun ViewAllActiveScreenPreview() {
             )
         }
     }
-}
+}*/

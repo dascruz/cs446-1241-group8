@@ -23,12 +23,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditTimerJobScreen(
-    jobId: UUID,
+    jobId: Int,
     onGoToTimerJobs: () -> Unit,
     editNewTimerJobViewModel: EditTimerJobViewModel = hiltViewModel()
 ) {

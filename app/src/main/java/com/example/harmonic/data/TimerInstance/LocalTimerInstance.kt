@@ -4,18 +4,17 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.harmonic.models.instances.TimerInstanceModel
 import java.time.Instant
-import java.util.UUID
 
 @Entity(
     tableName = "TimerInstance"
 )
 data class LocalTimerInstance(
-    @PrimaryKey val id: UUID,
+    @PrimaryKey(autoGenerate = true) val id: Int,
     val creationDateTime: String,
     var active: Boolean,
     var internal: Boolean,
-    var friendId: UUID?,
-    var jobId: UUID?,
+    var friendId: Int?,
+    var jobId: Int?,
     var jobName: String?,
     var jobInstanceNum: Int?,
     var startDateTime: String?,
@@ -52,7 +51,7 @@ fun TimerInstanceModel.toLocal(): LocalTimerInstance {
     val namesString = getSegmentNames().joinToString(",")
 
     return LocalTimerInstance(
-        id = id,
+        id = id ?: 0,
         creationDateTime = creationDateTime.toString(),
         active = active,
         internal = internal,

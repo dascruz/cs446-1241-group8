@@ -7,7 +7,6 @@ import com.example.harmonic.models.instances.TimerInstanceModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import java.util.UUID
 import javax.inject.Inject
 
 /**
@@ -19,15 +18,14 @@ class TimerInstancesListViewModel @Inject constructor(
     private val timerInstanceRepository: TimerInstanceRepository
 ) : ViewModel() {
     private val jobIdString: String = savedStateHandle.get<String>("jobId")!!
-    val jobId: UUID = UUID.fromString(jobIdString)
+    val jobId: Int = jobIdString.toInt()
     val allTimerInstancesFlow: Flow<List<TimerInstanceModel>> = timerInstanceRepository.observeInstancesForJob(jobId)
     val jobName: String = savedStateHandle.get<String>("jobName")!!
 
     fun createNewTimerInstance(instanceNum: Int) {
         println("Started creating new timer instance")
         val newTimerInstance = TimerInstanceModel(
-            id = UUID.randomUUID(),
-            internal = true,
+            internal = true
         )
         newTimerInstance.updateJobInfo(
             id = jobId,

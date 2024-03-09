@@ -23,15 +23,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.harmonic.models.instances.TimerInstanceModel
 import com.example.harmonic.util.toDisplayString
-import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimerInstanceListScreen(
     viewModel: TimerInstancesListViewModel = hiltViewModel(),
-    jobId: UUID,
+    jobId: Int,
     jobName: String,
-    onNavigateToNewTimerInstance: (id: UUID) -> Unit
+    onNavigateToNewTimerInstance: (id: Int) -> Unit
 ) {
     println("Timer Instance List Screen")
     val timerJobInstances by viewModel.allTimerInstancesFlow.collectAsState(initial = emptyList())

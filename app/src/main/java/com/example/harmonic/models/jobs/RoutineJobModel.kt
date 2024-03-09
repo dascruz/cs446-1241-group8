@@ -5,10 +5,9 @@ import com.example.harmonic.models.IJobModel
 import com.example.harmonic.models.instances.RoutineInstanceModel
 import org.json.JSONObject
 import java.time.Duration
-import java.util.UUID
 
 class RoutineJobModel(override var name: String)  : IJobModel {
-    override val id = UUID.randomUUID()
+    override val id: Int? = null
     var maxRoutineTime: Duration? = null
         private set
     private val instances : MutableList<RoutineInstanceModel> = mutableListOf()

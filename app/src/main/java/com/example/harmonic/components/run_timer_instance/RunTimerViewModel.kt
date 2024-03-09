@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.time.Duration
 import java.time.Instant
-import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,7 +25,7 @@ class RunTimerViewModel @Inject constructor(
     private var timerJob: Job? = null
 
     val instanceIdString: String = savedStateHandle.get<String>("instanceId")!!
-    val instanceId: UUID = UUID.fromString(instanceIdString)
+    val instanceId: Int = instanceIdString.toInt()
     val instance = timerInstanceRepository.observeInstance(instanceId)/*.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),

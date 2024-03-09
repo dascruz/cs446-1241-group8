@@ -1,10 +1,9 @@
 package com.example.harmonic.models
 
 import org.json.JSONObject
-import java.util.UUID
 
 interface IJobModel {
-    val id: UUID
+    val id: Int?
     var name: String
 
     fun getAllInstances(): List<IJobInstanceModel>

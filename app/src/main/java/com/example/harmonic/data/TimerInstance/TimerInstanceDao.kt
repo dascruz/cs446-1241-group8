@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
-import java.util.UUID
 
 @Dao
 interface TimerInstanceDao {
@@ -16,17 +15,17 @@ interface TimerInstanceDao {
     fun observeActive(): Flow<List<LocalTimerInstance>>
 
     @Query("SELECT * FROM TimerInstance WHERE id = :id")
-    fun observeInstance(id: UUID): Flow<LocalTimerInstance>
+    fun observeInstance(id: Int): Flow<LocalTimerInstance>
 
     @Query("SELECT * FROM TimerInstance WHERE jobId = :jobId")
-    fun observeInstancesForJob(jobId: UUID) : Flow<List<LocalTimerInstance>>
+    fun observeInstancesForJob(jobId: Int) : Flow<List<LocalTimerInstance>>
 
     @Upsert
     suspend fun upsert(localTimerInstance: LocalTimerInstance)
 
     @Query("UPDATE TimerInstance SET startDateTime = :startDateTime WHERE id = :id")
-    suspend fun updateStartInstance(id: UUID, startDateTime: String)
+    suspend fun updateStartInstance(id: Int, startDateTime: String)
 
     @Query("UPDATE TimerInstance SET segments = segments || ',' || :segment, segmentNames = segmentNames || ',' || :segmentName, active = :active WHERE id = :id")
-    suspend fun updateActiveInstance(id: UUID, active: Boolean, segment: String, segmentName: String)
+    suspend fun updateActiveInstance(id: Int, active: Boolean, segment: String, segmentName: String)
 }
