@@ -12,38 +12,45 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.harmonic.models.instances.TimerInstanceModel
-import java.util.UUID
+import com.example.harmonic.util.toDisplayString
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimerInstanceListScreen(
     viewModel: TimerInstancesListViewModel = hiltViewModel(),
-    onNavigateToNewTimerInstance: (id: UUID) -> Unit
+    jobId: Int,
+    jobName: String,
+    onNavigateToNewTimerInstance: (id: Int) -> Unit
 ) {
     val timerJobInstances by viewModel.allTimerInstancesFlow.collectAsState(initial = emptyList())
-    val timerJob by viewModel.jobModel.collectAsState()
+    val composableScope = rememberCoroutineScope()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
-                title = { Text("Instances of Job ${timerJob.id}") },
+                title = { Text("Instances of Job $jobName") },
             )
         },
         floatingActionButton = {
             FloatingActionButton(onClick = {
-                viewModel.createNewTimerInstance(timerJobInstances.size)
-                onNavigateToNewTimerInstance(timerJob.id)
+                composableScope.launch {
+                    val newId = viewModel.createNewTimerInstance(timerJobInstances.size)
+                    onNavigateToNewTimerInstance(newId)
+                }
             }) {
                 Icon(Icons.Default.Add, contentDescription = "New")
             }
@@ -86,7 +93,8 @@ private fun TimerJobInstanceItem(instance: TimerInstanceModel) {
             modifier = Modifier.weight(1f)
         )
         Text(
-            text = "Duration: ${instance.getTotalTime()}",
+            text = "Duration: \n ${if (instance.active) "Active" else instance.getTotalTime().toDisplayString()}",
+            color = if (instance.active) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary,
             modifier = Modifier.padding(start = 8.dp)
         )
     }

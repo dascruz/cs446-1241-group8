@@ -4,18 +4,17 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.harmonic.models.instances.TimerInstanceModel
 import java.time.Instant
-import java.util.UUID
 
 @Entity(
     tableName = "TimerInstance"
 )
 data class LocalTimerInstance(
-    @PrimaryKey val id: UUID,
+    @PrimaryKey(autoGenerate = true) val id: Int,
     val creationDateTime: String,
     var active: Boolean,
     var internal: Boolean,
-    var friendId: UUID?,
-    var jobId: UUID?,
+    var friendId: Int?,
+    var jobId: Int?,
     var jobName: String?,
     var jobInstanceNum: Int?,
     var startDateTime: String?,
@@ -29,17 +28,19 @@ fun LocalTimerInstance.toExternal() : TimerInstanceModel {
         active = active,
         creationDateTime = Instant.parse(creationDateTime),
         internal = internal,
-        initStartDateTime = Instant.parse(startDateTime),
+        initStartDateTime = if (startDateTime != null) Instant.parse(startDateTime) else null,
         initFriendId = friendId,
         initJobId = jobId,
         initJobName = jobName,
         initJobInstanceNum = jobInstanceNum
     )
 
-    val instantsStrings = segments.split(",")
-    val namesStrings = segments.split(",")
-    val segmentsInstants = instantsStrings.map { s -> Instant.parse(s.trim()) }
-    timerInstance.addSegments(segmentsInstants, namesStrings)
+    if (segments.isNotBlank() && segmentNames.isNotBlank()) {
+        val instantsStrings = segments.split(",")
+        val namesStrings = segments.split(",")
+        val segmentsInstants = instantsStrings.map { s -> Instant.parse(s.trim()) }
+        timerInstance.addSegments(segmentsInstants, namesStrings)
+    }
     return timerInstance
 }
 
@@ -50,7 +51,7 @@ fun TimerInstanceModel.toLocal(): LocalTimerInstance {
     val namesString = getSegmentNames().joinToString(",")
 
     return LocalTimerInstance(
-        id = id,
+        id = id ?: 0,
         creationDateTime = creationDateTime.toString(),
         active = active,
         internal = internal,

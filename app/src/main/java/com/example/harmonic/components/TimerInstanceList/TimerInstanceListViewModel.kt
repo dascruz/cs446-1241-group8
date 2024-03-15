@@ -1,17 +1,10 @@
 package com.example.harmonic.components.TimerInstanceList
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.harmonic.data.TimerInstance.TimerInstanceRepository
-import com.example.harmonic.data.TimerJob.TimerJobRepository
 import com.example.harmonic.models.instances.TimerInstanceModel
-import com.example.harmonic.models.jobs.TimerJobModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
-import java.util.UUID
 import javax.inject.Inject
 
 /**
@@ -20,29 +13,27 @@ import javax.inject.Inject
 @HiltViewModel
 class TimerInstancesListViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val timerJobRepository: TimerJobRepository,
     private val timerInstanceRepository: TimerInstanceRepository
 ) : ViewModel() {
     private val jobIdString: String = savedStateHandle.get<String>("jobId")!!
-    val jobId: UUID = UUID.fromString(jobIdString)
+    val jobId: Int = jobIdString.toInt()
     val allTimerInstancesFlow: Flow<List<TimerInstanceModel>> = timerInstanceRepository.observeInstancesForJob(jobId)
-    val jobModel = timerJobRepository.observeById(jobId).stateIn(
-        scope = viewModelScope,
-        initialValue = TimerJobModel(id = jobId, name = ""),
-        started = SharingStarted.WhileSubscribed(5000)
-    )
+    val jobName: String = savedStateHandle.get<String>("jobName")!!
 
-    fun createNewTimerInstance(instanceNum: Int) {
+    suspend fun createNewTimerInstance(instanceNum: Int): Int {
+        println("Started creating new timer instance")
         val newTimerInstance = TimerInstanceModel(
-            id = UUID.randomUUID(),
-            internal = true,
-            initJobId = jobModel.value.id,
-            initJobName = jobModel.value.name,
-            initJobInstanceNum = instanceNum
+            internal = true
+        )
+        newTimerInstance.updateJobInfo(
+            id = jobId,
+            name = jobName,
+            num = instanceNum
         )
 
-        viewModelScope.launch {
-            timerInstanceRepository.createLocal(newTimerInstance)
-        }
+        val newKey = timerInstanceRepository.insertLocal(newTimerInstance)
+
+        println("Created New Timer Instance with id $newKey")
+        return newKey
     }
 }

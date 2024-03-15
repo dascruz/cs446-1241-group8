@@ -9,7 +9,7 @@ import java.util.UUID
 enum class SegmentationTypes { NONE, SET, CAP }
 
 class TimerJobModel(
-    override val id: UUID = UUID.randomUUID(),
+    override val id: Int? = null,
     override var name: String,
     segmentationType: SegmentationTypes = SegmentationTypes.NONE,
     segmentationValue: Int = 1,

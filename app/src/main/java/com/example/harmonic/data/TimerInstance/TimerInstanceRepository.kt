@@ -5,7 +5,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.transform
 import java.time.Instant
-import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -25,25 +24,36 @@ class TimerInstanceRepository @Inject constructor(
         }
     }
 
-    fun observeInstance(id: UUID): Flow<TimerInstanceModel> {
+    fun observeInstance(id: Int): Flow<TimerInstanceModel> {
         return localDataSource.observeInstance(id).transform { it.toExternal() }
     }
 
-    fun observeInstancesForJob(jobId: UUID) : Flow<List<TimerInstanceModel>> {
+    suspend fun getInstance(id: Int): TimerInstanceModel? {
+        return localDataSource.getInstance(id)?.toExternal()
+    }
+
+    fun observeInstancesForJob(jobId: Int) : Flow<List<TimerInstanceModel>> {
         return localDataSource.observeInstancesForJob(jobId).map {
             ti -> ti.toExternal()
         }
     }
 
-    suspend fun createLocal(ti: TimerInstanceModel ) {
+    suspend fun insertLocal(ti: TimerInstanceModel): Int {
+        val out = localDataSource.insert(ti.toLocal())
+        println(out)
+        return out.toInt()
+    }
+
+    suspend fun upsertLocal(ti: TimerInstanceModel ) {
         localDataSource.upsert(ti.toLocal())
     }
 
-    suspend fun updateActiveInstance(id: UUID, active: Boolean, newSegment: Instant, newSegmentName: String) {
+    suspend fun updateActiveInstance(id: Int, active: Boolean, newSegment: Instant, newSegmentName: String) {
         localDataSource.updateActiveInstance(id, active, newSegment.toString(), newSegmentName)
     }
 
-    suspend fun updateStartInstance(id: UUID, startDateTime: Instant) {
+    suspend fun updateStartInstance(id: Int, startDateTime: Instant) {
+        println("id: $id, sdt: $startDateTime")
         localDataSource.updateStartInstance(id, startDateTime.toString())
     }
 }

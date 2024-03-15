@@ -1,19 +1,18 @@
 package com.example.harmonic.models
 
 import java.time.Instant
-import java.util.UUID
 
 interface IJobInstanceModel : Comparable<IJobInstanceModel> {
-    val id: UUID
+    val id: Int?
     val creationDateTime: Instant
     var active: Boolean
     var internal: Boolean
-    var friendId: UUID?
-    var jobId: UUID?
+    var friendId: Int?
+    var jobId: Int?
     var jobName: String?
     var jobInstanceNum: Int?
 
-    fun updateJobInfo(id: UUID, name: String, num: Int): Unit {
+    fun updateJobInfo(id: Int, name: String, num: Int): Unit {
         this.jobId = id
         this.jobName = name
         this.jobInstanceNum = num

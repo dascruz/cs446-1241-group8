@@ -32,20 +32,19 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.harmonic.components.view_all_active.TimerJobListViewModel
 import com.example.harmonic.models.IJobModel
 import com.example.harmonic.models.jobs.TimerJobModel
-import java.util.UUID
 
 @Composable
 fun TimerJobListScreen(
     onGoToNewTimer: () -> Unit,
-    onNavigateToAllTimerInstance: (job: UUID) -> Unit,
-    onGoToEditTimerJob: (id: UUID) -> Unit,
+    onNavigateToAllTimerInstance: (idname: String) -> Unit,
+    onGoToEditTimerJob: (id: Int) -> Unit,
     viewModel: TimerJobListViewModel = hiltViewModel()
 ) {
     val allTimerJobs by viewModel.allTimerInstanceFlow.collectAsState(initial = emptyList())
     // Navigation if needed
     val onGoToAllTimerJobs = { job: IJobModel ->
         when(job) {
-            is TimerJobModel -> onNavigateToAllTimerInstance(job.id)
+            is TimerJobModel -> onNavigateToAllTimerInstance(job.id.toString() + "/" + job.name)
             else -> {}
         }
     }
@@ -63,9 +62,9 @@ fun TimerJobListScreen(
 fun TimerJobListScreen(
 
     onGoToNewTimer: () -> Unit,
-    onGoToEditTimerJob: (id: UUID) -> Unit,
+    onGoToEditTimerJob: (id: Int) -> Unit,
     onGoToAllTimerJobs: (job: IJobModel) -> Unit,
-    onNavigateToTimerJobInstances: (jobId: UUID) -> Unit,
+    onNavigateToTimerJobInstances: (idname: String) -> Unit,
     allTimerJobs: List<IJobModel>
 ) {
     Scaffold (
@@ -115,15 +114,16 @@ fun TimerJobListScreen(
 private fun TimerJobItem(
     onGoToAllTimerJobs: (job: IJobModel) -> Unit,
     item: IJobModel,
-    onNavigateToAllTimerInstance: (jobId: UUID) -> Unit,
+
+    onNavigateToAllTimerInstance: (idname: String) -> Unit,
     job: TimerJobModel,
-    onGoToEditTimerJob: (id: UUID) -> Unit,
+    onGoToEditTimerJob: (id: Int) -> Unit,
 ) {
     Row(
         // verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onNavigateToAllTimerInstance(job.id) }
+            .clickable { onNavigateToAllTimerInstance(job.id.toString() + "/" + job.name) }
     ) {
         Text(
             text = item.name,
@@ -138,9 +138,9 @@ private fun TimerJobItem(
 }
 
 @Composable
-fun EditButton(onClick: (id: UUID) -> Unit, item: IJobModel) {
+fun EditButton(onClick: (id: Int) -> Unit, item: IJobModel) {
     Button(onClick = {
-        onClick(item.id)
+        onClick(item.id!!)
     }) {
         Text(text = "Edit")
     }
@@ -153,10 +153,6 @@ fun ShareButton() {
         Text(text = "Share")
     }
 }
-
-
-
-
 
 
 /*
@@ -173,38 +169,38 @@ fun TimerJobListScreenPreview() {
                 onGoToAllTimerInstances = {},
                 allTimerInstances = listOf(
                     TimerInstanceModel(
-                        id = UUID.randomUUID(),
-                        initJobId = UUID.randomUUID(),
+                        id = Int.randomInt(),
+                        initJobId = Int.randomInt(),
                         initJobName = "Test Job A",
                         initJobInstanceNum = 0
                     ),
                     TimerInstanceModel(
-                        id = UUID.randomUUID(),
-                        initJobId = UUID.randomUUID(),
+                        id = Int.randomInt(),
+                        initJobId = Int.randomInt(),
                         initJobName = "Test Job B",
                         initJobInstanceNum = 1
                     ),
                     TimerInstanceModel(
-                        id = UUID.randomUUID(),
-                        initJobId = UUID.randomUUID(),
+                        id = Int.randomInt(),
+                        initJobId = Int.randomInt(),
                         initJobName = "Test Job C",
                         initJobInstanceNum = 2
                     ),
                     TimerInstanceModel(
-                        id = UUID.randomUUID(),
-                        initJobId = UUID.randomUUID(),
+                        id = Int.randomInt(),
+                        initJobId = Int.randomInt(),
                         initJobName = "Test Job D",
                         initJobInstanceNum = 3
                     ),
                     TimerInstanceModel(
-                        id = UUID.randomUUID(),
-                        initJobId = UUID.randomUUID(),
+                        id = Int.randomInt(),
+                        initJobId = Int.randomInt(),
                         initJobName = "Test Job E",
                         initJobInstanceNum = 3
                     ),
                     TimerInstanceModel(
-                        id = UUID.randomUUID(),
-                        initJobId = UUID.randomUUID(),
+                        id = Int.randomInt(),
+                        initJobId = Int.randomInt(),
                         initJobName = "Test Job F",
                         initJobInstanceNum = 5
                     )

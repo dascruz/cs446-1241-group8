@@ -3,27 +3,25 @@ package com.example.harmonic.models.instances
 import com.example.harmonic.models.IJobInstanceModel
 import java.time.Duration
 import java.time.Instant
-import java.util.UUID
 
 class TimerInstanceModel(
-    override val id: UUID,
+    override val id: Int? = null,
     override var active: Boolean = true,
     override val creationDateTime: Instant = Instant.now(),
     override var internal: Boolean = false,
     initStartDateTime: Instant? = null,
-    initJobId: UUID? = null,
+    initJobId: Int? = null,
     initJobName: String? = null,
     initJobInstanceNum: Int? = null,
-    initFriendId: UUID? = null
+    initFriendId: Int? = null
 ) : IJobInstanceModel {
     var startDateTime: Instant? = null
-        private set
     private val segments: MutableList<Instant> = mutableListOf()
     private val segmentNames: MutableList<String> = mutableListOf()
-    override var jobId: UUID? = null
+    override var jobId: Int? = null
     override var jobName: String? = null
     override var jobInstanceNum: Int? = null
-    override var friendId: UUID? = null
+    override var friendId: Int? = null
 
     init {
         startDateTime = initStartDateTime
@@ -51,6 +49,7 @@ class TimerInstanceModel(
         return segmentNames
     }
 
+
      fun addSegment(instant: Instant, name: String) {
          if (startDateTime == null) {
              throw NullPointerException()
@@ -58,7 +57,7 @@ class TimerInstanceModel(
          val totalTime = this.getTotalTime()
          val lastSegmentEnd : Instant = startDateTime!! + totalTime
          if (instant < lastSegmentEnd) {
-             throw Exception("Invalid segment")
+             throw Exception("Invalid segment: id = $id, startDateTime = ${startDateTime}, lastSegmentEnd = $lastSegmentEnd \n")
          }
          segments.add(instant)
          segmentNames.add(name) // TODO: check input
@@ -74,6 +73,10 @@ class TimerInstanceModel(
         for (i in instants.indices) {
             addSegment(instants[i], names[i])
         }
+    }
+
+    fun getName(): String {
+        return "$jobName ${jobInstanceNum?.plus(1)}"
     }
 
     fun renameSegment(name: String, index: Int) {
