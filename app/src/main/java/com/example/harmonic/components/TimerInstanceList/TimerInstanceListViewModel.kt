@@ -1,12 +1,10 @@
 package com.example.harmonic.components.TimerInstanceList
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.harmonic.data.TimerInstance.TimerInstanceRepository
 import com.example.harmonic.models.instances.TimerInstanceModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -22,7 +20,7 @@ class TimerInstancesListViewModel @Inject constructor(
     val allTimerInstancesFlow: Flow<List<TimerInstanceModel>> = timerInstanceRepository.observeInstancesForJob(jobId)
     val jobName: String = savedStateHandle.get<String>("jobName")!!
 
-    fun createNewTimerInstance(instanceNum: Int) {
+    suspend fun createNewTimerInstance(instanceNum: Int): Int {
         println("Started creating new timer instance")
         val newTimerInstance = TimerInstanceModel(
             internal = true
@@ -33,10 +31,9 @@ class TimerInstancesListViewModel @Inject constructor(
             num = instanceNum
         )
 
-        viewModelScope.launch {
-            timerInstanceRepository.createLocal(newTimerInstance)
-        }
+        val newKey = timerInstanceRepository.insertLocal(newTimerInstance)
 
-        println("Created New Timer Instance")
+        println("Created New Timer Instance with id $newKey")
+        return newKey
     }
 }

@@ -4,9 +4,11 @@ import androidx.compose.runtime.Composable
 
 @Composable
 fun RunTimerRoute(
-    instanceIdString: String
+    instanceIdString: String,
+    onGoToHome: () -> Unit
 ) {
     RunTimerScreen(
-        instanceId = instanceIdString.toInt()
+        instanceId = instanceIdString.toInt(),
+        onGoToHome = { onGoToHome() }
     )
 }

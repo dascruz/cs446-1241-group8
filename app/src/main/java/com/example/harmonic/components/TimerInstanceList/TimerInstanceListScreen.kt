@@ -18,11 +18,13 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.harmonic.models.instances.TimerInstanceModel
 import com.example.harmonic.util.toDisplayString
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -34,6 +36,7 @@ fun TimerInstanceListScreen(
 ) {
     println("Timer Instance List Screen")
     val timerJobInstances by viewModel.allTimerInstancesFlow.collectAsState(initial = emptyList())
+    val composableScope = rememberCoroutineScope()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -44,8 +47,10 @@ fun TimerInstanceListScreen(
         },
         floatingActionButton = {
             FloatingActionButton(onClick = {
-                viewModel.createNewTimerInstance(timerJobInstances.size)
-                onNavigateToNewTimerInstance(jobId)
+                composableScope.launch {
+                    val newId = viewModel.createNewTimerInstance(timerJobInstances.size)
+                    onNavigateToNewTimerInstance(newId)
+                }
             }) {
                 Icon(Icons.Default.Add, contentDescription = "New")
             }

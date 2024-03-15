@@ -13,7 +13,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -24,16 +23,21 @@ import androidx.hilt.navigation.compose.hiltViewModel
 @Composable
 fun RunTimerScreen(
     instanceId: Int,
+    onGoToHome: () -> Unit,
     runTimerViewModel: RunTimerViewModel = hiltViewModel()
 ) {
+    runTimerViewModel.refresh()
     val durationText by runTimerViewModel.durationText.collectAsState()
-    val timerInstance = runTimerViewModel.instance.observeAsState()
+    val timerInstance = runTimerViewModel.instance.collectAsState()
 
     TimerElement(timerValue = durationText,
-        jobName = timerInstance.value?.jobName ?: "why why why",
-        onStartClick = {  },
+        jobName = timerInstance.value.getName(),
+        onStartClick = { runTimerViewModel.start() },
         onPauseClick = {  },
-        onStopClick = {  }
+        onStopClick = {
+            runTimerViewModel.stop()
+            onGoToHome()
+        }
     )
 }
 

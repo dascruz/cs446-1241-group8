@@ -149,7 +149,10 @@ fun HarmonicNavHost(
                 TimerInstanceListRoute(
                     jobIdString = jobIdString,
                     jobName = jobNameString,
-                    onNavigateToNewTimerInstance = { navController.navigate("tracking/active_timer_instance/$it")} )
+                    onNavigateToNewTimerInstance = { navController.navigate("tracking/active_timer_instance/$it") {
+                        popUpTo(HOME_ROUTE)
+                        launchSingleTop = true
+                    } } )
             }
         }
 
@@ -171,7 +174,12 @@ fun HarmonicNavHost(
             val instanceIdString = backStackEntry.arguments?.getString("instanceId")
             if (instanceIdString != null) {
                 RunTimerRoute(
-                    instanceIdString = instanceIdString
+                    instanceIdString = instanceIdString,
+                    onGoToHome = { navController.navigate(HOME_ROUTE) {
+                        popUpTo(TRACKING_ACTIVE_TIMER_INSTANCE) {
+                            inclusive = true
+                        }
+                    } }
                 )
             }
         }

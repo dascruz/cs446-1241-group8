@@ -57,7 +57,7 @@ class TimerInstanceModel(
          val totalTime = this.getTotalTime()
          val lastSegmentEnd : Instant = startDateTime!! + totalTime
          if (instant < lastSegmentEnd) {
-             throw Exception("Invalid segment")
+             throw Exception("Invalid segment: id = $id, startDateTime = ${startDateTime}, lastSegmentEnd = $lastSegmentEnd \n")
          }
          segments.add(instant)
          segmentNames.add(name) // TODO: check input
@@ -73,6 +73,10 @@ class TimerInstanceModel(
         for (i in instants.indices) {
             addSegment(instants[i], names[i])
         }
+    }
+
+    fun getName(): String {
+        return "$jobName $jobInstanceNum"
     }
 
     fun renameSegment(name: String, index: Int) {

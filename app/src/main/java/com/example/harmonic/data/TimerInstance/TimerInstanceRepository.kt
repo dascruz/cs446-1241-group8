@@ -28,13 +28,23 @@ class TimerInstanceRepository @Inject constructor(
         return localDataSource.observeInstance(id).transform { it.toExternal() }
     }
 
+    suspend fun getInstance(id: Int): TimerInstanceModel? {
+        return localDataSource.getInstance(id)?.toExternal()
+    }
+
     fun observeInstancesForJob(jobId: Int) : Flow<List<TimerInstanceModel>> {
         return localDataSource.observeInstancesForJob(jobId).map {
             ti -> ti.toExternal()
         }
     }
 
-    suspend fun createLocal(ti: TimerInstanceModel ) {
+    suspend fun insertLocal(ti: TimerInstanceModel): Int {
+        val out = localDataSource.insert(ti.toLocal())
+        println(out)
+        return out.toInt()
+    }
+
+    suspend fun upsertLocal(ti: TimerInstanceModel ) {
         localDataSource.upsert(ti.toLocal())
     }
 
