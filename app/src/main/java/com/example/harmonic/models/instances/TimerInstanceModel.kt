@@ -76,7 +76,7 @@ class TimerInstanceModel(
     }
 
     fun getName(): String {
-        return "$jobName $jobInstanceNum"
+        return "$jobName ${jobInstanceNum?.plus(1)}"
     }
 
     fun renameSegment(name: String, index: Int) {

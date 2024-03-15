@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -34,7 +35,6 @@ fun TimerInstanceListScreen(
     jobName: String,
     onNavigateToNewTimerInstance: (id: Int) -> Unit
 ) {
-    println("Timer Instance List Screen")
     val timerJobInstances by viewModel.allTimerInstancesFlow.collectAsState(initial = emptyList())
     val composableScope = rememberCoroutineScope()
 
@@ -93,7 +93,8 @@ private fun TimerJobInstanceItem(instance: TimerInstanceModel) {
             modifier = Modifier.weight(1f)
         )
         Text(
-            text = "Duration: ${instance.getTotalTime().toDisplayString()}",
+            text = "Duration: \n ${if (instance.active) "Active" else instance.getTotalTime().toDisplayString()}",
+            color = if (instance.active) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary,
             modifier = Modifier.padding(start = 8.dp)
         )
     }

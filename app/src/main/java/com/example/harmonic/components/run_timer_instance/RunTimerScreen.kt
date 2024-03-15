@@ -33,7 +33,7 @@ fun RunTimerScreen(
     TimerElement(timerValue = durationText,
         jobName = timerInstance.value.getName(),
         onStartClick = { runTimerViewModel.start() },
-        onPauseClick = {  },
+        onSegmentClick = { runTimerViewModel.segment() },
         onStopClick = {
             runTimerViewModel.stop()
             onGoToHome()
@@ -46,7 +46,7 @@ fun TimerElement(
     timerValue: String,
     jobName: String,
     onStartClick: () -> Unit,
-    onPauseClick: () -> Unit,
+    onSegmentClick: () -> Unit,
     onStopClick: () -> Unit
 ) {
     Column(
@@ -65,8 +65,8 @@ fun TimerElement(
                 Text("Start")
             }
             Spacer(modifier = Modifier.width(16.dp))
-            Button(onClick = onPauseClick) {
-                Text("Pause")
+            Button(onClick = onSegmentClick) {
+                Text("Segment")
             }
             Spacer(modifier = Modifier.width(16.dp))
             Button(onClick = onStopClick) {
@@ -74,11 +74,4 @@ fun TimerElement(
             }
         }
     }
-}
-
-fun Long.formatTime(): String {
-    val hours = this / 3600
-    val minutes = (this % 3600) / 60
-    val remainingSeconds = this % 60
-    return String.format("%02d:%02d:%02d", hours, minutes, remainingSeconds)
 }
