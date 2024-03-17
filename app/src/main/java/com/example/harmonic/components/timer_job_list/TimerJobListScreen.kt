@@ -114,6 +114,7 @@ fun TimerJobListScreen(
 private fun TimerJobItem(
     onGoToAllTimerJobs: (job: IJobModel) -> Unit,
     item: IJobModel,
+
     onNavigateToAllTimerInstance: (idname: String) -> Unit,
     job: TimerJobModel,
     onGoToEditTimerJob: (id: Int) -> Unit,

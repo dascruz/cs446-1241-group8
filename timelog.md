@@ -25,4 +25,6 @@
 | 2024/03/02 |           |           |           |           | 8          |            | Data layer, View All Active |
 | 2024/03/03 |           |           |           |           | 8          |            | Data layer, View All Active |
 | 2024/03/04 |           |           |           |           | 5          |            | Data layer, View All Active |
+| 2024/03/04 |           |           |           |           | 8          |            | Timer Job & Instance Lists, Edit Timer Job, Run Timer |
+| 2024/03/04 |           |           |           |           | 5          |            | Debugging |
 
