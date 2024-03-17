@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -67,7 +68,9 @@ fun ViewAllActiveScreen(
         }
     ) {padding ->
         Column(
-            modifier = Modifier.padding(padding).fillMaxSize()
+            modifier = Modifier
+                .padding(padding)
+                .fillMaxSize()
         ) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
@@ -92,10 +95,13 @@ private fun ActiveInstanceItem(
         // verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onGoToActiveInstance(item) }
+            .clickable { onGoToActiveInstance(item) },
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer
+        )
     ) {
         Text(
-            text = item.getInstanceJobString(),
+            text = "${item.instanceTypeString}: ${item.getInstanceJobString()} ",
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.padding(16.dp)
         )

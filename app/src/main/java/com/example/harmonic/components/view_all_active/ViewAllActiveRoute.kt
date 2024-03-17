@@ -10,9 +10,9 @@ fun ViewAllActiveRoute(
     onNavigateToActiveCounterInstance: (id: Int) -> Unit
 ) {
     ViewAllActiveScreen(
-        onNavigateToActiveTimerInstance,
-        onNavigateToActiveRoutineInstance,
-        onNavigateToActiveDecimalInstance,
-        onNavigateToActiveCounterInstance
+        onNavigateToActiveTimerInstance = { id: Int -> onNavigateToActiveTimerInstance(id) },
+        onNavigateToActiveRoutineInstance = { id: Int -> onNavigateToActiveRoutineInstance(id) },
+        onNavigateToActiveDecimalInstance = { id: Int -> onNavigateToActiveDecimalInstance(id) },
+        onNavigateToActiveCounterInstance = { id: Int -> onNavigateToActiveCounterInstance(id) }
     )
 }

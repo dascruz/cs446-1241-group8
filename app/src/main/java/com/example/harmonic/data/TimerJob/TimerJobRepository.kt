@@ -21,6 +21,10 @@ class TimerJobRepository @Inject constructor(
         return localDataSource.observeById(id).transform { it.toExternal() }
     }
 
+    suspend fun getById(id: Int): TimerJobModel? {
+        return localDataSource.getById(id)?.toExternal()
+    }
+
     suspend fun updateTimerJob(id: Int, name: String) {
         localDataSource.updateTimerJob(id, name)
 

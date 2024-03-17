@@ -193,7 +193,10 @@ fun HarmonicNavHost(
         composable(VIEW_ALL_ACTIVE) {
             ViewAllActiveRoute(
                 onNavigateToActiveTimerInstance = { navController.navigate(
-                    TRACKING_ACTIVE_TIMER_INSTANCE) },
+                    "tracking/active_timer_instance/$it") {
+                    popUpTo(HOME_ROUTE)
+                    launchSingleTop = true
+                } },
                 onNavigateToActiveRoutineInstance = { navController.navigate(
                     TRACKING_ACTIVE_ROUTINE_INSTANCE) },
                 onNavigateToActiveCounterInstance ={ navController.navigate(

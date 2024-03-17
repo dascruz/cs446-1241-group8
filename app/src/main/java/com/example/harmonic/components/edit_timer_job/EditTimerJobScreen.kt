@@ -39,7 +39,7 @@ fun EditTimerJobScreen(
             ),
             title = {
                 Text(
-                    text = "Create New Timer",
+                    text = "Edit Time Name",
                     style = MaterialTheme.typography.titleMedium,
                 )
             },
@@ -51,6 +51,7 @@ fun EditTimerJobScreen(
             value = newTimerJobName,
             onValueChange = { newTimerJobName = it },
             label = { Text("New Timer Name") },
+            singleLine = true,
             modifier = Modifier.padding(bottom = 50.dp)
         )
 
