@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.harmonic.data.TimerInstance.TimerInstanceRepository
+import com.example.harmonic.data.TimerJob.TimerJobRepository
 import com.example.harmonic.models.instances.TimerInstanceModel
 import com.example.harmonic.util.toDisplayString
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class RunTimerViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val timerInstanceRepository: TimerInstanceRepository
+    private val timerInstanceRepository: TimerInstanceRepository,
+    private val timerJobRepository: TimerJobRepository
 ): ViewModel() {
     private val _durationText = MutableStateFlow(Duration.ZERO.toDisplayString())
     val durationText = _durationText.asStateFlow()
@@ -27,10 +29,20 @@ class RunTimerViewModel @Inject constructor(
 
     private val instanceIdString: String = savedStateHandle.get<String>("instanceId")!!
     private val instanceId: Int = instanceIdString.toInt()
-
     private val _instance = MutableStateFlow(TimerInstanceModel(id = instanceId))
     val instance = _instance.asStateFlow()
 
+    private val _segmentationType = MutableStateFlow("")
+    val segmentationType = _segmentationType.asStateFlow()
+    private val _segmentationValue = MutableStateFlow(1)
+    val segmentationValue = _segmentationValue.asStateFlow()
+
+    private val _startEnabled = MutableStateFlow(true)
+    val startEnabled = _startEnabled.asStateFlow()
+    private val _segmentEnabled = MutableStateFlow(false)
+    val segmentEnabled = _segmentEnabled.asStateFlow()
+    private val _stopEnabled = MutableStateFlow(false)
+    val stopEnabled = _stopEnabled.asStateFlow()
 
     init {
         println("Initializing Run Timer View Model")
@@ -43,10 +55,45 @@ class RunTimerViewModel @Inject constructor(
             timerInstanceRepository.getInstance(instanceId).let { i ->
                 if (i != null) {
                     _instance.value = i
+
+                    if (_instance.value.jobId != null) {
+                        timerJobRepository.getById(_instance.value.jobId!!).let { j ->
+                            if (j != null) {
+                                _segmentationType.value = j.segmentationType.toString()
+                                _segmentationValue.value = j.segmentationValue
+                            }
+                        }
+                    }
                 } else {
                     throw NullPointerException("Instance not found")
                 }
             }
+        }
+    }
+
+    private fun restart(startDateTime: Instant) {
+        timerJob?.cancel()
+        timerJob = viewModelScope.launch {
+            while (true) {
+                delay(1000)
+                _durationText.value = Duration.between(startDateTime, Instant.now()).toDisplayString()
+            }
+        }
+        _startEnabled.value = false
+        if (_segmentationType.value == "SET") {
+            if (_segmentationValue.value > 1) {
+                _segmentEnabled.value = true
+            } else {
+                _stopEnabled.value = true
+            }
+        } else if (_segmentationType.value == "CAP") {
+            _stopEnabled.value = true
+            if (_segmentationValue.value > 1) {
+                _segmentEnabled.value = true
+            }
+        } else {
+            _segmentEnabled.value = true
+            _stopEnabled.value = true
         }
     }
 
@@ -63,6 +110,22 @@ class RunTimerViewModel @Inject constructor(
                 _durationText.value = Duration.between(startDateTime, Instant.now()).toDisplayString()
             }
         }
+        _startEnabled.value = false
+        if (_segmentationType.value == "SET") {
+            if (_segmentationValue.value > 1) {
+                _segmentEnabled.value = true
+            } else {
+                _stopEnabled.value = true
+            }
+        } else if (_segmentationType.value == "CAP") {
+            _stopEnabled.value = true
+            if (_segmentationValue.value > 1) {
+                _segmentEnabled.value = true
+            }
+        } else {
+            _segmentEnabled.value = true
+            _stopEnabled.value = true
+        }
     }
 
     fun segment() {
@@ -71,6 +134,14 @@ class RunTimerViewModel @Inject constructor(
         _instance.value.addSegment(currentTime, segmentName)
         viewModelScope.launch{
             timerInstanceRepository.upsertLocal(_instance.value)
+        }
+        if (_segmentationType.value == "CAP" &&
+            _instance.value.getNumSegments() >= _segmentationValue.value - 1) {
+            _segmentEnabled.value = false
+        } else if (_segmentationType.value == "SET" &&
+            _instance.value.getNumSegments() >= _segmentationValue.value - 1) {
+            _segmentEnabled.value = false
+            _stopEnabled.value = true
         }
     }
 

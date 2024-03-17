@@ -89,7 +89,7 @@ private fun TimerJobInstanceItem(instance: TimerInstanceModel) {
             .padding(8.dp)
     ) {
         Text(
-            text = "${instance.jobName} ${instance.jobInstanceNum}",
+            text = instance.getInstanceJobString(),
             modifier = Modifier.weight(1f)
         )
         Text(

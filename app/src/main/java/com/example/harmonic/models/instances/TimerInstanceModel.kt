@@ -22,6 +22,7 @@ class TimerInstanceModel(
     override var jobName: String? = null
     override var jobInstanceNum: Int? = null
     override var friendId: Int? = null
+    override val instanceTypeString = "Timer"
 
     init {
         startDateTime = initStartDateTime
@@ -47,6 +48,10 @@ class TimerInstanceModel(
 
     fun getSegmentNames(): List<String> {
         return segmentNames
+    }
+
+    fun getNumSegments(): Int {
+        return segments.size
     }
 
 
@@ -75,14 +80,14 @@ class TimerInstanceModel(
         }
     }
 
-    fun getName(): String {
-        return "$jobName ${jobInstanceNum?.plus(1)}"
-    }
-
     fun renameSegment(name: String, index: Int) {
         if (index >= 0 && index < segmentNames.size) {
             segmentNames[index] = name
         }
+    }
+
+    fun getName(): String {
+        return "$jobName ${jobInstanceNum?.plus(1)}"
     }
 
     override fun compareTo(other: IJobInstanceModel): Int {

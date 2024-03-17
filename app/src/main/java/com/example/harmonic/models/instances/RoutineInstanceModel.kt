@@ -14,6 +14,7 @@ class RoutineInstanceModel(
     override val id: Int? = null
     override var active = true;
     override val creationDateTime: Instant = Instant.now()
+    override val instanceTypeString: String = "Routine"
     var startDateTime: Instant? = null
         private set
     var endDateTime: Instant? = null

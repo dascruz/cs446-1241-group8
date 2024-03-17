@@ -11,8 +11,9 @@ interface IJobInstanceModel : Comparable<IJobInstanceModel> {
     var jobId: Int?
     var jobName: String?
     var jobInstanceNum: Int?
+    val instanceTypeString: String
 
-    fun updateJobInfo(id: Int, name: String, num: Int): Unit {
+    fun updateJobInfo(id: Int, name: String, num: Int) {
         this.jobId = id
         this.jobName = name
         this.jobInstanceNum = num
@@ -20,7 +21,7 @@ interface IJobInstanceModel : Comparable<IJobInstanceModel> {
 
     fun getInstanceJobString(): String {
         if (this.jobId != null && this.jobName != null && this.jobInstanceNum != null) {
-            return "${this.jobName!!} ${this.jobInstanceNum}"
+            return "${this.jobName!!} ${this.jobInstanceNum!! + 1}"
         }
         else {
             throw NullPointerException()
