@@ -31,7 +31,7 @@ fun RunTimerScreen(
     onGoToHome: () -> Unit,
     runTimerViewModel: RunTimerViewModel = hiltViewModel()
 ) {
-    runTimerViewModel.refresh()
+    //runTimerViewModel.refresh()
     val durationText by runTimerViewModel.durationText.collectAsState()
     val timerInstance by runTimerViewModel.instance.collectAsState()
     val startEnabled by runTimerViewModel.startEnabled.collectAsState()

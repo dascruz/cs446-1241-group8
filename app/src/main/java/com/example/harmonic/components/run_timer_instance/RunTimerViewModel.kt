@@ -68,6 +68,11 @@ class RunTimerViewModel @Inject constructor(
                     throw NullPointerException("Instance not found")
                 }
             }
+
+            if (_instance.value.startDateTime != null) {
+                print("restarting ${_instance.value.startDateTime}")
+                restart(_instance.value.startDateTime!!)
+            }
         }
     }
 
