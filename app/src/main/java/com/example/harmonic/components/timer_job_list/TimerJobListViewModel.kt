@@ -1,4 +1,4 @@
-package com.example.harmonic.components.view_all_active
+package com.example.harmonic.components.timer_job_list
 
 import androidx.lifecycle.ViewModel
 import com.example.harmonic.data.TimerJob.TimerJobRepository

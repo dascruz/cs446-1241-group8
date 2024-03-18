@@ -5,20 +5,26 @@ import java.time.Duration
 import java.time.Instant
 
 class RoutineInstanceModel(
-    override var jobId: Int?,
-    override var jobName: String?,
-    override var jobInstanceNum: Int?,
+    override val id: Int? = null,
+    override var active: Boolean = true,
+    override val creationDateTime: Instant = Instant.now(),
     override var internal: Boolean = false,
-    override var friendId: Int? = null
+    initStartDateTime: Instant? = null,
+    initEndDateTime: Instant? = null,
+    initJobId: Int? = null,
+    initJobName: String? = null,
+    initJobInstanceNum: Int? = null,
+    initFriendId: Int? = null
 ) : IJobInstanceModel {
-    override val id: Int? = null
-    override var active = true;
-    override val creationDateTime: Instant = Instant.now()
-    override val instanceTypeString: String = "Routine"
+    override var jobId: Int? = null
+    override var jobName: String? = null
+    override var jobInstanceNum: Int? = null
+    override var friendId: Int? = null
+    override val instanceTypeString = "Routine"
+
     var startDateTime: Instant? = null
-        private set
     var endDateTime: Instant? = null
-        private set
+
 
     fun getTotalTime() : Duration {
         return Duration.between(startDateTime, endDateTime)

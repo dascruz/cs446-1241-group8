@@ -37,6 +37,7 @@ import com.example.harmonic.components.TimerInstanceList.TimerInstanceListRoute
 import com.example.harmonic.components.create_new_timer_job.CreateNewTimerJobRoute
 import com.example.harmonic.components.edit_timer_job.EditTimerJobRoute
 import com.example.harmonic.components.home.HomeRoute
+import com.example.harmonic.components.rountine_job_list.RoutineJobListRoute
 import com.example.harmonic.components.run_timer_instance.RunTimerRoute
 import com.example.harmonic.components.timer_job_list.TimerJobListRoute
 import com.example.harmonic.components.tracking.TrackingRoute
@@ -106,7 +107,13 @@ fun HarmonicNavHost(
             )
         }
 
-        composable(TRACKING_ROUTINE_JOBS) {}
+        composable(TRACKING_ROUTINE_JOBS) {
+            RoutineJobListRoute (
+                onGoToNewRoutine = { navController.navigate(TRACKING_NEW_ROUTINE_JOB) },
+                onNavigateToAllRoutineInstance = {navController.navigate("tracking/routine_instances/$it")},
+                onGoToEditRoutineJob = { navController.navigate("tracking/edit_routine_job/$it") },
+            )
+        }
 
         composable(TRACKING_COUNTER_JOBS) {}
 
