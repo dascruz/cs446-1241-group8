@@ -25,7 +25,17 @@ class RoutineInstanceModel(
     var startDateTime: Instant? = null
     var endDateTime: Instant? = null
 
+    init {
+        startDateTime = initStartDateTime
+        endDateTime = initEndDateTime
+        if (initFriendId != null) {
+            friendId = initFriendId
+        }
 
+        if (initJobId != null && initJobName != null && initJobInstanceNum != null) {
+            updateJobInfo(initJobId, initJobName, initJobInstanceNum)
+        }
+    }
     fun getTotalTime() : Duration {
         return Duration.between(startDateTime, endDateTime)
     }
