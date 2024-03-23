@@ -20,7 +20,7 @@ class RoutineJobModel(override val id: Int? = null,
         if (instance !is RoutineInstanceModel) {
             throw TypeCastException()
         }
-        if (maxRoutineTime != null && instance.getTotalTime() <= maxRoutineTime) {
+        if (maxRoutineTime != null) {
             instances.add(instance)
         }
         TODO("else throw some kind exception")

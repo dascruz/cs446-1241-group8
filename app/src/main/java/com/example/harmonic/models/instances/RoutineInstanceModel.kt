@@ -9,8 +9,8 @@ class RoutineInstanceModel(
     override var active: Boolean = true,
     override val creationDateTime: Instant = Instant.now(),
     override var internal: Boolean = false,
-    initStartDateTime: Instant? = null,
-    initEndDateTime: Instant? = null,
+    initStartDateTime: Int? = null,
+    initEndDateTime: Int? = null,
     initJobId: Int? = null,
     initJobName: String? = null,
     initJobInstanceNum: Int? = null,
@@ -22,8 +22,8 @@ class RoutineInstanceModel(
     override var friendId: Int? = null
     override val instanceTypeString = "Routine"
 
-    var startDateTime: Instant? = null
-    var endDateTime: Instant? = null
+    var startDateTime: Int? = null
+    var endDateTime: Int? = null
 
     init {
         startDateTime = initStartDateTime
@@ -36,14 +36,15 @@ class RoutineInstanceModel(
             updateJobInfo(initJobId, initJobName, initJobInstanceNum)
         }
     }
-    fun getTotalTime() : Duration {
-        return Duration.between(startDateTime, endDateTime)
+    fun getTotalTime() : Int {
+        return if (startDateTime != null && endDateTime != null) endDateTime!! - startDateTime!!
+        else 0
     }
-    override fun compareTo(other: IJobInstanceModel): Int {
+    /*override fun compareTo(other: IJobInstanceModel): Int {
         return if (other is RoutineInstanceModel && startDateTime != null && other.startDateTime != null) {
             startDateTime!!.compareTo(other.startDateTime)
         } else {
             super.compareTo(other)
         }
-    }
+    }*/
 }

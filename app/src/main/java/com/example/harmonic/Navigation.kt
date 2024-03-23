@@ -34,6 +34,7 @@ import com.example.harmonic.Destinations.TRACKING_TIMER_INSTANCES
 import com.example.harmonic.Destinations.TRACKING_TIMER_JOBS
 import com.example.harmonic.Destinations.VIEW_ALL_ACTIVE
 import com.example.harmonic.components.TimerInstanceList.TimerInstanceListRoute
+import com.example.harmonic.components.create_new_routine_instance.CreateNewRoutineInstanceRoute
 import com.example.harmonic.components.create_new_routine_job.CreateNewRoutineJobRoute
 import com.example.harmonic.components.edit_routine_job.EditRoutineJobRoute
 import com.example.harmonic.components.create_new_timer_job.CreateNewTimerJobRoute
@@ -67,7 +68,7 @@ object Destinations {
     const val TRACKING_COUNTER_INSTANCES = "tracking/counter_instances/{jobId}"
     const val TRACKING_DECIMAL_INSTANCES = "tracking/decimal_instances/{jobId}"
     const val TRACKING_NEW_TIMER_INSTANCE = "tracking/new_timer_instance"
-    const val TRACKING_NEW_ROUTINE_INSTANCE = "tracking/new_routine_instance"
+    const val TRACKING_NEW_ROUTINE_INSTANCE = "tracking/new_routine_instance/{instanceId}"
     const val TRACKING_NEW_COUNTER_INSTANCE = "tracking/new_counter_instance"
     const val TRACKING_NEW_DECIMAL_INSTANCE = "tracking/new_decimal_instance"
     const val TRACKING_ACTIVE_TIMER_INSTANCE = "tracking/active_timer_instance/{instanceId}"
@@ -187,10 +188,11 @@ fun HarmonicNavHost(
                 RoutineInstanceListRoute(
                     jobIdString = jobIdString,
                     jobName = jobNameString,
-                    onNavigateToNewRoutineInstance = {
-                        navController.navigate(TRACKING_ROUTINE_JOBS)
-                     } )
-            }
+                    onNavigateToNewRoutineInstance = { navController.navigate("tracking/new_routine_instance/$it")
+                    }
+                )
+             }
+
         }
 
         composable(TRACKING_COUNTER_INSTANCES) {}
@@ -199,7 +201,16 @@ fun HarmonicNavHost(
 
         composable(TRACKING_NEW_TIMER_INSTANCE) {}
 
-        composable(TRACKING_NEW_ROUTINE_INSTANCE) {}
+        composable(TRACKING_NEW_ROUTINE_INSTANCE) {backStackEntry ->
+            val instanceIdString = backStackEntry.arguments?.getString("instanceId")
+            if (instanceIdString != null) {
+                CreateNewRoutineInstanceRoute(
+                    instanceIdString = instanceIdString,
+                    onNavigateToInstanceList = { navController.navigate(HOME_ROUTE) }
+                )
+            }
+
+        }
 
         composable(TRACKING_NEW_COUNTER_INSTANCE) {}
 
