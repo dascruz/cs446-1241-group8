@@ -32,6 +32,9 @@ class TimerInstanceModel(
 
         if (initJobId != null && initJobName != null && initJobInstanceNum != null) {
             updateJobInfo(initJobId, initJobName, initJobInstanceNum)
+        } else if (initJobId != null && initJobName != null) {
+            jobId = initJobId
+            jobName = initJobName
         }
     }
 
