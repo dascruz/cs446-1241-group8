@@ -1,9 +1,10 @@
 package com.example.harmonic.services
 
-import com.example.harmonic.models.instances.TimerInstanceModel
-import com.example.harmonic.models.jobs.TimerJobModel
+import com.example.harmonic.services.shareables.TimerInstanceShareable
+import com.example.harmonic.services.shareables.TimerJobShareable
+import kotlinx.coroutines.flow.Flow
 
 interface SharingService {
-    suspend fun getTimerJob(id: String): TimerInstanceModel?
-    suspend fun getInstancesForJob(id: String): List<TimerJobModel>?
+    suspend fun getTimerJob(id: String): TimerJobShareable?
+    suspend fun getInstancesForJob(id: String): Flow<List<TimerInstanceShareable>>
 }
