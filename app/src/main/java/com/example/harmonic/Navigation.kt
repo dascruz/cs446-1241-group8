@@ -41,6 +41,7 @@ import com.example.harmonic.components.run_timer_instance.RunTimerRoute
 import com.example.harmonic.components.timer_job_list.TimerJobListRoute
 import com.example.harmonic.components.tracking.TrackingRoute
 import com.example.harmonic.components.view_all_active.ViewAllActiveRoute
+import com.example.harmonic.components.insights.InsightsRoute
 
 
 object Destinations {
@@ -85,10 +86,11 @@ fun HarmonicNavHost(
         composable(HOME_ROUTE) {
             HomeRoute(
                 onGoToTracking = { navController.navigate(TRACKING) },
-                onGoToAllActive = { navController.navigate(VIEW_ALL_ACTIVE)},
+                onGoToAllActive = { navController.navigate(VIEW_ALL_ACTIVE) },
                 onGoToInsights = { navController.navigate(INSIGHTS) }
             )
         }
+
         composable(TRACKING) {
             TrackingRoute(
                 onGoToTimerJob = { navController.navigate(TRACKING_TIMER_JOBS) },
@@ -99,9 +101,9 @@ fun HarmonicNavHost(
         }
 
         composable(TRACKING_TIMER_JOBS) {
-            TimerJobListRoute (
+            TimerJobListRoute(
                 onGoToNewTimer = { navController.navigate(TRACKING_NEW_TIMER_JOB) },
-                onNavigateToAllTimerInstance = {navController.navigate("tracking/timer_instances/$it")},
+                onNavigateToAllTimerInstance = { navController.navigate("tracking/timer_instances/$it") },
                 onGoToEditTimerJob = { navController.navigate("tracking/edit_timer_job/$it") },
             )
         }
@@ -113,7 +115,7 @@ fun HarmonicNavHost(
         composable(TRACKING_DECIMAL_JOBS) {}
 
         composable(TRACKING_NEW_TIMER_JOB) {
-            CreateNewTimerJobRoute (
+            CreateNewTimerJobRoute(
                 onGoToTimerJob = { navController.navigate(TRACKING_TIMER_JOBS) }
             )
         }
@@ -123,7 +125,7 @@ fun HarmonicNavHost(
         composable(TRACKING_NEW_COUNTER_JOB) {}
 
         composable(TRACKING_NEW_DECIMAL_JOB) {}
-        
+
         composable(TRACKING_EDIT_TIMER_JOB) {
             val jobIdString = it.arguments?.getString("jobId")
             if (jobIdString != null) {
@@ -149,10 +151,12 @@ fun HarmonicNavHost(
                 TimerInstanceListRoute(
                     jobIdString = jobIdString,
                     jobName = jobNameString,
-                    onNavigateToNewTimerInstance = { navController.navigate("tracking/active_timer_instance/$it") {
-                        popUpTo(HOME_ROUTE)
-                        launchSingleTop = true
-                    } } )
+                    onNavigateToNewTimerInstance = {
+                        navController.navigate("tracking/active_timer_instance/$it") {
+                            popUpTo(HOME_ROUTE)
+                            launchSingleTop = true
+                        }
+                    })
             }
         }
 
@@ -170,16 +174,18 @@ fun HarmonicNavHost(
 
         composable(TRACKING_NEW_DECIMAL_INSTANCE) {}
 
-        composable(TRACKING_ACTIVE_TIMER_INSTANCE) {backStackEntry ->
+        composable(TRACKING_ACTIVE_TIMER_INSTANCE) { backStackEntry ->
             val instanceIdString = backStackEntry.arguments?.getString("instanceId")
             if (instanceIdString != null) {
                 RunTimerRoute(
                     instanceIdString = instanceIdString,
-                    onGoToHome = { navController.navigate(HOME_ROUTE) {
-                        popUpTo(TRACKING_ACTIVE_TIMER_INSTANCE) {
-                            inclusive = true
+                    onGoToHome = {
+                        navController.navigate(HOME_ROUTE) {
+                            popUpTo(TRACKING_ACTIVE_TIMER_INSTANCE) {
+                                inclusive = true
+                            }
                         }
-                    } }
+                    }
                 )
             }
         }
@@ -192,18 +198,34 @@ fun HarmonicNavHost(
 
         composable(VIEW_ALL_ACTIVE) {
             ViewAllActiveRoute(
-                onNavigateToActiveTimerInstance = { navController.navigate(
-                    "tracking/active_timer_instance/$it") {
-                    popUpTo(HOME_ROUTE)
-                    launchSingleTop = true
-                } },
-                onNavigateToActiveRoutineInstance = { navController.navigate(
-                    TRACKING_ACTIVE_ROUTINE_INSTANCE) },
-                onNavigateToActiveCounterInstance ={ navController.navigate(
-                    TRACKING_ACTIVE_TIMER_INSTANCE) },
-                onNavigateToActiveDecimalInstance = { navController.navigate(
-                    TRACKING_ACTIVE_COUNTER_INSTANCE) },
+                onNavigateToActiveTimerInstance = {
+                    navController.navigate(
+                        "tracking/active_timer_instance/$it"
+                    ) {
+                        popUpTo(HOME_ROUTE)
+                        launchSingleTop = true
+                    }
+                },
+                onNavigateToActiveRoutineInstance = {
+                    navController.navigate(
+                        TRACKING_ACTIVE_ROUTINE_INSTANCE
+                    )
+                },
+                onNavigateToActiveCounterInstance = {
+                    navController.navigate(
+                        TRACKING_ACTIVE_TIMER_INSTANCE
+                    )
+                },
+                onNavigateToActiveDecimalInstance = {
+                    navController.navigate(
+                        TRACKING_ACTIVE_COUNTER_INSTANCE
+                    )
+                },
             )
+        }
+
+        composable(INSIGHTS) {
+            InsightsRoute { navController.navigate(INSIGHTS) }
         }
     }
 }

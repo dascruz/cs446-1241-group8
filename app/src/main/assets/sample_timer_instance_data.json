@@ -1,0 +1,28 @@
+[
+    {
+        "id": 1,
+        "active": true,
+        "creationDateTime": "2023-03-01T12:00:00Z",
+        "internal": false,
+        "startDateTime": "2023-03-01T12:00:00Z",
+        "jobId": 101,
+        "jobName": "Job1",
+        "jobInstanceNum": 1,
+        "friendId": 201,
+        "segments": ["2023-03-01T12:30:00Z", "2023-03-01T13:00:00Z"],
+        "segmentNames": ["Segment1", "Segment2"]
+    },
+    {
+        "id": 2,
+        "active": false,
+        "creationDateTime": "2023-03-02T12:00:00Z",
+        "internal": true,
+        "startDateTime": "2023-03-02T12:00:00Z",
+        "jobId": 102,
+        "jobName": "Job2",
+        "jobInstanceNum": 2,
+        "friendId": 202,
+        "segments": ["2023-03-02T12:30:00Z", "2023-03-02T13:00:00Z"],
+        "segmentNames": ["Segment1", "Segment2"]
+    }
+]

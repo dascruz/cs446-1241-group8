@@ -30,7 +30,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -52,6 +55,7 @@ android {
         }
     }
 }
+
 
 dependencies {
     val room_version = "2.6.1"
@@ -103,6 +107,10 @@ dependencies {
 
     // optional - Paging 3 Integration
     implementation("androidx.room:room-paging:$room_version")
+
+    // optional - charting tool
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation("com.google.code.gson:gson:2.8.9")
 }
 
 kapt {

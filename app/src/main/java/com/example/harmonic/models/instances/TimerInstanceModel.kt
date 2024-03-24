@@ -7,7 +7,7 @@ import java.time.Instant
 class TimerInstanceModel(
     override val id: Int? = null,
     override var active: Boolean = true,
-    override val creationDateTime: Instant = Instant.now(),
+    override var creationDateTime: Instant = Instant.now(),
     override var internal: Boolean = false,
     initStartDateTime: Instant? = null,
     initJobId: Int? = null,
