@@ -9,25 +9,38 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ClipboardManager
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.harmonic.components.view_all_active.TimerJobListViewModel
 import com.example.harmonic.models.IJobModel
@@ -41,31 +54,29 @@ fun TimerJobListScreen(
     viewModel: TimerJobListViewModel = hiltViewModel()
 ) {
     val allTimerJobs by viewModel.allTimerInstanceFlow.collectAsState(initial = emptyList())
-    // Navigation if needed
-    val onGoToAllTimerJobs = { job: IJobModel ->
-        when(job) {
-            is TimerJobModel -> onNavigateToAllTimerInstance(job.id.toString() + "/" + job.name)
-            else -> {}
-        }
-    }
+    val sharingJobId by viewModel.sharedJobId.collectAsState()
+
     TimerJobListScreen(
-        onGoToAllTimerJobs = onGoToAllTimerJobs,
         allTimerJobs = allTimerJobs,
         onGoToNewTimer = onGoToNewTimer,
         onNavigateToTimerJobInstances = onNavigateToAllTimerInstance,
         onGoToEditTimerJob = onGoToEditTimerJob,
+        onShareJob = {job: TimerJobModel -> viewModel.shareJob(job)},
+        onDoneShareJob = { viewModel.doneSharingJob() },
+        sharingJobId = sharingJobId
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimerJobListScreen(
-
     onGoToNewTimer: () -> Unit,
     onGoToEditTimerJob: (id: Int) -> Unit,
-    onGoToAllTimerJobs: (job: IJobModel) -> Unit,
     onNavigateToTimerJobInstances: (idname: String) -> Unit,
-    allTimerJobs: List<IJobModel>
+    onShareJob: (job: TimerJobModel) -> Unit,
+    onDoneShareJob: () -> Unit,
+    allTimerJobs: List<IJobModel>,
+    sharingJobId: String
 ) {
     Scaffold (
         modifier = Modifier.fillMaxSize(),
@@ -91,6 +102,20 @@ fun TimerJobListScreen(
                 .padding(padding)
                 .fillMaxSize()
         ) {
+            val showDialog = remember{ mutableStateOf(false) }
+            val title = remember { mutableStateOf("") }
+            if (showDialog.value) {
+                SharingDialog(
+                    onDismiss = {
+                        onDoneShareJob()
+                        showDialog.value = false
+                        title.value = ""
+                    },
+                    sharingJobId = sharingJobId,
+                    title = title.value
+                )
+            }
+
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(horizontal = 8.dp, vertical = 8.dp),
@@ -98,11 +123,15 @@ fun TimerJobListScreen(
             ) {
                 items(allTimerJobs) { ti ->
                     TimerJobItem(
-                        onGoToAllTimerJobs = onGoToAllTimerJobs,
                         onGoToEditTimerJob = onGoToEditTimerJob,
                         item = ti,
                         onNavigateToAllTimerInstance = onNavigateToTimerJobInstances, 
-                        job = ti as TimerJobModel
+                        job = ti as TimerJobModel,
+                        onShare = {job: TimerJobModel ->
+                            onShareJob(job)
+                            title.value = "Sharing Timer Job ${job.name}"
+                            showDialog.value = true
+                        }
                     )
                 }
             }
@@ -112,12 +141,11 @@ fun TimerJobListScreen(
 
 @Composable
 private fun TimerJobItem(
-    onGoToAllTimerJobs: (job: IJobModel) -> Unit,
     item: IJobModel,
-
     onNavigateToAllTimerInstance: (idname: String) -> Unit,
     job: TimerJobModel,
     onGoToEditTimerJob: (id: Int) -> Unit,
+    onShare: (job: TimerJobModel) -> Unit
 ) {
     Row(
         // verticalAlignment = Alignment.CenterVertically,
@@ -133,7 +161,7 @@ private fun TimerJobItem(
                 .weight(1f)
         )
         EditButton(onGoToEditTimerJob, item)
-        ShareButton()
+        ShareButton { onShare(job) }
     }
 }
 
@@ -146,66 +174,73 @@ fun EditButton(onClick: (id: Int) -> Unit, item: IJobModel) {
     }
 }
 @Composable
-fun ShareButton() {
+fun ShareButton(onClick: () -> Unit) {
     Button(onClick = {
-        //your onclick code here
+        onClick()
     }) {
         Text(text = "Share")
     }
 }
 
-
-/*
-@Preview(name = "Timer light theme", uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Preview(name = "Timer dark theme", uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
-fun TimerJobListScreenPreview() {
-    HarmonicTheme {
-        Surface {
-            TimerJobListScreen(
-                onGoToNewTimer = {*/
-/* TODO *//*
-},
-                onGoToAllTimerInstances = {},
-                allTimerInstances = listOf(
-                    TimerInstanceModel(
-                        id = Int.randomInt(),
-                        initJobId = Int.randomInt(),
-                        initJobName = "Test Job A",
-                        initJobInstanceNum = 0
-                    ),
-                    TimerInstanceModel(
-                        id = Int.randomInt(),
-                        initJobId = Int.randomInt(),
-                        initJobName = "Test Job B",
-                        initJobInstanceNum = 1
-                    ),
-                    TimerInstanceModel(
-                        id = Int.randomInt(),
-                        initJobId = Int.randomInt(),
-                        initJobName = "Test Job C",
-                        initJobInstanceNum = 2
-                    ),
-                    TimerInstanceModel(
-                        id = Int.randomInt(),
-                        initJobId = Int.randomInt(),
-                        initJobName = "Test Job D",
-                        initJobInstanceNum = 3
-                    ),
-                    TimerInstanceModel(
-                        id = Int.randomInt(),
-                        initJobId = Int.randomInt(),
-                        initJobName = "Test Job E",
-                        initJobInstanceNum = 3
-                    ),
-                    TimerInstanceModel(
-                        id = Int.randomInt(),
-                        initJobId = Int.randomInt(),
-                        initJobName = "Test Job F",
-                        initJobInstanceNum = 5
-                    )
+fun SharingDialog(
+    onDismiss: () -> Unit,
+    sharingJobId: String,
+    title: String
+) {
+    Dialog(
+        onDismissRequest = { onDismiss() }
+    ) {
+        Card(
+            modifier = Modifier
+                .padding(16.dp)
+                .height(250.dp)
+                .fillMaxWidth(),
+            shape = RoundedCornerShape(16.dp)
+        ) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.SpaceBetween,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.padding(8.dp)
                 )
-            )
+                if (sharingJobId == "") {
+                    CircularProgressIndicator(
+                        modifier = Modifier.width(64.dp),
+                        color = MaterialTheme.colorScheme.secondary,
+                        trackColor = MaterialTheme.colorScheme.surfaceVariant,
+                    )
+                } else {
+                    Text(
+                        text = sharingJobId,
+                        style = MaterialTheme.typography.headlineSmall,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    val clipboardManager: ClipboardManager = LocalClipboardManager.current
+                    TextButton(
+                        onClick = { clipboardManager.setText(AnnotatedString(sharingJobId)) },
+                        modifier = Modifier.padding(8.dp),
+                        enabled = sharingJobId != ""
+                    ) {
+                        Text("Copy to Clipboard")
+                    }
+                    TextButton(
+                        onClick = { onDismiss() },
+                        modifier = Modifier.padding(8.dp)
+                    ) {
+                        Text("Dismiss")
+                    }
+                }
+            }
         }
     }
-}*/
+}

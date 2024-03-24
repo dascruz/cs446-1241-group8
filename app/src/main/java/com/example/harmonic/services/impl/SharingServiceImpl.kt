@@ -28,6 +28,18 @@ constructor(private val firestore: FirebaseFirestore): SharingService {
             .dataObjects<TimerInstanceShareable>()
     }
 
+    override suspend fun sendTimer(job: TimerJobShareable, instancesList: List<TimerInstanceShareable>): String {
+        val id = firestore.collection(TIMER_JOB_COLLECTION).add(job).await().id
+        val instancesRef = firestore.collection(TIMER_JOB_COLLECTION).document(id).collection(TIMER_INSTANCE_COLLECTION)
+        val batch = firestore.batch()
+        instancesList.forEach {
+            val docRef = instancesRef.document()
+            batch.set(docRef, it)
+        }
+        batch.commit().await()
+        return id
+    }
+
     companion object {
         private const val TIMER_JOB_COLLECTION = "timerJobs"
         private const val TIMER_INSTANCE_COLLECTION = "timerInstances"
