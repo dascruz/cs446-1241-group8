@@ -7,6 +7,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.harmonic.Destinations.HOME_ROUTE
 import com.example.harmonic.Destinations.INSIGHTS
+import com.example.harmonic.Destinations.SHARING_COUNTER
+import com.example.harmonic.Destinations.SHARING_DECIMAL
+import com.example.harmonic.Destinations.SHARING_ROUTINE
+import com.example.harmonic.Destinations.SHARING_TIMER
 import com.example.harmonic.Destinations.TRACKING
 import com.example.harmonic.Destinations.TRACKING_ACTIVE_COUNTER_INSTANCE
 import com.example.harmonic.Destinations.TRACKING_ACTIVE_DECIMAL_INSTANCE
@@ -38,6 +42,7 @@ import com.example.harmonic.components.create_new_timer_job.CreateNewTimerJobRou
 import com.example.harmonic.components.edit_timer_job.EditTimerJobRoute
 import com.example.harmonic.components.home.HomeRoute
 import com.example.harmonic.components.run_timer_instance.RunTimerRoute
+import com.example.harmonic.components.shared_timer_instances.SharedTimerInstancesRoute
 import com.example.harmonic.components.timer_job_list.TimerJobListRoute
 import com.example.harmonic.components.tracking.TrackingRoute
 import com.example.harmonic.components.view_all_active.ViewAllActiveRoute
@@ -72,6 +77,10 @@ object Destinations {
     const val TRACKING_ACTIVE_DECIMAL_INSTANCE = "tracking/active_decimal_instance/{instanceId}"
     const val INSIGHTS = "insights"
     const val VIEW_ALL_ACTIVE = "view_all_active"
+    const val SHARING_TIMER = "sharing/timer/{jobId}/{jobName}"
+    const val SHARING_ROUTINE = "sharing/routine/{jobId}/{jobName}"
+    const val SHARING_COUNTER = "sharing/counter/{jobId}/{jobName}"
+    const val SHARING_DECIMAL = "sharing/decimal/{jobId}/{jobName}"
 }
 
 @Composable
@@ -152,7 +161,9 @@ fun HarmonicNavHost(
                     onNavigateToNewTimerInstance = { navController.navigate("tracking/active_timer_instance/$it") {
                         popUpTo(HOME_ROUTE)
                         launchSingleTop = true
-                    } } )
+                    } },
+                    onNavigateToShared = { navController.navigate("sharing/timer/$it") }
+                )
             }
         }
 
@@ -199,11 +210,24 @@ fun HarmonicNavHost(
                 } },
                 onNavigateToActiveRoutineInstance = { navController.navigate(
                     TRACKING_ACTIVE_ROUTINE_INSTANCE) },
-                onNavigateToActiveCounterInstance ={ navController.navigate(
+                onNavigateToActiveCounterInstance = { navController.navigate(
                     TRACKING_ACTIVE_TIMER_INSTANCE) },
                 onNavigateToActiveDecimalInstance = { navController.navigate(
                     TRACKING_ACTIVE_COUNTER_INSTANCE) },
             )
         }
+
+        composable(SHARING_TIMER) {backStackEntry ->
+            val jobNameString = backStackEntry.arguments?.getString("jobName")
+            if (jobNameString != null) {
+                SharedTimerInstancesRoute(jobName = jobNameString)
+            }
+        }
+
+        composable(SHARING_ROUTINE) {}
+
+        composable(SHARING_COUNTER) {}
+
+        composable(SHARING_DECIMAL) {}
     }
 }

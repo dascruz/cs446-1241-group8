@@ -31,7 +31,7 @@ class TimerJobListViewModel @Inject constructor(
 
     fun shareJob(job: TimerJobModel) {
         viewModelScope.launch {
-            timerInstanceRepository.observeInstancesForJob(job.id!!).collect {
+            timerInstanceRepository.observeShareableInstancesForJob(job.id!!).collect {
                 _sharedJobId.value = sharingService.sendTimer(job.toShareable(), it.toShareable())
             }
         }

@@ -29,6 +29,10 @@ fun TimerInstanceShareable.toExternal(jobId: Int, jobName: String): TimerInstanc
     return timerInstance
 }
 
+fun List<TimerInstanceShareable>.toExternal(jobId: Int, jobName: String): List<TimerInstanceModel> {
+    return this.map { it.toExternal(jobId, jobName) }
+}
+
 fun TimerInstanceModel.toShareable(): TimerInstanceShareable {
     val segmentsStrings = getSegments().map { s -> s.toString() }
     return TimerInstanceShareable(

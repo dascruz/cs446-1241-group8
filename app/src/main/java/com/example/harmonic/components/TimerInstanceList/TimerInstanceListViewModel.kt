@@ -17,7 +17,7 @@ class TimerInstancesListViewModel @Inject constructor(
 ) : ViewModel() {
     private val jobIdString: String = savedStateHandle.get<String>("jobId")!!
     val jobId: Int = jobIdString.toInt()
-    val allTimerInstancesFlow: Flow<List<TimerInstanceModel>> = timerInstanceRepository.observeInstancesForJob(jobId)
+    val internalTimerInstancesFlow: Flow<List<TimerInstanceModel>> = timerInstanceRepository.observeInternalInstancesForJob(jobId)
     val jobName: String = savedStateHandle.get<String>("jobName")!!
 
     suspend fun createNewTimerInstance(instanceNum: Int): Int {
