@@ -47,9 +47,6 @@ fun SegmentationFrequencyHistogram(
             // Refresh the chart
             chart.invalidate()
 
-            // Log.d("InsightsScreen", "Number of data sets: ${data.dataSetCount}")
-            // Log.d("InsightsScreen", "Number of entries in first data set: ${data.getDataSetByIndex(0).entryCount}")
-
             chart
         },
         update = { view ->

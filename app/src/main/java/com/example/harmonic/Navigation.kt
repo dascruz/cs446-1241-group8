@@ -225,7 +225,7 @@ fun HarmonicNavHost(
         }
 
         composable(INSIGHTS) {
-            InsightsRoute { navController.navigate(INSIGHTS) }
+            InsightsRoute()
         }
     }
 }
