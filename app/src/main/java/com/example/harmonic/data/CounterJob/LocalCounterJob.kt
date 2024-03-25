@@ -9,19 +9,22 @@ import com.example.harmonic.models.jobs.CounterJobModel
 )
 data class LocalCounterJob (
     @PrimaryKey(autoGenerate = true) val id: Int,
-    var name: String
+    var name: String, var InitialValue: Int
 )
 
 fun LocalCounterJob.toExternal() = CounterJobModel (
     id = id,
-    name = name
+    name = name,
+    InitialValue = InitialValue
+
 )
 
 fun List<LocalCounterJob>.toExternal() = map(LocalCounterJob::toExternal)
 
 fun CounterJobModel.toLocal() = LocalCounterJob (
     id = id ?: 0,
-    name = name
+    name = name,
+    InitialValue = InitialValue
 )
 
 fun List<CounterJobModel>.toLocal() = map(CounterJobModel::toLocal)
