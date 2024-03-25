@@ -39,6 +39,7 @@ import com.example.harmonic.components.edit_timer_job.EditTimerJobRoute
 import com.example.harmonic.components.home.HomeRoute
 import com.example.harmonic.components.run_timer_instance.RunTimerRoute
 import com.example.harmonic.components.timer_job_list.TimerJobListRoute
+import com.example.harmonic.components.CounterJobList.CounterJobListRoute
 import com.example.harmonic.components.tracking.TrackingRoute
 import com.example.harmonic.components.view_all_active.ViewAllActiveRoute
 
@@ -108,7 +109,13 @@ fun HarmonicNavHost(
 
         composable(TRACKING_ROUTINE_JOBS) {}
 
-        composable(TRACKING_COUNTER_JOBS) {}
+        composable(TRACKING_COUNTER_JOBS) {
+            CounterJobListRoute (
+                onGoToNewCounter = { navController.navigate(TRACKING_NEW_COUNTER_JOB) },
+                onNavigateToAllCounterInstance = {navController.navigate("tracking/counter_instances/$it")},
+                onGoToEditCounterJob = { navController.navigate("tracking/edit_counter_job/$it") },
+            )
+        }
 
         composable(TRACKING_DECIMAL_JOBS) {}
 
@@ -120,7 +127,8 @@ fun HarmonicNavHost(
 
         composable(TRACKING_NEW_ROUTINE_JOB) {}
 
-        composable(TRACKING_NEW_COUNTER_JOB) {}
+        composable(TRACKING_NEW_COUNTER_JOB) {
+        }
 
         composable(TRACKING_NEW_DECIMAL_JOB) {}
         
