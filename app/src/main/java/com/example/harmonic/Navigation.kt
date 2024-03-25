@@ -128,11 +128,6 @@ fun HarmonicNavHost(
         composable(TRACKING_NEW_ROUTINE_JOB) {}
 
         composable(TRACKING_NEW_COUNTER_JOB) {
-            CounterJobListRoute (
-                onGoToNewCounter = { navController.navigate(TRACKING_NEW_COUNTER_JOB) },
-                onNavigateToAllCounterInstance = {navController.navigate("tracking/counter_instances/$it")},
-                onGoToEditCounterJob = { navController.navigate("tracking/edit_counter_job/$it") },
-            )
         }
 
         composable(TRACKING_NEW_DECIMAL_JOB) {}
