@@ -15,6 +15,7 @@ data class LocalCounterJob (
 fun LocalCounterJob.toExternal() = CounterJobModel (
     id = id,
     name = name
+
 )
 
 fun List<LocalCounterJob>.toExternal() = map(LocalCounterJob::toExternal)

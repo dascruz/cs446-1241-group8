@@ -29,4 +29,8 @@ class CounterJobRepository @Inject constructor(
         localDataSource.updateCounterJob(id, name)
 
     }
+
+    suspend fun createLocal(tj: CounterJobModel) {
+        return localDataSource.upsert(tj.toLocal())
+    }
 }

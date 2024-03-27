@@ -22,6 +22,7 @@ import com.example.harmonic.data.HarmonicDatabase
 import com.example.harmonic.data.TimerInstance.TimerInstanceDao
 import com.example.harmonic.data.TimerJob.TimerJobDao
 import com.example.harmonic.data.CounterJob.CounterJobDao
+import com.example.harmonic.data.CounterInstance.CounterInstanceDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -51,4 +52,7 @@ object DatabaseModule {
 
     @Provides
     fun provideCounterJobDao(database: HarmonicDatabase) : CounterJobDao = database.CounterJobDao()
+
+    @Provides
+    fun provideCounterInstanceDao(database: HarmonicDatabase) : CounterInstanceDao = database.CounterInstanceDao()
 }
