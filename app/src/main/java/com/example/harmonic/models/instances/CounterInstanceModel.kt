@@ -24,15 +24,26 @@ class CounterInstanceModel(
     var count: Int = initialValue
 
     init {
+
+        if (initFriendId != null) {
+            friendId = initFriendId
+        }
+
+        if (initJobId != null && initJobName != null && initJobInstanceNum != null) {
+            updateJobInfo(initJobId, initJobName, initJobInstanceNum)
+        }
+    }
+    init {
         if (initialValue < 0) {
             throw IllegalArgumentException("Initial value cannot be negative")
         }
     }
 
-    fun setCount1(newCount: Int) {
+    fun retrieveCount(newCount: Int) : Int {
         if (newCount < 0) {
             throw IllegalArgumentException("Count cannot be negative")
         }
         count = newCount
+        return count
     }
 }

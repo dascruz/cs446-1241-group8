@@ -14,11 +14,11 @@ class CreateNewCounterJobViewModel @Inject constructor(
     private val counterJobRepository: CounterJobRepository,
 ) : ViewModel() {
     fun addNewCounterJob(
-        newCounterJobName: String, initialValue : Int
+        newCounterJobName: String
     ){
         viewModelScope.launch {
             counterJobRepository.createLocal(
-                CounterJobModel( name = newCounterJobName,InitialValue = initialValue)
+                CounterJobModel( name = newCounterJobName)
             )
         }
     }

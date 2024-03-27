@@ -6,7 +6,7 @@ import com.example.harmonic.models.instances.CounterInstanceModel
 
 import org.json.JSONObject
 
-class CounterJobModel(override var name: String, val InitialValue : Int, override val id: Int? = null) : IJobModel{
+class CounterJobModel(override var name: String,override val id: Int? = null) : IJobModel{
     private  val instances: MutableList<CounterInstanceModel> = mutableListOf()
     override fun getAllInstances(): List<IJobInstanceModel> {
         return instances}

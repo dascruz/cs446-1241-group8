@@ -22,7 +22,7 @@ class CounterInstancesListViewModel @Inject constructor(
     val jobName: String = savedStateHandle.get<String>("jobName")!!
 
     suspend fun createNewCounterInstance(instanceNum: Int): Int {
-        println("Started creating new timer instance")
+        println("Started creating new counter instance")
         val newCounterInstance = CounterInstanceModel(
             internal = true
         )
@@ -34,7 +34,8 @@ class CounterInstancesListViewModel @Inject constructor(
 
         val newKey = counterInstanceRepository.insertLocal(newCounterInstance)
 
-        println("Created New Timer Instance with id $newKey")
+        println("Created New Counter Instance with id $newKey")
         return newKey
     }
+
 }

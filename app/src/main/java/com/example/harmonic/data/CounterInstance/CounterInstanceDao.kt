@@ -31,7 +31,7 @@ interface CounterInstanceDao {
     @Upsert
     suspend fun upsert(localCounterInstance: LocalCounterInstance)
 
-//    @Query("UPDATE CounterInstance SET count = :count WHERE id = :id")
-//    suspend fun updateCountInstance(id: Int, count: Int)
+    @Query("UPDATE CounterInstance SET count = :count WHERE id = :id")
+    suspend fun updateCount(id: Int, count: Int)
 
 }

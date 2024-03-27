@@ -2,6 +2,7 @@ package com.example.harmonic.components.create_new_counter_job
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
@@ -26,6 +27,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.foundation.layout.fillMaxWidth
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,16 +37,22 @@ fun CreateNewCounterJobScreen(
     onGoToCounterJobs: () -> Unit,
     createNewCounterJobViewModel: CreateNewCounterJobViewModel = hiltViewModel()
 ) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally,modifier = Modifier
+        .fillMaxSize()
+        .padding(horizontal = 16.dp),
+        verticalArrangement = Arrangement.Center) {
         TopAppBar(
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
                 titleContentColor = MaterialTheme.colorScheme.primary
             ),
             title = {
                 Text(
                     text = "Create New Counter Job",
-                    style = MaterialTheme.typography.titleMedium,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
                 )
             },
             modifier = Modifier.padding(bottom = 50.dp)
@@ -61,28 +71,11 @@ fun CreateNewCounterJobScreen(
             singleLine = true
         )
 
-        var initialValue by remember { mutableStateOf("0") }
-        Text(
-            text = "Initial Counter Value:",
-            style = MaterialTheme.typography.titleSmall
-        )
-        TextField(
-            value = initialValue,
-            onValueChange = { text ->
-                if (text.isEmpty() || text.isDigitsOnly()) {
-                    initialValue = text
-                }
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            label = { Text("Value") },
-            modifier = Modifier.padding(bottom = 36.dp),
-            singleLine = true
-        )
 
         Button(
             modifier = Modifier.size(width = 80.dp, height = 80.dp),
             onClick = {
-                createNewCounterJobViewModel.addNewCounterJob(newCounterJobName, initialValue.toInt())
+                createNewCounterJobViewModel.addNewCounterJob(newCounterJobName)
                 onGoToCounterJobs()
             },
             contentPadding = PaddingValues(0.dp)

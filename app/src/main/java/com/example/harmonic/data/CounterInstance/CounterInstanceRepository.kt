@@ -49,4 +49,10 @@ class CounterInstanceRepository @Inject constructor(
     suspend fun upsertLocal(ti: CounterInstanceModel) {
         localDataSource.upsert(ti.toLocal())
     }
+
+    suspend fun updateCount(id: Int, count: Int) {
+        println("id: $id, sdt: $count")
+        localDataSource.updateCount(id, count)
+    }
+
 }

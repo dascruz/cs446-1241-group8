@@ -24,6 +24,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.harmonic.models.instances.CounterInstanceModel
 import kotlinx.coroutines.launch
 
@@ -93,7 +94,7 @@ private fun CounterJobInstanceItem(instance: CounterInstanceModel) {
             modifier = Modifier.weight(1f)
         )
         Text(
-            text = "Duration: \n ${if (instance.active) "Active" else ""}",
+            text = "Value: \n ${instance.count}",
             color = if (instance.active) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary,
             modifier = Modifier.padding(start = 8.dp)
         )

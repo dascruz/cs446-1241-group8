@@ -42,6 +42,7 @@ import com.example.harmonic.components.timer_job_list.TimerJobListRoute
 import com.example.harmonic.components.CounterJobList.CounterJobListRoute
 import com.example.harmonic.components.create_new_counter_job.CreateNewCounterJobRoute
 import com.example.harmonic.components.counter_instance_list.CounterInstanceListRoute
+import com.example.harmonic.components.create_new_counter_instances.CreateNewCounterInstanceRoute
 import com.example.harmonic.components.tracking.TrackingRoute
 import com.example.harmonic.components.view_all_active.ViewAllActiveRoute
 
@@ -67,7 +68,7 @@ object Destinations {
     const val TRACKING_DECIMAL_INSTANCES = "tracking/decimal_instances/{jobId}"
     const val TRACKING_NEW_TIMER_INSTANCE = "tracking/new_timer_instance"
     const val TRACKING_NEW_ROUTINE_INSTANCE = "tracking/new_routine_instance"
-    const val TRACKING_NEW_COUNTER_INSTANCE = "tracking/new_counter_instance"
+    const val TRACKING_NEW_COUNTER_INSTANCE = "tracking/new_counter_instance/{instanceId}"
     const val TRACKING_NEW_DECIMAL_INSTANCE = "tracking/new_decimal_instance"
     const val TRACKING_ACTIVE_TIMER_INSTANCE = "tracking/active_timer_instance/{instanceId}"
     const val TRACKING_ACTIVE_ROUTINE_INSTANCE = "tracking/active_routine_instance/{instanceId}"
@@ -179,10 +180,7 @@ fun HarmonicNavHost(
                 CounterInstanceListRoute(
                     jobIdString = jobIdString,
                     jobName = jobNameString,
-                    onNavigateToNewCounterInstance = { navController.navigate("tracking/active_counter_instance/$it") {
-                        popUpTo(HOME_ROUTE)
-                        launchSingleTop = true
-                    } } )
+                    onNavigateToNewCounterInstance = { navController.navigate("tracking/new_counter_instance/$it")  } )
             }
         }
 
@@ -192,7 +190,19 @@ fun HarmonicNavHost(
 
         composable(TRACKING_NEW_ROUTINE_INSTANCE) {}
 
-        composable(TRACKING_NEW_COUNTER_INSTANCE) {}
+        composable(TRACKING_NEW_COUNTER_INSTANCE)
+            {backStackEntry ->
+                val instanceIdString = backStackEntry.arguments?.getString("instanceId")
+                if (instanceIdString != null) {
+                    CreateNewCounterInstanceRoute(
+                        instanceIdString = instanceIdString,
+                        onNavigateToInstanceList = { navController.navigate(HOME_ROUTE) }
+                    )
+                }
+
+            }
+
+
 
         composable(TRACKING_NEW_DECIMAL_INSTANCE) {}
 
