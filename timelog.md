@@ -32,6 +32,6 @@
 | 2024/03/14 |           |           |           |           | 4          |            | Run Timer, Polishes to Timer Tracking |
 | 2024/03/15 |           |           |           |           | 5          |            | Polishes to Timer Tracking |
 | 2024/03/06 | 2         |           |           |           |            |            | D3 |
-| 2024/03/21 | 2         |           |           |           |            |            | D4 |
+| 2024/03/21 | 2         |           |           | 2         |            |            | D4 |
 | 2024/03/24 | 3         |           |           |           |            |            | Counter Job List |
 
