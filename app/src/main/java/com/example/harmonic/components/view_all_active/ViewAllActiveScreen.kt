@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.harmonic.models.IJobInstanceModel
+import com.example.harmonic.models.instances.RoutineInstanceModel
 import com.example.harmonic.models.instances.TimerInstanceModel
 
 @Composable
@@ -34,10 +35,13 @@ fun ViewAllActiveScreen(
     onNavigateToActiveCounterInstance: (id: Int) -> Unit,
     viewModel: ViewAllActiveViewModel = hiltViewModel()
 ) {
-    val activeInstances by viewModel.allActiveTimerInstanceFlow.collectAsState(initial = emptyList())
+    val activeTimerInstances by viewModel.allActiveTimerInstanceFlow.collectAsState(initial = emptyList())
+    val activeRoutineInstances by viewModel.allActiveRoutineInstanceFlow.collectAsState(initial = emptyList())
+    val activeInstances = activeTimerInstances + activeRoutineInstances
     val onGoToActiveInstance = { instance: IJobInstanceModel ->
         when(instance) {
             is TimerInstanceModel -> onNavigateToActiveTimerInstance(instance.id!!)
+            is RoutineInstanceModel -> onNavigateToActiveRoutineInstance(instance.id!!)
             else -> {}
         }
     }

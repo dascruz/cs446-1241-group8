@@ -188,9 +188,11 @@ fun HarmonicNavHost(
                 RoutineInstanceListRoute(
                     jobIdString = jobIdString,
                     jobName = jobNameString,
-                    onNavigateToNewRoutineInstance = { navController.navigate("tracking/new_routine_instance/$it")
-                    }
-                )
+                    onNavigateToNewRoutineInstance = { navController.navigate("tracking/new_routine_instance/$it") {
+                        popUpTo(HOME_ROUTE)
+                        launchSingleTop = true
+                    } } )
+
              }
 
         }
@@ -206,7 +208,11 @@ fun HarmonicNavHost(
             if (instanceIdString != null) {
                 CreateNewRoutineInstanceRoute(
                     instanceIdString = instanceIdString,
-                    onNavigateToInstanceList = { navController.navigate(HOME_ROUTE) }
+                    onGoToHome = { navController.navigate(HOME_ROUTE) {
+                        popUpTo(TRACKING_NEW_ROUTINE_INSTANCE) {
+                            inclusive = true
+                        }
+                    } }
                 )
             }
 
@@ -230,7 +236,14 @@ fun HarmonicNavHost(
             }
         }
 
-        composable(TRACKING_ACTIVE_ROUTINE_INSTANCE) {}
+        composable(TRACKING_ACTIVE_ROUTINE_INSTANCE) {backStackEntry ->
+            val instanceIdString = backStackEntry.arguments?.getString("instanceId")
+            if (instanceIdString != null) {
+                CreateNewRoutineInstanceRoute(
+                    instanceIdString = instanceIdString,
+                    onGoToHome = { navController.navigate(HOME_ROUTE) }
+                )
+            }}
 
         composable(TRACKING_ACTIVE_COUNTER_INSTANCE) {}
 
@@ -243,8 +256,11 @@ fun HarmonicNavHost(
                     popUpTo(HOME_ROUTE)
                     launchSingleTop = true
                 } },
-                onNavigateToActiveRoutineInstance = { navController.navigate(
-                    TRACKING_ACTIVE_ROUTINE_INSTANCE) },
+                onNavigateToActiveRoutineInstance =  { navController.navigate(
+                    "tracking/active_routine_instance/$it") {
+                    popUpTo(HOME_ROUTE)
+                    launchSingleTop = true
+                } },
                 onNavigateToActiveCounterInstance ={ navController.navigate(
                     TRACKING_ACTIVE_TIMER_INSTANCE) },
                 onNavigateToActiveDecimalInstance = { navController.navigate(

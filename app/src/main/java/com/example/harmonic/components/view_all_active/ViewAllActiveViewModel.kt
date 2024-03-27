@@ -1,7 +1,10 @@
 package com.example.harmonic.components.view_all_active
 
 import androidx.lifecycle.ViewModel
+import com.example.harmonic.data.RoutineInstance.RoutineInstanceRepository
 import com.example.harmonic.data.TimerInstance.TimerInstanceRepository
+import com.example.harmonic.models.IJobInstanceModel
+import com.example.harmonic.models.instances.RoutineInstanceModel
 import com.example.harmonic.models.instances.TimerInstanceModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -22,9 +25,12 @@ data class ViewAllActiveUiState(
 @HiltViewModel
 class ViewAllActiveViewModel @Inject constructor(
     private val timerInstanceRepository: TimerInstanceRepository,
+    private val routineInstanceRepository: RoutineInstanceRepository,
 ) : ViewModel() {
-    val allActiveTimerInstanceFlow: Flow<List<TimerInstanceModel>> =
+    val allActiveTimerInstanceFlow: Flow<List<IJobInstanceModel>> =
         timerInstanceRepository.observeActive()
+    val allActiveRoutineInstanceFlow: Flow<List<IJobInstanceModel>> =
+        routineInstanceRepository.observeActive()
 }
 
 

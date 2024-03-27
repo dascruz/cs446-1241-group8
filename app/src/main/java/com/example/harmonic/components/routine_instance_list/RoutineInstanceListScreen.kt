@@ -25,8 +25,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.harmonic.models.instances.RoutineInstanceModel
-import com.example.harmonic.util.toDisplayString
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -84,6 +85,7 @@ fun RoutineInstanceListScreen(
 
 @Composable
 private fun RoutineJobInstanceItem(instance: RoutineInstanceModel) {
+    val formatter = SimpleDateFormat("dd MM yyyy HH:mm")
     //to be changed
     Row(
         modifier = Modifier
@@ -95,16 +97,12 @@ private fun RoutineJobInstanceItem(instance: RoutineInstanceModel) {
             modifier = Modifier.weight(1f)
         )
         Text(
-            text = if (instance.startDateTime != null && instance.endDateTime != null) "From " + ((instance.startDateTime!!) / 60).toString()
-                .padStart(2, '0') + ":" + ((instance.startDateTime!!) % 60).toString()
-                .padStart(2, '0')
-                    + " to " + ((instance.endDateTime!!) / 60).toString()
-                .padStart(2, '0') + ":" + ((instance.endDateTime!!) % 60).toString()
-                .padStart(
-                    2,
-                    '0'
-                ) + "\n" + "Duration: " + instance.getTotalTime() / 60 + " h " + instance.getTotalTime() % 60 + " min" else "Not Set",
-            color = if (instance.active) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary,
+            text = if (instance.startDateTime != null && instance.endDateTime != null) formatter.format(
+                Date.from(instance.startDateTime)) + "\n" + formatter.format(
+                    Date.from(instance.endDateTime)
+                )
+            else "Active",
+            color = if (instance.endDateTime == null) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary,
             modifier = Modifier.padding(start = 8.dp)
         )
     }

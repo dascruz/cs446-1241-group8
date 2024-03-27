@@ -52,13 +52,17 @@ class RoutineInstanceRepository @Inject constructor(
         localDataSource.updateActiveInstance(id, active, newSegment.toString(), newSegmentName)
     }*/
 
-    suspend fun updateStartInstance(id: Int, startDateTime: Int) {
+    suspend fun updateStartInstance(id: Int, startDateTime: Instant) {
         println("id: $id, sdt: $startDateTime")
         localDataSource.updateStartInstance(id, startDateTime.toString())
     }
 
-    suspend fun updateEndInstance(id: Int, endDateTime: Int) {
+    suspend fun updateEndInstance(id: Int, endDateTime: Instant) {
         println("id: $id, sdt: $endDateTime")
         localDataSource.updateEndInstance(id, endDateTime.toString())
+    }
+
+    suspend fun makeNotActive(id: Int) {
+        localDataSource.makeNotActive(id, "false")
     }
 }

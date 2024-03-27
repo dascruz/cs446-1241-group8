@@ -15,7 +15,7 @@ interface RoutineInstanceDao {
     @Query("SELECT * FROM RoutineInstance WHERE active = 1")
     fun observeActive(): Flow<List<LocalRoutineInstance>>
 
-    @Query("SELECT * FROM TIMERINSTANCE WHERE id = :id")
+    @Query("SELECT * FROM ROUTINEINSTANCE WHERE id = :id")
     suspend fun getInstance(id: Int): LocalRoutineInstance?
 
     @Query("SELECT * FROM RoutineInstance WHERE id = :id")
@@ -35,4 +35,7 @@ interface RoutineInstanceDao {
 
     @Query("UPDATE RoutineInstance SET endDateTime = :endDateTime WHERE id = :id")
     suspend fun updateEndInstance(id: Int, endDateTime: String)
+
+    @Query("UPDATE RoutineInstance SET active = :falseBoolean WHERE id = :id")
+    suspend fun makeNotActive(id: Int, falseBoolean: String)
 }
