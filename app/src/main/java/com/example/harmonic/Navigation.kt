@@ -43,6 +43,7 @@ import com.example.harmonic.components.CounterJobList.CounterJobListRoute
 import com.example.harmonic.components.create_new_counter_job.CreateNewCounterJobRoute
 import com.example.harmonic.components.counter_instance_list.CounterInstanceListRoute
 import com.example.harmonic.components.create_new_counter_instances.CreateNewCounterInstanceRoute
+import com.example.harmonic.components.edit_counter_job.EditCounterJobRoute
 import com.example.harmonic.components.tracking.TrackingRoute
 import com.example.harmonic.components.view_all_active.ViewAllActiveRoute
 
@@ -152,7 +153,17 @@ fun HarmonicNavHost(
 
         composable(TRACKING_EDIT_ROUTINE_JOB) {}
 
-        composable(TRACKING_EDIT_COUNTER_JOB) {}
+        composable(TRACKING_EDIT_COUNTER_JOB) {
+            val jobIdString = it.arguments?.getString("jobId")
+            if (jobIdString != null) {
+                EditCounterJobRoute(
+                    jobIdString = jobIdString,
+                    onGoToCounterJobs = {
+                        navController.navigate(TRACKING_COUNTER_JOBS)
+                    }
+                )
+            }
+        }
 
         composable(TRACKING_EDIT_DECIMAL_JOB) {}
 
