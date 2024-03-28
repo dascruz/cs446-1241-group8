@@ -18,12 +18,14 @@ package com.example.harmonic.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.harmonic.data.CounterJob.CounterJobDao
+import com.example.harmonic.data.DecimalInstance.DecimalInstanceDao
+import com.example.harmonic.data.DecimalJob.DecimalJobDao
 import com.example.harmonic.data.HarmonicDatabase
 import com.example.harmonic.data.RoutineInstance.RoutineInstanceDao
 import com.example.harmonic.data.RoutineJob.RoutineJobDao
 import com.example.harmonic.data.TimerInstance.TimerInstanceDao
 import com.example.harmonic.data.TimerJob.TimerJobDao
-import com.example.harmonic.data.CounterJob.CounterJobDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,17 +41,25 @@ object DatabaseModule {
     @Provides
     fun provideDataBase(@ApplicationContext context: Context): HarmonicDatabase {
         return Room.databaseBuilder(
-            context.applicationContext,
-            HarmonicDatabase::class.java,
-            "Harmonic.db"
-        ).build()
+                        context.applicationContext,
+                        HarmonicDatabase::class.java,
+                        "Harmonic.db"
+                )
+                .build()
     }
 
     @Provides
-    fun provideTimerInstanceDao(database: HarmonicDatabase) : TimerInstanceDao = database.timerInstanceDao()
+    fun provideTimerInstanceDao(database: HarmonicDatabase): TimerInstanceDao =
+            database.timerInstanceDao()
 
     @Provides
-    fun provideTimerJobDao(database: HarmonicDatabase) : TimerJobDao = database.timerJobDao()
+    fun provideTimerJobDao(database: HarmonicDatabase): TimerJobDao = database.timerJobDao()
+
+    @Provides
+    fun provideCounterJobDao(database: HarmonicDatabase): CounterJobDao = database.CounterJobDao()
+
+    @Provides
+    fun provideDecimalJobDao(database: HarmonicDatabase): DecimalJobDao = database.decimalJobDao()
 
     @Provides
     fun provideRoutineInstanceDao(database: HarmonicDatabase) : RoutineInstanceDao = database.routineInstanceDao()
@@ -58,5 +68,6 @@ object DatabaseModule {
     fun provideRoutineJobDao(database: HarmonicDatabase) : RoutineJobDao = database.routineJobDao()
 
     @Provides
-    fun provideCounterJobDao(database: HarmonicDatabase) : CounterJobDao = database.CounterJobDao()
+    fun provideDecimalInstanceDao(database: HarmonicDatabase): DecimalInstanceDao =
+            database.decimalInstanceDao()
 }
