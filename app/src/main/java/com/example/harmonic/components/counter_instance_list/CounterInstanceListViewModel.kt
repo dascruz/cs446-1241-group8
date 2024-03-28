@@ -21,6 +21,7 @@ class CounterInstancesListViewModel @Inject constructor(
     val allCounterInstancesFlow: Flow<List<CounterInstanceModel>> = counterInstanceRepository.observeInstancesForJob(jobId)
     val jobName: String = savedStateHandle.get<String>("jobName")!!
 
+
     suspend fun createNewCounterInstance(instanceNum: Int): Int {
         println("Started creating new counter instance")
         val newCounterInstance = CounterInstanceModel(
@@ -39,6 +40,14 @@ class CounterInstancesListViewModel @Inject constructor(
     }
     suspend fun endJob(jobId: Int) {
         counterInstanceRepository.endJob(jobId)
+    }
+    suspend fun increment(instanceId: Int, count: Int){
+        val count1 = count +1
+        counterInstanceRepository.updateCount(instanceId, count1)
+    }
+    suspend fun decrement(instanceId: Int, count: Int){
+        val count1 = count -1
+        counterInstanceRepository.updateCount(instanceId, count1)
     }
 
 }

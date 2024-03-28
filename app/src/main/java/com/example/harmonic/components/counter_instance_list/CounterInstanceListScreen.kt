@@ -45,6 +45,17 @@ fun CounterInstanceListScreen(
         }
     }
 
+    val increment: (Int, Int) -> Unit = { instanceId, count ->
+        composableScope.launch {
+            viewModel.increment(instanceId, count)
+        }
+    }
+    val decrement: (Int, Int) -> Unit = { instanceId, count ->
+        composableScope.launch {
+            viewModel.decrement(instanceId, count)
+        }
+    }
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -81,7 +92,10 @@ fun CounterInstanceListScreen(
                 ) {
                     items(counterJobInstances.size) { index ->
                         CounterJobInstanceItem(instance = counterJobInstances[index],
+                            onIncrementCounterInstance = increment,
+                            onDecrementCounterInstance = decrement,
                             onEndCounterInstance = onEndCounterInstance)
+
                     }
                 }
             }
@@ -89,7 +103,8 @@ fun CounterInstanceListScreen(
     }
 }
 @Composable
-private fun CounterJobInstanceItem(instance: CounterInstanceModel,  onEndCounterInstance: (instanceId: Int) -> Unit) {
+private fun CounterJobInstanceItem(instance: CounterInstanceModel, onIncrementCounterInstance: (instanceId: Int, count: Int) -> Unit,
+                                   onDecrementCounterInstance: (instanceId: Int, count: Int) -> Unit, onEndCounterInstance: (instanceId: Int) -> Unit) {
     //to be changed
     Row(
         modifier = Modifier
@@ -105,6 +120,28 @@ private fun CounterJobInstanceItem(instance: CounterInstanceModel,  onEndCounter
             color = if (instance.active) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary,
             modifier = Modifier.padding(start = 8.dp)
         )
+        Button(
+            onClick = {
+                if (instance.active) {
+                    onIncrementCounterInstance(instance.id!!, instance.count )
+                }
+            },
+            enabled = instance.active,
+            modifier = Modifier.padding(start = 8.dp)
+        ) {
+            Text(text = "+")
+        }
+        Button(
+            onClick = {
+                if (instance.active) {
+                    onDecrementCounterInstance(instance.id!!, instance.count )
+                }
+            },
+            enabled = instance.active,
+            modifier = Modifier.padding(start = 8.dp)
+        ) {
+            Text(text = "-")
+        }
         Button(
             onClick = { onEndCounterInstance(instance.id!!) },
             enabled = instance.active,
