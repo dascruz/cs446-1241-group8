@@ -15,6 +15,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -24,7 +25,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
+
 import com.example.harmonic.models.instances.CounterInstanceModel
 import kotlinx.coroutines.launch
 
@@ -38,6 +39,11 @@ fun CounterInstanceListScreen(
 ) {
     val counterJobInstances by viewModel.allCounterInstancesFlow.collectAsState(initial = emptyList())
     val composableScope = rememberCoroutineScope()
+    val onEndCounterInstance: (Int) -> Unit = { instanceId ->
+        composableScope.launch {
+            viewModel.endJob(jobId)
+        }
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -74,7 +80,8 @@ fun CounterInstanceListScreen(
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     items(counterJobInstances.size) { index ->
-                        CounterJobInstanceItem(instance = counterJobInstances[index])
+                        CounterJobInstanceItem(instance = counterJobInstances[index],
+                            onEndCounterInstance = onEndCounterInstance)
                     }
                 }
             }
@@ -82,7 +89,7 @@ fun CounterInstanceListScreen(
     }
 }
 @Composable
-private fun CounterJobInstanceItem(instance: CounterInstanceModel) {
+private fun CounterJobInstanceItem(instance: CounterInstanceModel,  onEndCounterInstance: (instanceId: Int) -> Unit) {
     //to be changed
     Row(
         modifier = Modifier
@@ -98,5 +105,12 @@ private fun CounterJobInstanceItem(instance: CounterInstanceModel) {
             color = if (instance.active) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary,
             modifier = Modifier.padding(start = 8.dp)
         )
+        Button(
+            onClick = { onEndCounterInstance(instance.id!!) },
+            enabled = instance.active,
+            modifier = Modifier.padding(start = 8.dp)
+        ) {
+            Text(text = "End")
+        }
     }
 }

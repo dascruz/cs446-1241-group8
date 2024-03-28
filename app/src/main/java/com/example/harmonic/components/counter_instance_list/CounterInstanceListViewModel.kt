@@ -37,5 +37,8 @@ class CounterInstancesListViewModel @Inject constructor(
         println("Created New Counter Instance with id $newKey")
         return newKey
     }
+    suspend fun endJob(jobId: Int) {
+        counterInstanceRepository.endJob(jobId)
+    }
 
 }
