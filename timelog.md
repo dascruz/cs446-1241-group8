@@ -37,4 +37,4 @@
 | 2024/03/24 | 3         |           |           |           |            |            | Counter Job List |
 | 2024/03/24 |           |           |           |           | 6          |            | Sharing, Firebase |
 | 2024/03/25 |           |           |           |           | 5          |            | Sharing, Firebase |
-
+| 2024/03/27 |           |           |           | 7         |            |            | Decimal Instance/Job |
