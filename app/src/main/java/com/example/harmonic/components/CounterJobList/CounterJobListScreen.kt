@@ -29,8 +29,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.harmonic.components.timer_job_list.EditButton
 import com.example.harmonic.components.timer_job_list.ShareButton
+import androidx.lifecycle.viewModelScope
 
-
+import kotlinx.coroutines.launch
 
 import com.example.harmonic.models.IJobModel
 import com.example.harmonic.models.jobs.CounterJobModel
@@ -52,12 +53,18 @@ fun CounterJobListScreen(
             else -> {}
         }
     }
+    val onEndCounterJob: (Int) -> Unit = { jobId ->
+        viewModel.viewModelScope.launch {
+            viewModel.endJob(jobId)
+        }
+    }
     CounterJobListScreen(
         onGoToAllCounterJobs = onGoToAllCounterJobs,
         allCounterJobs = allCounterJobs,
         onGoToNewCounter = onGoToNewCounter,
         onNavigateToCounterJobInstances = onNavigateToAllCounterInstance,
         onGoToEditCounterJob = onGoToEditCounterJob,
+        onEndCounterJob = onEndCounterJob
     )
 }
 
@@ -69,8 +76,10 @@ fun CounterJobListScreen(
     onGoToEditCounterJob: (id: Int) -> Unit,
     onGoToAllCounterJobs: (job: IJobModel) -> Unit,
     onNavigateToCounterJobInstances: (idname: String) -> Unit,
+    onEndCounterJob : (id: Int) -> Unit,
     allCounterJobs: List<IJobModel>
 ) {
+
     Scaffold (
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -105,6 +114,7 @@ fun CounterJobListScreen(
                         onGoToAllCounterJobs = onGoToAllCounterJobs,
                         onGoToEditCounterJob = onGoToEditCounterJob,
                         item = ti,
+                        onEndCounterJob = onEndCounterJob,
                         onNavigateToAllCounterInstance = onNavigateToCounterJobInstances,
                         job = ti as CounterJobModel
                     )
@@ -118,7 +128,7 @@ fun CounterJobListScreen(
 private fun CounterJobItem(
     onGoToAllCounterJobs: (job: IJobModel) -> Unit,
     item: IJobModel,
-
+    onEndCounterJob: (id: Int) -> Unit,
     onNavigateToAllCounterInstance: (idname: String) -> Unit,
     job: CounterJobModel,
     onGoToEditCounterJob: (id: Int) -> Unit,
@@ -138,6 +148,7 @@ private fun CounterJobItem(
         )
         EditButton(onGoToEditCounterJob, item)
         ShareButton()
+        EndButton(item.id!!, onEndCounterJob)
     }
 }
 @Composable
@@ -154,5 +165,14 @@ fun ShareButton() {
         //your onclick code here
     }) {
         Text(text = "Share")
+    }
+}
+
+@Composable
+fun EndButton(id: Int, onClick: (id: Int) -> Unit) {
+    Button(onClick = {
+        onClick(id)
+    }) {
+        Text(text = "End")
     }
 }

@@ -233,7 +233,16 @@ fun HarmonicNavHost(
 
         composable(TRACKING_ACTIVE_ROUTINE_INSTANCE) {}
 
-        composable(TRACKING_ACTIVE_COUNTER_INSTANCE) {}
+        composable(TRACKING_ACTIVE_COUNTER_INSTANCE) {backStackEntry ->
+            val instanceIdString = backStackEntry.arguments?.getString("instanceId")
+            if (instanceIdString != null) {
+                CreateNewCounterInstanceRoute(
+                    instanceIdString = instanceIdString,
+                    onNavigateToInstanceList = { navController.navigate(HOME_ROUTE) }
+                )
+            }
+        }
+
 
         composable(TRACKING_ACTIVE_DECIMAL_INSTANCE) {}
 
@@ -246,8 +255,11 @@ fun HarmonicNavHost(
                 } },
                 onNavigateToActiveRoutineInstance = { navController.navigate(
                     TRACKING_ACTIVE_ROUTINE_INSTANCE) },
-                onNavigateToActiveCounterInstance ={ navController.navigate(
-                    TRACKING_ACTIVE_TIMER_INSTANCE) },
+                onNavigateToActiveCounterInstance = { navController.navigate(
+                    "tracking/active_counter_instance/$it") {
+                    popUpTo(HOME_ROUTE)
+                    launchSingleTop = true
+                } },
                 onNavigateToActiveDecimalInstance = { navController.navigate(
                     TRACKING_ACTIVE_COUNTER_INSTANCE) },
             )

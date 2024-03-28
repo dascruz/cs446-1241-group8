@@ -1,6 +1,7 @@
 package com.example.harmonic.components.CounterJobList
 
 import androidx.lifecycle.ViewModel
+import com.example.harmonic.data.CounterInstance.CounterInstanceRepository
 import com.example.harmonic.data.CounterJob.CounterJobRepository
 import com.example.harmonic.models.jobs.CounterJobModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,7 +14,11 @@ import javax.inject.Inject
 @HiltViewModel
 class CounterJobListViewModel @Inject constructor(
     private val counterJobRepository: CounterJobRepository,
+    private val counterInstanceRepository: CounterInstanceRepository,
 ) : ViewModel() {
     val allCounterInstanceFlow: Flow<List<CounterJobModel>> =
         counterJobRepository.observeAll()
+    suspend fun endJob(jobId: Int) {
+        counterInstanceRepository.endJob(jobId)
+    }
 }

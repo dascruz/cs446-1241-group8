@@ -34,4 +34,7 @@ interface CounterInstanceDao {
     @Query("UPDATE CounterInstance SET count = :count WHERE id = :id")
     suspend fun updateCount(id: Int, count: Int)
 
+    @Query("UPDATE CounterInstance SET active = 0 WHERE jobId =:jobId")
+    suspend fun endJob(jobId: Int)
+
 }

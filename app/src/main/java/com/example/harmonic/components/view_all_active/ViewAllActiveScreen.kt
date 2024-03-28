@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.harmonic.models.IJobInstanceModel
 import com.example.harmonic.models.instances.TimerInstanceModel
-
+import com.example.harmonic.models.instances.CounterInstanceModel
 @Composable
 fun ViewAllActiveScreen(
     onNavigateToActiveTimerInstance: (id: Int) -> Unit,
@@ -35,15 +35,18 @@ fun ViewAllActiveScreen(
     viewModel: ViewAllActiveViewModel = hiltViewModel()
 ) {
     val activeInstances by viewModel.allActiveTimerInstanceFlow.collectAsState(initial = emptyList())
+    val activeCounterInstances by viewModel.allActiveCounterInstanceFlow.collectAsState(initial = emptyList())
     val onGoToActiveInstance = { instance: IJobInstanceModel ->
         when(instance) {
             is TimerInstanceModel -> onNavigateToActiveTimerInstance(instance.id!!)
+            is CounterInstanceModel -> onNavigateToActiveCounterInstance(instance.id!!)
             else -> {}
         }
     }
     ViewAllActiveScreen(
         onGoToActiveInstance = onGoToActiveInstance,
-        activeInstances = activeInstances
+        activeInstances = activeInstances,
+        activeCounterInstances = activeCounterInstances
     )
 }
 
@@ -51,7 +54,8 @@ fun ViewAllActiveScreen(
 @Composable
 fun ViewAllActiveScreen(
     onGoToActiveInstance: (instance: IJobInstanceModel) -> Unit,
-    activeInstances: List<IJobInstanceModel>
+    activeInstances: List<IJobInstanceModel>,
+    activeCounterInstances: List<IJobInstanceModel>
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -77,7 +81,7 @@ fun ViewAllActiveScreen(
                 contentPadding = PaddingValues(horizontal = 8.dp, vertical = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(activeInstances) { ti ->
+                items(activeInstances + activeCounterInstances) { ti ->
                     ActiveInstanceItem(onGoToActiveInstance = onGoToActiveInstance, item = ti)
                 }
             }

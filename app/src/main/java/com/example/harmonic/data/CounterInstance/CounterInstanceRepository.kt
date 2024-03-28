@@ -55,4 +55,8 @@ class CounterInstanceRepository @Inject constructor(
         localDataSource.updateCount(id, count)
     }
 
+    suspend fun endJob(jobId: Int){
+        localDataSource.endJob(jobId)
+    }
+
 }
