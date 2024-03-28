@@ -27,11 +27,14 @@
 | 2024/03/04 |           |           |           |           | 5          |            | Data layer, View All Active |
 | 2024/03/05 | 3         |           |           |           | 8          |            | Timer Job & Instance Lists, Edit Timer Job, Run Timer |
 | 2024/03/06 |           |           |           |           | 5          |            | Debugging |
+| 2024/03/06 | 2         |           |           |           |            |            | D3 |
 | 2024/03/07 |           |           |           |           | 4          |            | Run Timer |
 | 2024/03/08 |           |           |           |           | 4          |            | Run Timer |
 | 2024/03/14 |           |           |           |           | 4          |            | Run Timer, Polishes to Timer Tracking |
 | 2024/03/15 |           |           |           |           | 5          |            | Polishes to Timer Tracking |
-| 2024/03/06 | 2         |           |           |           |            |            | D3 |
-| 2024/03/21 | 2         |           |           | 2         |            |            | D4 |
+| 2024/03/21 | 2         |           |           | 2         | 2          |            | D4 |
+| 2024/03/23 |           |           |           |           | 5          |            | Sharing, Firebase |
 | 2024/03/24 | 3         |           |           |           |            |            | Counter Job List |
+| 2024/03/24 |           |           |           |           | 6          |            | Sharing, Firebase |
+| 2024/03/25 |           |           |           |           | 5          |            | Sharing, Firebase |
 
