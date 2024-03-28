@@ -6,15 +6,18 @@ import com.example.harmonic.data.RoutineInstance.LocalRoutineInstance
 import com.example.harmonic.data.RoutineInstance.RoutineInstanceDao
 import com.example.harmonic.data.RoutineJob.LocalRoutineJob
 import com.example.harmonic.data.RoutineJob.RoutineJobDao
+import com.example.harmonic.data.CounterJob.CounterJobDao
 import com.example.harmonic.data.TimerInstance.LocalTimerInstance
 import com.example.harmonic.data.TimerInstance.TimerInstanceDao
 import com.example.harmonic.data.TimerJob.LocalTimerJob
+import com.example.harmonic.data.CounterJob.LocalCounterJob
 import com.example.harmonic.data.TimerJob.TimerJobDao
 
-@Database(entities = [LocalTimerInstance::class, LocalTimerJob::class, LocalRoutineInstance::class, LocalRoutineJob::class], version = 2, exportSchema = false)
+@Database(entities = [LocalTimerInstance::class, LocalTimerJob::class, LocalRoutineInstance::class, LocalRoutineJob::class, LocalCounterJob::class], version = 2, exportSchema = false)
 abstract class HarmonicDatabase : RoomDatabase() {
     abstract fun timerInstanceDao(): TimerInstanceDao
     abstract fun timerJobDao(): TimerJobDao
     abstract fun routineInstanceDao(): RoutineInstanceDao
     abstract fun routineJobDao(): RoutineJobDao
+    abstract fun CounterJobDao(): CounterJobDao
 }
