@@ -275,9 +275,6 @@ fun HarmonicNavHost(
                     popUpTo(HOME_ROUTE)
                     launchSingleTop = true
                 } },
-                onNavigateToActiveRoutineInstance = { navController.navigate(
-                    TRACKING_ACTIVE_ROUTINE_INSTANCE) },
-                onNavigateToActiveCounterInstance = { navController.navigate(
                 onNavigateToActiveRoutineInstance =  { navController.navigate(
                     "tracking/active_routine_instance/$it") {
                     popUpTo(HOME_ROUTE)
