@@ -20,10 +20,11 @@ interface IJobInstanceModel : Comparable<IJobInstanceModel> {
     }
 
     fun getInstanceJobString(): String {
-        if (this.jobId != null && this.jobName != null && this.jobInstanceNum != null) {
-            return "${this.jobName!!} ${this.jobInstanceNum!! + 1}"
-        }
-        else {
+        return if (this.jobId != null && this.jobName != null && this.jobInstanceNum != null) {
+            "${this.jobName!!} ${this.jobInstanceNum!! + 1}"
+        } else if (this.jobId != null && this.jobName != null) {
+            "Friend's ${this.jobName!!} instance"
+        } else {
             throw NullPointerException()
         }
     }

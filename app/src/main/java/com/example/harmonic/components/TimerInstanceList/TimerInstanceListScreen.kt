@@ -9,13 +9,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Face
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -33,9 +36,10 @@ fun TimerInstanceListScreen(
     viewModel: TimerInstancesListViewModel = hiltViewModel(),
     jobId: Int,
     jobName: String,
-    onNavigateToNewTimerInstance: (id: Int) -> Unit
+    onNavigateToNewTimerInstance: (id: Int) -> Unit,
+    onNavigateToShared: (idname: String) -> Unit
 ) {
-    val timerJobInstances by viewModel.allTimerInstancesFlow.collectAsState(initial = emptyList())
+    val timerJobInstances by viewModel.internalTimerInstancesFlow.collectAsState(initial = emptyList())
     val composableScope = rememberCoroutineScope()
 
     Scaffold(
@@ -43,6 +47,21 @@ fun TimerInstanceListScreen(
         topBar = {
             TopAppBar(
                 title = { Text("Instances of Job $jobName") },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.primary
+
+                ),
+                actions = {
+                    IconButton(
+                        onClick = { onNavigateToShared("${jobId}/${jobName}") }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Face,
+                            contentDescription = "Shared"
+                        )
+                    }
+                }
             )
         },
         floatingActionButton = {
@@ -82,7 +101,6 @@ fun TimerInstanceListScreen(
 }
 @Composable
 private fun TimerJobInstanceItem(instance: TimerInstanceModel) {
-    //to be changed
     Row(
         modifier = Modifier
             .fillMaxWidth()

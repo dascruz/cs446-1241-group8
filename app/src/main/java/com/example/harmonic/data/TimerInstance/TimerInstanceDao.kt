@@ -24,8 +24,20 @@ interface TimerInstanceDao {
     @Query("SELECT * FROM TimerInstance WHERE jobId = :jobId")
     fun observeInstancesForJob(jobId: Int) : Flow<List<LocalTimerInstance>>
 
+    @Query("SELECT * FROM TimerInstance WHERE jobId = :jobId AND active = 0 AND internal = 1")
+    fun observeShareableInstancesForJob(jobId: Int) : Flow<List<LocalTimerInstance>>
+
+    @Query("SELECT * FROM TimerInstance WHERE jobId = :jobId AND internal = 1")
+    fun observeInternalInstancesForJob(jobId: Int) : Flow<List<LocalTimerInstance>>
+
+    @Query("SELECT * FROM TimerInstance WHERE jobId = :jobId AND internal = 0")
+    fun observeSharedInstancesForJob(jobId: Int) : Flow<List<LocalTimerInstance>>
+
     @Insert
     suspend fun insert(localTimerInstance: LocalTimerInstance): Long
+
+    @Insert
+    suspend fun insertAll(instances: List<LocalTimerInstance>)
 
     @Upsert
     suspend fun upsert(localTimerInstance: LocalTimerInstance)

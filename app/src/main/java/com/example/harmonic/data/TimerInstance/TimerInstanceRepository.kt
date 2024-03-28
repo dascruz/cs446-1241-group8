@@ -38,10 +38,32 @@ class TimerInstanceRepository @Inject constructor(
         }
     }
 
+    fun observeShareableInstancesForJob(jobId: Int) : Flow<List<TimerInstanceModel>> {
+        return localDataSource.observeShareableInstancesForJob(jobId).map {
+                ti -> ti.toExternal()
+        }
+    }
+
+    fun observeSharedInstancesForJob(jobId: Int) : Flow<List<TimerInstanceModel>> {
+        return localDataSource.observeSharedInstancesForJob(jobId).map {
+                ti -> ti.toExternal()
+        }
+    }
+
+    fun observeInternalInstancesForJob(jobId: Int) : Flow<List<TimerInstanceModel>> {
+        return localDataSource.observeInternalInstancesForJob(jobId).map {
+                ti -> ti.toExternal()
+        }
+    }
+
     suspend fun insertLocal(ti: TimerInstanceModel): Int {
         val out = localDataSource.insert(ti.toLocal())
         println(out)
         return out.toInt()
+    }
+
+    suspend fun insertAll(lti: List<TimerInstanceModel>) {
+        localDataSource.insertAll(lti.toLocal())
     }
 
     suspend fun upsertLocal(ti: TimerInstanceModel ) {
