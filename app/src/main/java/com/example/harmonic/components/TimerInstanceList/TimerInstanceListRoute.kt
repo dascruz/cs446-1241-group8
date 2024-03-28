@@ -7,11 +7,13 @@ import androidx.compose.runtime.Composable
 fun TimerInstanceListRoute(
     jobIdString: String,
     jobName: String,
-    onNavigateToNewTimerInstance: (id: Int) -> Unit
+    onNavigateToNewTimerInstance: (id: Int) -> Unit,
+    onNavigateToShared: (idname: String) -> Unit
 ) {
     TimerInstanceListScreen(
         jobId = jobIdString.toInt(),
         jobName = jobName,
-        onNavigateToNewTimerInstance = { id: Int -> onNavigateToNewTimerInstance(id) }
+        onNavigateToNewTimerInstance = { id: Int -> onNavigateToNewTimerInstance(id) },
+        onNavigateToShared = { idname -> onNavigateToShared(idname) }
     )
 }
