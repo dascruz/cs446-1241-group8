@@ -1,4 +1,4 @@
-package com.example.harmonic.components.edit_timer_job
+package com.example.harmonic.components.edit_routine_job
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -26,10 +26,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditTimerJobScreen(
+fun EditRoutineJobScreen(
     jobId: Int,
-    onGoToTimerJobs: () -> Unit,
-    editNewTimerJobViewModel: EditTimerJobViewModel = hiltViewModel()
+    onGoToRoutineJobs: () -> Unit,
+    editNewRoutineJobViewModel: EditRoutineJobViewModel = hiltViewModel()
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         TopAppBar(
@@ -39,18 +39,18 @@ fun EditTimerJobScreen(
             ),
             title = {
                 Text(
-                    text = "Edit Timer Name",
+                    text = "Edit Routine Name",
                     style = MaterialTheme.typography.titleMedium,
                 )
             },
             modifier = Modifier.padding(bottom = 50.dp)
         )
 
-        var newTimerJobName by remember { mutableStateOf("") }
+        var newRoutineJobName by remember { mutableStateOf("") }
         TextField(
-            value = newTimerJobName,
-            onValueChange = { newTimerJobName = it },
-            label = { Text("New Timer Name") },
+            value = newRoutineJobName,
+            onValueChange = { newRoutineJobName = it },
+            label = { Text("New Routine Name") },
             singleLine = true,
             modifier = Modifier.padding(bottom = 50.dp)
         )
@@ -58,8 +58,8 @@ fun EditTimerJobScreen(
         Button(
             modifier = Modifier.size(width = 80.dp, height = 80.dp),
             onClick = {
-                editNewTimerJobViewModel.editTimerJob(jobId, newTimerJobName)
-                onGoToTimerJobs()
+                editNewRoutineJobViewModel.editRoutineJob(jobId, newRoutineJobName)
+                onGoToRoutineJobs()
             },
             contentPadding = PaddingValues(0.dp)
         ) {

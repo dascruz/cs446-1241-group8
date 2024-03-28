@@ -1,11 +1,11 @@
-package com.example.harmonic.components.edit_timer_job
+package com.example.harmonic.components.create_new_routine_job
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -26,10 +26,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditTimerJobScreen(
-    jobId: Int,
-    onGoToTimerJobs: () -> Unit,
-    editNewTimerJobViewModel: EditTimerJobViewModel = hiltViewModel()
+fun CreateNewRoutineJobScreen(
+    onGoToRoutineJobs: () -> Unit,
+    createNewRoutineJobViewModel: CreateNewRoutineJobViewModel = hiltViewModel()
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         TopAppBar(
@@ -39,33 +38,37 @@ fun EditTimerJobScreen(
             ),
             title = {
                 Text(
-                    text = "Edit Timer Name",
+                    text = "Create New Routine",
                     style = MaterialTheme.typography.titleMedium,
                 )
             },
             modifier = Modifier.padding(bottom = 50.dp)
         )
 
-        var newTimerJobName by remember { mutableStateOf("") }
+        var newRoutineJobName by remember { mutableStateOf("") }
+        Text(
+            text = "Name:",
+            style = MaterialTheme.typography.titleSmall
+        )
         TextField(
-            value = newTimerJobName,
-            onValueChange = { newTimerJobName = it },
-            label = { Text("New Timer Name") },
-            singleLine = true,
-            modifier = Modifier.padding(bottom = 50.dp)
+            value = newRoutineJobName,
+            onValueChange = { newRoutineJobName = it },
+            label = { Text("New Routine Name") },
+            modifier = Modifier.padding(bottom = 36.dp),
+            singleLine = true
         )
 
         Button(
             modifier = Modifier.size(width = 80.dp, height = 80.dp),
             onClick = {
-                editNewTimerJobViewModel.editTimerJob(jobId, newTimerJobName)
-                onGoToTimerJobs()
+                createNewRoutineJobViewModel.addNewRoutineJob(newRoutineJobName)
+                onGoToRoutineJobs()
             },
             contentPadding = PaddingValues(0.dp)
         ) {
             Icon(
-                Icons.Default.Edit,
-                contentDescription = "Edit",
+                Icons.Default.Add,
+                contentDescription = "New",
                 modifier = Modifier.size(50.dp)
             )
         }

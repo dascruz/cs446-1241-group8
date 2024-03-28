@@ -5,29 +5,50 @@ import java.time.Duration
 import java.time.Instant
 
 class RoutineInstanceModel(
-    override var jobId: Int?,
-    override var jobName: String?,
-    override var jobInstanceNum: Int?,
+    override val id: Int? = null,
+    override var active: Boolean = true,
+    override val creationDateTime: Instant = Instant.now(),
     override var internal: Boolean = false,
-    override var friendId: Int? = null
+    initStartDateTime: Instant? = null,
+    initEndDateTime: Instant? = null,
+    initJobId: Int? = null,
+    initJobName: String? = null,
+    initJobInstanceNum: Int? = null,
+    initFriendId: Int? = null
 ) : IJobInstanceModel {
-    override val id: Int? = null
-    override var active = true;
-    override val creationDateTime: Instant = Instant.now()
-    override val instanceTypeString: String = "Routine"
-    var startDateTime: Instant? = null
-        private set
-    var endDateTime: Instant? = null
-        private set
+    override var jobId: Int? = null
+    override var jobName: String? = null
+    override var jobInstanceNum: Int? = null
+    override var friendId: Int? = null
+    override val instanceTypeString = "Routine"
 
-    fun getTotalTime() : Duration {
-        return Duration.between(startDateTime, endDateTime)
+    var startDateTime: Instant? = null
+    var endDateTime: Instant? = null
+
+    init {
+        startDateTime = initStartDateTime
+        endDateTime = initEndDateTime
+        if (initFriendId != null) {
+            friendId = initFriendId
+        }
+
+        if (initJobId != null && initJobName != null && initJobInstanceNum != null) {
+            updateJobInfo(initJobId, initJobName, initJobInstanceNum)
+        }
     }
-    override fun compareTo(other: IJobInstanceModel): Int {
+
+    fun getName(): String {
+        return "$jobName ${jobInstanceNum?.plus(1)}"
+    }
+    fun getTotalTime() : Duration? {
+        return if (startDateTime!=null && endDateTime!=null) Duration.between(startDateTime, endDateTime)
+        else null
+    }
+    /*override fun compareTo(other: IJobInstanceModel): Int {
         return if (other is RoutineInstanceModel && startDateTime != null && other.startDateTime != null) {
             startDateTime!!.compareTo(other.startDateTime)
         } else {
             super.compareTo(other)
         }
-    }
+    }*/
 }

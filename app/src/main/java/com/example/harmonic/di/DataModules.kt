@@ -19,6 +19,8 @@ package com.example.harmonic.di
 import android.content.Context
 import androidx.room.Room
 import com.example.harmonic.data.HarmonicDatabase
+import com.example.harmonic.data.RoutineInstance.RoutineInstanceDao
+import com.example.harmonic.data.RoutineJob.RoutineJobDao
 import com.example.harmonic.data.TimerInstance.TimerInstanceDao
 import com.example.harmonic.data.TimerJob.TimerJobDao
 import com.example.harmonic.data.CounterJob.CounterJobDao
@@ -48,6 +50,12 @@ object DatabaseModule {
 
     @Provides
     fun provideTimerJobDao(database: HarmonicDatabase) : TimerJobDao = database.timerJobDao()
+
+    @Provides
+    fun provideRoutineInstanceDao(database: HarmonicDatabase) : RoutineInstanceDao = database.routineInstanceDao()
+
+    @Provides
+    fun provideRoutineJobDao(database: HarmonicDatabase) : RoutineJobDao = database.routineJobDao()
 
     @Provides
     fun provideCounterJobDao(database: HarmonicDatabase) : CounterJobDao = database.CounterJobDao()

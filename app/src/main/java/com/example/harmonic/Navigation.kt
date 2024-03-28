@@ -34,9 +34,14 @@ import com.example.harmonic.Destinations.TRACKING_TIMER_INSTANCES
 import com.example.harmonic.Destinations.TRACKING_TIMER_JOBS
 import com.example.harmonic.Destinations.VIEW_ALL_ACTIVE
 import com.example.harmonic.components.TimerInstanceList.TimerInstanceListRoute
+import com.example.harmonic.components.create_new_routine_instance.CreateNewRoutineInstanceRoute
+import com.example.harmonic.components.create_new_routine_job.CreateNewRoutineJobRoute
+import com.example.harmonic.components.edit_routine_job.EditRoutineJobRoute
 import com.example.harmonic.components.create_new_timer_job.CreateNewTimerJobRoute
 import com.example.harmonic.components.edit_timer_job.EditTimerJobRoute
 import com.example.harmonic.components.home.HomeRoute
+import com.example.harmonic.components.rountine_job_list.RoutineJobListRoute
+import com.example.harmonic.components.routine_instance_list.RoutineInstanceListRoute
 import com.example.harmonic.components.run_timer_instance.RunTimerRoute
 import com.example.harmonic.components.timer_job_list.TimerJobListRoute
 import com.example.harmonic.components.CounterJobList.CounterJobListRoute
@@ -60,11 +65,11 @@ object Destinations {
     const val TRACKING_EDIT_COUNTER_JOB = "tracking/edit_counter_job/{jobId}"
     const val TRACKING_EDIT_DECIMAL_JOB = "tracking/edit_decimal_job/{jobId}"
     const val TRACKING_TIMER_INSTANCES = "tracking/timer_instances/{jobId}/{jobName}"
-    const val TRACKING_ROUTINE_INSTANCES = "tracking/routine_instances/{jobId}"
+    const val TRACKING_ROUTINE_INSTANCES = "tracking/routine_instances/{jobId}/{jobName}"
     const val TRACKING_COUNTER_INSTANCES = "tracking/counter_instances/{jobId}"
     const val TRACKING_DECIMAL_INSTANCES = "tracking/decimal_instances/{jobId}"
     const val TRACKING_NEW_TIMER_INSTANCE = "tracking/new_timer_instance"
-    const val TRACKING_NEW_ROUTINE_INSTANCE = "tracking/new_routine_instance"
+    const val TRACKING_NEW_ROUTINE_INSTANCE = "tracking/new_routine_instance/{instanceId}"
     const val TRACKING_NEW_COUNTER_INSTANCE = "tracking/new_counter_instance"
     const val TRACKING_NEW_DECIMAL_INSTANCE = "tracking/new_decimal_instance"
     const val TRACKING_ACTIVE_TIMER_INSTANCE = "tracking/active_timer_instance/{instanceId}"
@@ -107,7 +112,13 @@ fun HarmonicNavHost(
             )
         }
 
-        composable(TRACKING_ROUTINE_JOBS) {}
+        composable(TRACKING_ROUTINE_JOBS) {
+            RoutineJobListRoute (
+                onGoToNewRoutine = { navController.navigate(TRACKING_NEW_ROUTINE_JOB) },
+                onNavigateToAllRoutineInstance = {navController.navigate("tracking/routine_instances/$it")},
+                onGoToEditRoutineJob = { navController.navigate("tracking/edit_routine_job/$it") },
+            )
+        }
 
         composable(TRACKING_COUNTER_JOBS) {
             CounterJobListRoute (
@@ -125,7 +136,11 @@ fun HarmonicNavHost(
             )
         }
 
-        composable(TRACKING_NEW_ROUTINE_JOB) {}
+        composable(TRACKING_NEW_ROUTINE_JOB) {
+            CreateNewRoutineJobRoute (
+                onGoToRoutineJob = { navController.navigate(TRACKING_ROUTINE_JOBS) }
+            )
+        }
 
         composable(TRACKING_NEW_COUNTER_JOB) {
         }
@@ -144,7 +159,17 @@ fun HarmonicNavHost(
             }
         }
 
-        composable(TRACKING_EDIT_ROUTINE_JOB) {}
+        composable(TRACKING_EDIT_ROUTINE_JOB) {
+            val jobIdString = it.arguments?.getString("jobId")
+            if (jobIdString != null) {
+                EditRoutineJobRoute(
+                    jobIdString = jobIdString,
+                    onGoToRoutineJobs = {
+                        navController.navigate(TRACKING_ROUTINE_JOBS)
+                    }
+                )
+            }
+        }
 
         composable(TRACKING_EDIT_COUNTER_JOB) {}
 
@@ -164,7 +189,21 @@ fun HarmonicNavHost(
             }
         }
 
-        composable(TRACKING_ROUTINE_INSTANCES) {}
+        composable(TRACKING_ROUTINE_INSTANCES) { backStackEntry ->
+            val jobIdString = backStackEntry.arguments?.getString("jobId")
+            val jobNameString = backStackEntry.arguments?.getString("jobName")
+            if (jobIdString != null && jobNameString != null) {
+                RoutineInstanceListRoute(
+                    jobIdString = jobIdString,
+                    jobName = jobNameString,
+                    onNavigateToNewRoutineInstance = { navController.navigate("tracking/new_routine_instance/$it") {
+                        popUpTo(HOME_ROUTE)
+                        launchSingleTop = true
+                    } } )
+
+             }
+
+        }
 
         composable(TRACKING_COUNTER_INSTANCES) {}
 
@@ -172,7 +211,20 @@ fun HarmonicNavHost(
 
         composable(TRACKING_NEW_TIMER_INSTANCE) {}
 
-        composable(TRACKING_NEW_ROUTINE_INSTANCE) {}
+        composable(TRACKING_NEW_ROUTINE_INSTANCE) {backStackEntry ->
+            val instanceIdString = backStackEntry.arguments?.getString("instanceId")
+            if (instanceIdString != null) {
+                CreateNewRoutineInstanceRoute(
+                    instanceIdString = instanceIdString,
+                    onGoToHome = { navController.navigate(HOME_ROUTE) {
+                        popUpTo(TRACKING_NEW_ROUTINE_INSTANCE) {
+                            inclusive = true
+                        }
+                    } }
+                )
+            }
+
+        }
 
         composable(TRACKING_NEW_COUNTER_INSTANCE) {}
 
@@ -192,7 +244,14 @@ fun HarmonicNavHost(
             }
         }
 
-        composable(TRACKING_ACTIVE_ROUTINE_INSTANCE) {}
+        composable(TRACKING_ACTIVE_ROUTINE_INSTANCE) {backStackEntry ->
+            val instanceIdString = backStackEntry.arguments?.getString("instanceId")
+            if (instanceIdString != null) {
+                CreateNewRoutineInstanceRoute(
+                    instanceIdString = instanceIdString,
+                    onGoToHome = { navController.navigate(HOME_ROUTE) }
+                )
+            }}
 
         composable(TRACKING_ACTIVE_COUNTER_INSTANCE) {}
 
@@ -205,8 +264,11 @@ fun HarmonicNavHost(
                     popUpTo(HOME_ROUTE)
                     launchSingleTop = true
                 } },
-                onNavigateToActiveRoutineInstance = { navController.navigate(
-                    TRACKING_ACTIVE_ROUTINE_INSTANCE) },
+                onNavigateToActiveRoutineInstance =  { navController.navigate(
+                    "tracking/active_routine_instance/$it") {
+                    popUpTo(HOME_ROUTE)
+                    launchSingleTop = true
+                } },
                 onNavigateToActiveCounterInstance ={ navController.navigate(
                     TRACKING_ACTIVE_TIMER_INSTANCE) },
                 onNavigateToActiveDecimalInstance = { navController.navigate(
